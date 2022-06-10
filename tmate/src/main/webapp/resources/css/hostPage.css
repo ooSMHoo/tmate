@@ -1,0 +1,135 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+
+*{
+	font-family: 'Noto Sans KR', sans-serif;
+	margin: 0px;
+	padding: 0px;
+
+}
+
+
+
+
+//버튼 색변경
+.btn-change:hover {
+	background-color: #ffa81e;
+}
+
+/*hostLayout.jsp==================================================*/
+
+#leftMenu {
+	float: left;	
+}
+
+#content {
+	float: left;
+}
+
+#footer{
+	clear : both;
+	width: 100%;
+}
+
+/*leftMenu.jsp========================================================*/
+
+.left-body { width: 215px; background-color: #044b85; height: 1000px; }
+.left-body a { color: #fff; text-decoration: none; cursor: pointer; }
+
+.header-name{
+  position: relative;
+  height: 80px;
+  padding: 20px 0 0 15px;
+  font-size: 22px;
+  color: #fff;
+  background: #044b85 ;
+}
+
+.left-name {
+  position: relative;
+  height: 50px;
+  padding: 6px 12px;
+  color: #fff;
+}
+
+.left-accordion-body li a {
+  background-color: #044b85;
+  color: #fff;
+  position: relative;
+  display: block;
+  padding: 15px;
+}
+
+.left-accordion-body li a:hover,
+.left-accordion-body li a.active {
+  background: #ffa81e;
+  color: black;
+  
+}
+
+
+.btn-set{
+	color: #fff;
+	width: 210px;
+	text-align: left;
+	
+}
+.btn-set:hover{
+	background: #ffa81e;
+ 	color: black;
+}
+
+.icon-exit{
+	top: 7px;
+ 	left: 9px;
+}
+
+/*header.jsp========================================================*/
+
+.main-header{
+	background-color : #f5f9ff;
+	height: 70px;
+	width: 2000px;
+}
+
+.input-form {
+    width: 400px;
+    background: #fff;
+    border-radius: 10px;
+    float: left;
+    margin-left: 70px;
+}
+
+.searchbtn{
+	width: 50px;
+}
+
+.exitbtn{
+	width: 50px;
+	float: right;
+	margin-left: 700px;
+	font-size: 30px;
+}
+
+.logo-box{
+	width: 200px;
+	border: 1px solid #eee;
+	margin-left: 20px;
+}
+
+/*home.jsp========================================================*/
+
+
+.main-container {
+	display: block;
+	padding-top: 10px;
+	margin: 35px 35px;
+	width: 1300px;
+}
+
+.box1 {height: 200px; }
+.box2 {height: 500px;}
+
+.count-box { height: 70px;}
+
+.content-box{ height: 10px;}

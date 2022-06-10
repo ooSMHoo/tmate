@@ -1,0 +1,57 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+
+* { font-family: 'Noto Sans KR', sans-serif; box-sizing: border-box; }
+
+.tm_body { width: 1000px;  margin: 0 auto; }
+
+.tm_form_wrap { margin-bottom: 50px; }
+.tm_form_wrap:last-child { margin-bottom: 0; }
+
+.tm_form_title { width: 100%; font-size: 15px; font-weight: 700; color: #ffa81e; border-bottom: 2px solid #ffa81e; padding-bottom: 10px; margin-bottom: 20px; }
+
+.tm_form { width: 100%; border: 1px solid #ccc; border-radius: 5px; overflow: hidden; }
+.tm_form_list { width: 100%; display: flex; align-items: stretch; }
+
+.tm_form_lable_box { width: 20%; padding: 0 20px; float: left; background-color: #fff8ed; display: flex; align-items: center; }
+.tm_form_lable_box span { font-size: 13px; font-weight: 500; }
+.tm_form_input_box { width: 80%; font-size: 13px; padding: 17px 20px; float: left; display: flex; align-items: center; flex-wrap: wrap; }
+.tm_form_input_box input[type=text] { margin-bottom: 5px; font-size: 13px; font-weight: 500; width: 50%; border-radius: 3px; border: 1px solid #dde9ed; outline: none; appearance: none; box-sizing: border-box; padding: 12px; }
+.tm_form_input_box input[type=text]:focus{ border-color: #ffa81e; }
+.tm_form_input_box input[type=text]:last-child { margin-bottom: 0; }
+input[type=checkbox], input[type=radio] { position: relative; top: 1.5px; margin-right: 5px;}
+label {width: 130px; line-height: 40px;}
+
+.tm_form_input_box .tm_form_input_inner { width: 55%; margin-bottom: 15px }
+.tm_form_input_box .tm_form_input_inner:last-child { margin-bottom: 0; }
+
+.tm_form_list.option .tm_form_input_box { width: 60%; }
+.tm_form_list.phone_number .tm_form_input_box input[type=text] { width: calc((50% - 16px) / 3); margin-right: 8px; margin-bottom: 0; }
+.tm_form_list.phone_number .tm_form_input_box input[type=text]:last-child { margin-right: 0; }
+.tm_form_list.summer_date .tm_form_input_box span { font-size: 13px; font-weight: 500; }
+.tm_form_list.address .tm_form_input_box .tm_btn_style { margin-left: 10px; margin-bottom: 5px; }
+.tm_form_list.summer_date .tm_form_input_box span { margin-right: 8px; }
+.tm_textarea { border-radius: 3px; border: 1px solid #dde9ed; outline: none; appearance: none; resize: none;}
+
+.tm_bottom .tm_btn_style.large { margin-right: 12px; }
+.tm_bottom .tm_btn_style.large:last-child { margin-right: 0; }
+
+.tm_bottom { text-align: center; margin-top: 60px; }
+.tm_btn_style { text-align: center; display: inline-block; overflow: hidden; }
+.tm_btn_style.large { cursor: pointer; min-width: 120px; padding: 10px 20px; border-radius: 30px; background-color: #ffa81e; color: #fff; font-size: 14px; font-weight: 700; }
+.tm_btn_style.small { cursor: pointer; min-width: 65px; padding: 5px 10px; border-radius: 15px; border: 1px solid #ffa81e; color: #ffa81e; font-size: 11px; font-weight: 500; }
+.tm_select_style { height: 35px; border: 1px solid #dde9ed; font-size: 12px; font-weight: 500; border-radius: 3px }
+.tm_select_style.small { width: 100px; }
+.tm_select_style.large { width: 150px; }
+
+.img-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 65px);
+    grid-gap: 5px;
+}
+.img-grid .item {
+    object-fit: cover;
+    width: 65px;
+    height: 65px;
+    cursor: pointer;
+}

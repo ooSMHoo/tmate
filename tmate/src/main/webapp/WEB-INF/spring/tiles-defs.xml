@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<definition name=".mainLayout" template="/WEB-INF/tmate/layout/layout3.jsp">
+	    <put-attribute name="title" value="spring" />
+	  	<put-attribute name="header" value="/WEB-INF/tmate/layout/header.jsp" />
+		<put-attribute name="body" value="/WEB-INF/tmate/main/main.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/tmate/layout/footer.jsp" />
+	</definition>
+	
+   <!-- 2단 관리자 -->
+	<definition name=".adminLayout" template="/WEB-INF/tmate/admin/layout/layout2.jsp">
+	    <put-attribute name="title" value="spring" />
+	  	<put-attribute name="left" value="/WEB-INF/tmate/admin/layout/left.jsp" />
+		<put-attribute name="body" value="/WEB-INF/tmate/admin/main/main.jsp" />
+	</definition>
+	<definition name=".admin.*.*.*" extends=".adminLayout">
+		<put-attribute name="body" value="/WEB-INF/tmate/admin/{1}/{2}/{3}.jsp"/>
+	</definition>
+	<definition name=".admin.*.*" extends=".adminLayout">
+		<put-attribute name="body" value="/WEB-INF/tmate/admin/{1}/{2}.jsp"/>
+	</definition>
+	<definition name=".admin.*" extends=".adminLayout">
+    	<put-attribute name="body" value="/WEB-INF/tmate/admin/{1}.jsp" />
+	</definition>
+	
+	<!-- member-마이페이지 -->
+	<definition name=".mypageLayout" template="/WEB-INF/tmate/mypage/layout/layoutMypage.jsp">
+		<put-attribute name="title" value="spring" />
+		<put-attribute name="header" value="/WEB-INF/tmate/layout/header.jsp" />
+	  	<put-attribute name="sidebar" value="/WEB-INF/tmate/mypage/layout/sidebar.jsp" />
+	  	<put-attribute name="body" value="/" />
+		<put-attribute name="footer" value="/WEB-INF/tmate/layout/footer.jsp" />
+	</definition>
+	
+	<definition name=".mypage.*.*.*" extends=".mypageLayout">
+	<put-attribute name="body" value="/WEB-INF/tmate/mypage/{1}/{2}/{3}.jsp"/>
+	</definition>
+	<definition name=".mypage.*.*" extends=".mypageLayout">
+		<put-attribute name="body" value="/WEB-INF/tmate/mypage/{1}/{2}.jsp"/>
+	</definition>
+	<definition name=".mypage.*" extends=".mypageLayout">
+    	  <put-attribute name="body" value="/WEB-INF/tmate/mypage/{1}.jsp" />
+	</definition>
+	
+	<!-- hostPage  -->
+	<definition name=".hostPageLayout" template="/WEB-INF/tmate/hostPage/layout/hostPageLayout.jsp">
+		<put-attribute name="title" value="spring" />
+		<put-attribute name="header" value="/WEB-INF/tmate/hostPage/layout/header.jsp" />
+	  	<put-attribute name="leftMenu" value="/WEB-INF/tmate/hostPage/layout/leftMenu.jsp" />
+	  	<put-attribute name="body" value="/" />
+		<put-attribute name="footer" value="/WEB-INF/tmate/layout/footer.jsp" />
+	</definition>
+	
+	<definition name=".hostPage.*.*.*" extends=".hostPageLayout">
+	<put-attribute name="body" value="/WEB-INF/tmate/hostPage/{1}/{2}/{3}.jsp"/>
+	</definition>
+	<definition name=".hostPage.*.*" extends=".hostPageLayout">
+		<put-attribute name="body" value="/WEB-INF/tmate/hostPage/{1}/{2}.jsp"/>
+	</definition>
+	<definition name=".hostPage.*" extends=".hostPageLayout">
+    	  <put-attribute name="body" value="/WEB-INF/tmate/hostPage/{1}.jsp" />
+	</definition>
+
+	<!-- 일반 화면 (항상 가장 아래에 위치해야함)-->
+	<!-- 순서가 바뀌면 안됨(* 많은것이 위에) -->
+	<definition name=".*.*.*" extends=".mainLayout">
+		<put-attribute name="body" value="/WEB-INF/tmate/{1}/{2}/{3}.jsp"/>
+	</definition>
+	<definition name=".*.*" extends=".mainLayout">
+		<put-attribute name="body" value="/WEB-INF/tmate/{1}/{2}.jsp"/>
+	</definition>
+	<definition name=".*" extends=".mainLayout">
+    	  <put-attribute name="body" value="/WEB-INF/tmate/{1}.jsp" />
+	</definition>
+
+</tiles-definitions>
