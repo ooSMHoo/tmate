@@ -75,7 +75,7 @@
 							text-decoration: none; color: gray; padding-right: 40px;">호스트페이지</a>
 							</c:when>
 							<c:otherwise>
-							<a href="${pageContext.request.contextPath}/mypage/main/reservationList" title="마이페이지" style="padding-top:10px;  
+							<a href="${pageContext.request.contextPath}/mypage/reservationList" title="마이페이지" style="padding-top:10px;  
 							text-decoration: none; color: gray; padding-right: 40px;">마이페이지</a> 
 							</c:otherwise> 
 							</c:choose>
