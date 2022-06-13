@@ -70,8 +70,12 @@
 							<a href="${pageContext.request.contextPath}/admin/main" title="관리자"  style="padding-top:10px; 
 							text-decoration: none; color: gray; padding-right: 40px;">관리자페이지</a>
 							</c:when>
+							<c:when test="${sessionScope.member.membership==2}">
+							<a href="${pageContext.request.contextPath}/hostPage/home" title="호스트"  style="padding-top:10px; 
+							text-decoration: none; color: gray; padding-right: 40px;">호스트페이지</a>
+							</c:when>
 							<c:otherwise>
-							<a href="${pageContext.request.contextPath}/mypage/main" title="마이페이지" style="padding-top:10px;  
+							<a href="${pageContext.request.contextPath}/mypage/main/reservationList" title="마이페이지" style="padding-top:10px;  
 							text-decoration: none; color: gray; padding-right: 40px;">마이페이지</a> 
 							</c:otherwise> 
 							</c:choose>
