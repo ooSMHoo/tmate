@@ -5,12 +5,28 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/hostPage.css" type="text/css">
 
-<div class="main-header">
-	<div class="row form-inline align-middle">
-		<p class="col-md-3 logo-box mt-3 m-1">로고</p>
-	 	<input type="text" class="col-md-3 form-control input-form me-1 mt-3" id="searchInput" placeholder="예약자명/전화번호/상세사항 등을 검색하세요.">
-		<button type="button" class="col-md-3 btn btn-default border searchbtn ms-1 mt-3 btn-change rounded-3 rounded-3">
-		 <i class="bi bi-hand-index-thumb-fill"></i></button>
-	 	<button type="button" class="col-md-3 btn btn-default exitbtn "><i class="bi bi-box-arrow-right"></i> </button>
-	</div>
-</div>
+
+ <div class="header-container row  align-items-center justify-content-between">
+    <div class="col-auto logo-form">
+           <h1 class="mb-0 mt-3">로고</h1>
+    </div>
+    <div class="col-auto">
+	     <div class="page-utilities">
+		    <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+			    <div class="col-auto">
+					 <form class=" row gx-1 align-items-center">
+	                    <div class="col-auto">
+	                        <input type="text" id="search-orders" name="searchorders" class="form-control search-orders" placeholder="Search">
+	                    </div>
+	                    <div class="col-auto">
+	                        <button type="submit" class="btn border btn-ch2"><i class="bi bi-hand-index-thumb-fill"></i></button>
+	                    </div>
+	                </form>
+			    </div>
+		   		 <div class="col-auto  ms-10">
+	          		<button type="button" class="btn btn-primary btn-ch" onclick="location.href='${pageContext.request.contextPath}';">Exit</button>
+	       		</div>
+	    </div>
+    </div>
+   </div>
+  </div>

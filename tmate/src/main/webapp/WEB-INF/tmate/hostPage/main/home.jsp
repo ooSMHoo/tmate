@@ -5,14 +5,13 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/hostPage.css" type="text/css">
 
-<div class="container-fluid" >
-	
+<div class="container" >
 	<div class=" main-container py-4">
-		<h3 class="mb-2">HOME</h3>
+		<h3 class="mb-2 ">HOME</h3>
 			    <div class="row align-items-md-stretch">
 			      <div class="col-md-8 mb-4">
-			        <div class=" p-2 border bg-white rounded-3 box1">
-			          <h6 class="text-center text-black mt-3 fw-blod">Today</h6>
+			        <div class=" p-2 border bg-white rounded-3 box1 shadow">
+			          <h6 class="text-center mt-3  text-primary">Today</h6>
 			          <h5 class="text-center text-black">2022-06-08</h5>
 			          
 			          <div class="row row-cols-4 text-center mt-4 count-box count">
@@ -28,7 +27,7 @@
 			        </div>
 			      </div>
 			      <div class="col-6 col-md-4 mb-5 ">
-			        <div class="h-300 p-5 bg-white border rounded-3 box1">
+			        <div class="h-300 p-5 bg-white border rounded-3 box1 shadow">
 			         	날씨정보
 			        </div>
 			      </div>
@@ -36,12 +35,30 @@
 			
 			    <div class="row align-items-md-stretch box2">
 			      <div class="col-md-5">
-			        <div class="h-100 p-5 text-white bg-white border rounded-3">
-			           
+			        <div class="h-100 p-5  bg-white border rounded-3 shadow">
+			           	<h6 style="font-weight: bold;">객실재고현황</h6>
+			           	<table class="table text-center">
+						  <thead>
+						    <tr class="table-secondary">
+						      <th scope="col">구분</th>
+						      <th scope="col">총객실수</th>
+						      <th scope="col">예약된객실</th>
+						      <th scope="col">객실재고</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						    <tr>
+						      <th scope="row">합계</th>
+						      <td>20</td>
+						      <td>13</td>
+						      <td>7</td>
+						    </tr>
+						  </tbody>
+						</table>
 			        </div>
 			      </div>
 			      <div class="col-md-7">
-			        <div class="h-100 p-5 bg-white border rounded-3">
+			        <div class="h-100 p-5 bg-white border rounded-3 shadow">
 			          <h6 style="font-weight: bold;">오늘 입실</h6>
 			          <table class="table text-center">
 						  <thead>
