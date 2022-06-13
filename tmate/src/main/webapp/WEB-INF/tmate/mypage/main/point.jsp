@@ -20,17 +20,17 @@
 	<ul class="list-group">
 
 		  <li class="list-group-item">리얼 리뷰 작성
-		  	 	<a class="list-group-point">+500</a>
+		  	 	<p class="list-group-point">+500</p>
 		  	<div class="group">
-		  	 	<a class="list-group-date">2022-06-01</a>
+		  	 	<p class="list-group-date">2022-06-01</p>
 		  	</div>
 		  </li>
 		  
 		  <li class="list-group-item">리얼 리뷰 작성
-		  	 	<a class="list-group-point">+500</a>
+		  	 	<p class="list-group-point">+500</p>
 		  	<div class="group">
-		  	 	<a class="list-group-date">2022-06-01</a>
+		  	 	<p class="list-group-date">2022-06-01</p>
 		  	</div>
-		  </li>		  
+		  </li>	  
 	</ul>
 </div>

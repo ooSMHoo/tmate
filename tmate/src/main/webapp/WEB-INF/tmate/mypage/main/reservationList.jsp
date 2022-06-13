@@ -32,7 +32,7 @@
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
   	    
-   <div class="card like-card" style="width: 18rem;">
+   <div class="card like-card-rev" style="width: 18rem;">
 			<img
 				src="${pageContext.request.contextPath}/resources/images/back.png"
 				class="card-img-top" alt="...">
@@ -40,14 +40,14 @@
 				<h5 class="card-title">크라운하버호텔 부산</h5>
 				<p>06.06 월 - 06.06.월</p>
 				<hr>
-				<button class="btn-rev">상세보기</button>
+				<button type="button" class="btn-rev" onclick="location.href='${pageContext.request.contextPath}/mypage/reservationInfo';">상세보기</button>
 				
 			</div>
 		</div>
 		
   </div>
   <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-		<div class="card like-card" style="width: 18rem;">
+		<div class="card like-card-rev" style="width: 18rem;">
 			<img
 				src="${pageContext.request.contextPath}/resources/images/back.png"
 				class="card-img-top" alt="...">
@@ -59,7 +59,7 @@
 		</div>
   </div>
   <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
-		<div class="card like-card" style="width: 18rem;">
+		<div class="card like-card-rev" style="width: 18rem;">
 			<img
 				src="${pageContext.request.contextPath}/resources/images/back.png"
 				class="card-img-top" alt="...">

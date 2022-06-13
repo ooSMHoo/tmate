@@ -48,5 +48,7 @@ public class MainController {
 	public String update() {
 		// 회원정보 수정
 		return ".mypage.main.update";
+		
 	}
+		
 }

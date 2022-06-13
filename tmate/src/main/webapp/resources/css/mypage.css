@@ -18,18 +18,13 @@
 	float: left;
 }
 
-.form-control{
-	width: 700px;
-}
-
 .content-name{
 	height: 20px;
 	width: 100px;
 	font-size: 18px;
-	margin-left: 85px;	
+	margin-left: 45px;
 	margin-bottom: 5px;
 }
-
 
 .box-title{
 	margin-bottom: 30px;
@@ -52,9 +47,9 @@
 	font-size: 16px;
 	font-style: normal;
 	font-weight: bold;
-	height: 30px;
-	width: 100px;
-	display: block;
+	height: 20px;
+	width: 120px;
+	display: inline-block;
 	color: #044b85;
 }
 
@@ -108,12 +103,11 @@
 
 .option-btn{
 	border: none;
-	width: 120px;
-	height: 50px;
+	width: 100px;
+	height: 40px;
 	background-color: #1f93fa;
 	font-size: 18px;
 	color: white;
-	border-radius: 5px;
 }
 
 .option-btn:hover {
@@ -129,16 +123,16 @@
 
 .option-btn-2{
 	border: none;
-	width: 120px;
-	height: 50px;
+	width: 100px;
+	height: 40px;
 	font-size: 18px;
 	color: #1f93fa;
 	margin: 5px auto;
 }
 
 .form-control{
-	height: 50px;
-	width: 500px;
+	height: 45px;
+	width: 450px;
 }
 
 .form-label{
@@ -153,7 +147,6 @@
 	width: 500px;
 }
 
-
 .profile-menu{
 	font-size: 20px;
 	padding: 5px;
@@ -165,6 +158,12 @@
 	font-style: none;
 	display: inline;
 	color: #044b85;
+}
+
+.input-phone{
+	width: 500px;
+	margin-left: 10px;
+	margin-bottom: 10px;
 }
 
 
@@ -274,20 +273,19 @@
 .like-card{
 	width: 18rem;
 	float: left;
-	margin-top: 30px;
+	margin-top: 0px;
 	margin-right: 20px;
 	box-shadow: 0 3px 5px 0px gray;
+	height: 375px;
 }
 
 .like-card-box{
-	margin-top: 10px;
 	margin-left: 20px;
 	width: 1000px;
 }
 
 .card-title{
-	height: 35px;
-	padding-top: 5px;
+	height: 30px;
 	font-weight: bold;
 }
 
@@ -304,10 +302,20 @@
 }
 
 .card-price-info{
-	margin-top: 0px;
+	margin: 5px;
+}
+
+.fa-trash-can{
+	position: relative;
+	top: 30px;
 }
 
 /*reservation.jsp==================================*/
+.list-card{
+	margin-top: 5px;
+	height: 300px;
+}
+
 .rev-nav{
 	color: black;
 }
@@ -329,11 +337,6 @@
 
 .nav-link-rev{
 	color: black;
-}
-
-.like-card{
-	margin-top: 10px;
-	height: 300px;
 }
 
 .btn-rev{

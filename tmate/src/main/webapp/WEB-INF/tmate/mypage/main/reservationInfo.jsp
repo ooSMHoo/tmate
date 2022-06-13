@@ -29,8 +29,9 @@
 	</div>
 	
 	<div class="container-fluid container-pirce">
-	<hr>
+	<hr style="clear:both; width: 300px;">
 		<p style="font-weight: bold">결제정보</p>
 		<p>총 결제 금액 </p>
 	</div>
+	
 </div>
