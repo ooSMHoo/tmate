@@ -1,7 +1,5 @@
 package com.sp.trip.host;
 
-import java.io.File;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,30 +13,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sp.trip.member.Member;
 import com.sp.trip.member.SessionInfo;
 
 @Controller("host.hostController")
-@RequestMapping("/host/*")
+@RequestMapping("/hosts")
 public class HostController {
 	
-	private final HostService service;
+	private final HostService hostService;
 	
 	@Autowired
-	public HostController(HostService service) {
-		this.service = service;
+	public HostController(HostService hostService) {
+		this.hostService = hostService;
 	}
 	
-	@GetMapping("hostForm/write")
-	public String hostForm(HttpSession session, Model model) {
+	@GetMapping("/add")
+	public String hostForm(HttpSession session, Model model) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		String email = service.getMemberEmail(info);
-		model.addAttribute("email", email);
+		if(info == null) {
+			throw new Exception();
+		}
+		Member member = hostService.readMember(info.getUserId());
+		if(member == null) {
+			return "redirect:/";
+		}
+		model.addAttribute("member", member);
 		model.addAttribute("mode", "write");
 		
 		return ".host.hostForm";
 	}
 	
-	@PostMapping("hostForm/write")
+	@PostMapping("/add")
 	public String hostSubmit(
 			@ModelAttribute Host host,
 			final RedirectAttributes reAttr,
@@ -47,7 +52,7 @@ public class HostController {
 		try {
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
 			host.setMhId(info.getUserId());
-			service.insertHost(host);
+			hostService.insertHost(host);
 		} catch (DuplicateKeyException e) {
 			model.addAttribute("message", "한 사람당 한번만 호스트 신청이 가능합니다.");
 			return ".host.hostForm";
@@ -62,7 +67,7 @@ public class HostController {
 		reAttr.addFlashAttribute("message", "정상적으로 호스트 신청이 완료되었습니다.");
 		reAttr.addFlashAttribute("title", "호스트 신청");
 		
-		return "redirect:/host/complete";
+		return "redirect:/hosts/complete";
 	}
 	
 	@RequestMapping(value = "complete")
@@ -74,53 +79,13 @@ public class HostController {
 		return ".host.complete";
 	}
 	
-	@GetMapping("lodgingForm/write")
-	public String lodgingForm(HttpSession session, Model model) {
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		String userId = info.getUserId();
-		Host host = service.readHost(userId);
-		if(host == null) {
-			return "redirect:/";
-		}
-
-		model.addAttribute("addr", host.getMhAddr1());
-		model.addAttribute("mode", "write");
-		
-		return ".host.lodgingForm";
+	@GetMapping(value = "/{id}")
+	public String updateHostForm() {
+		return null;
 	}
 	
-	@PostMapping("lodgingForm/write")
-	public String lodgingSubmit(
-			@ModelAttribute Lodging lodging,
-			HttpSession session,
-			final RedirectAttributes reAttr,
-			Model model) {
-		String root = session.getServletContext().getRealPath("/");
-		String path = root + "tmate" + File.separator + "lodging";
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		String userId = info.getUserId();
-		try {
-			lodging.setMhId(userId);
-			service.insertLodging(lodging, path);
-		} catch (DuplicateKeyException e) {
-			model.addAttribute("message", "한개의 숙소만 등록 가능합니다.");
-			return ".host.lodgingForm";
-		} catch (DataIntegrityViolationException e) {
-			model.addAttribute("message", "입력형식에 맞지않아 숙소등록에 실패했습니다.");
-			return ".host.lodgingForm";
-		} catch (Exception e) {
-			model.addAttribute("message", "숙소등록에 실패했습니다.");
-			return ".host.lodgingForm";
-		}
-		
-		reAttr.addFlashAttribute("message", "정상적으로 숙소등록이 완료되었습니다.");
-		reAttr.addFlashAttribute("title", "숙소 등록");
-
-		return "redirect:/host/complete";
-	}
-	
-	@GetMapping("roomForm/write")
-	public String roomForm() {
-		return ".host.roomForm";
+	@PostMapping(value = "/{id}")
+	public String updateHostSubmit() throws Exception {
+		return null;
 	}
 }

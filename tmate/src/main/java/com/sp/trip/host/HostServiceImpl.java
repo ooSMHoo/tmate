@@ -2,34 +2,31 @@ package com.sp.trip.host;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.sp.trip.common.FileManager;
 import com.sp.trip.common.dao.CommonDAO;
-import com.sp.trip.member.SessionInfo;
+import com.sp.trip.member.Member;
 
 @Service("host.hostService")
 public class HostServiceImpl implements HostService{
 	
 	private final CommonDAO dao;
-	private final FileManager fileManager;
 	
 	@Autowired
-	public HostServiceImpl(CommonDAO dao, FileManager fileManager) {
+	public HostServiceImpl(CommonDAO dao) {
 		this.dao = dao;
-		this.fileManager = fileManager;
 	}
 
 	@Override
-	public String getMemberEmail(SessionInfo info) {
-		String email = "";
+	public Member readMember(String userId) {
+		Member member = null;
+		
 		try {
-			email = dao.selectOne("host.getMemberEmail", info);
+			member = dao.selectOne("host.readMember", userId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return email;
+		return member;
 	}
 
 	@Override
@@ -56,58 +53,5 @@ public class HostServiceImpl implements HostService{
 		}
 		
 		return host;
-	}
-
-	@Override
-	public void insertLodging(Lodging lodging, String pathname) throws Exception {
-		try {
-			if (lodging.getStart_month().length()!=0 && lodging.getStart_day().length()!=0 && 
-					lodging.getEnd_month().length()!=0 && lodging.getEnd_day().length()!=0) {
-				lodging.setLodgStart_date(lodging.getStart_month()+"-"+lodging.getStart_day());
-				lodging.setLodgEnd_date(lodging.getEnd_month()+"-"+lodging.getEnd_day());
-			}
-			if (lodging.getLodgOptionArr().length != 0) {
-				lodging.setLodgOption(String.join(",", lodging.getLodgOptionArr()));
-			}
-			
-			dao.insertData("host.insertLodging", lodging);
-			
-			if (! lodging.getSelectFile().isEmpty()) {
-				for(MultipartFile mf : lodging.getSelectFile()) {
-					String saveFilename = fileManager.doFileUpload(mf, pathname);
-					if(saveFilename == null) {
-						continue;
-					}
-					lodging.setlPhotoName(saveFilename);
-					
-					insertLodgingPhoto(lodging);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-		
-	}
-	
-	@Override
-	public void insertLodgingPhoto(Lodging lodging) throws Exception {
-		try {
-			dao.insertData("host.insertLodgingPhoto", lodging);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-	}
-
-	@Override
-	public Lodging readLodgingPhoto(String mhId) {
-		Lodging lodging = null;
-		try {
-			lodging = dao.selectOne(mhId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return lodging;
 	}
 }

@@ -1,4 +1,4 @@
-package com.sp.trip.host;
+package com.sp.trip.lodging;
 
 import java.util.List;
 

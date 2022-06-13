@@ -108,7 +108,12 @@ function hostOk() {
 		return;
 	}
 	
-	f.action = "${pageContext.request.contextPath}/host/hostForm/${mode}";
+	if ("${mode}" === "write") {
+		f.action = "${pageContext.request.contextPath}/hosts/add";
+	} else if("${mode}" === "update") {
+		f.action = "${pageContext.request.contextPath}/hosts/${member.memberId}";	
+	}
+	
     f.submit();
 }
 
@@ -142,7 +147,7 @@ function changeBank() {
                         <span>이메일</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <span>${email}</span>
+                        <span>${member.memberEmail}</span>
                     </div>
                 </div>
                 <div class="tm_form_list phone_number">

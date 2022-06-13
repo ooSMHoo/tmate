@@ -12,7 +12,7 @@ function lodgingOk() {
 
 	str = f.lodgName.value;
 	if( ! str ) {
-		alert("숙소이름을 입력해주세요.");
+		alert("숙소이름을 입력해 주세요.");
 		f.lodgName.focus();
 		return;
 	}
@@ -100,7 +100,12 @@ function lodgingOk() {
 		return;
 	}
 
-	f.action = "${pageContext.request.contextPath}/host/lodgingForm/${mode}";
+	if ("${mode}" === "write") {
+		f.action = "${pageContext.request.contextPath}/lodgings/add";
+	} else if("${mode}" === "update") {
+		f.action = "${pageContext.request.contextPath}/lodgings/${lodging.mhId}";	
+	}
+
 	f.submit();
 }
 
@@ -378,11 +383,11 @@ $(function() {
 
 </div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=서비스키&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e127a9fac584024a1564da7a8555ea94&libraries=services"></script>
 <script type="text/javascript">
 window.onload = function() {
 	var geocoder = new kakao.maps.services.Geocoder();
-	let juso = "${addr}";
+	let juso = "${host.mhAddr1}";
 	geocoder.addressSearch(juso, callback);
 }
 

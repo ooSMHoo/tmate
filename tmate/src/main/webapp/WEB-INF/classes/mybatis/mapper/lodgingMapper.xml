@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lodging">
+	<insert id="insertLodging" parameterType="com.sp.trip.lodging.Lodging">
+		INSERT INTO lodging(mhId, lcNum, lodgName, lodgLat, lodgLon, lodgContent1, lodgContent2, lodgStart_date,
+				lodgEnd_date, lodgPageAddr, lodgCin_time, lodgCout_time, lodgOption)
+		VALUES (#{mhId}, #{lcNum}, #{lodgName}, #{lodgLat}, #{lodgLon}, #{lodgContent1}, #{lodgContent2},
+				#{lodgStart_date}, #{lodgEnd_date}, #{lodgPageAddr, jdbcType=VARCHAR}, #{lodgCin_time},
+				#{lodgCout_time}, #{lodgOption})
+	</insert>
+	<select id="readLodging" parameterType="String" resultType="com.sp.trip.lodging.Lodging">
+		SELECT mhId, lcNum, lodgName, lodgLat, lodgLon, lodgContent1, lodgContent2, lodgStart_date,
+				lodgEnd_date, lodgPageAddr, lodgCin_time, lodgCout_time, lodgOption
+		FROM lodging
+		WHERE mhId = #{userId}
+	</select>
+	<insert id="insertLodgingPhoto" parameterType="com.sp.trip.lodging.Lodging">
+		INSERT INTO lodgingPhoto(lPhotoNum, lPhotoName, mhId)
+		VALUES (lodgingPhoto_seq.NEXTVAL, #{lPhotoName}, #{mhId})
+	</insert>
+	<select id="readLodgingPhotoList" parameterType="String" resultType="com.sp.trip.lodging.Lodging">
+		SELECT lPhotoNum, lPhotoName, mhId
+		FROM lodgingPhoto
+		WHERE mhId = #{mhId}
+	</select>
+	<select id="readLodgingPhotoFile" parameterType="Integer" resultType="com.sp.trip.lodging.Lodging">
+		SELECT lPhotoNum, lPhotoName, mhId
+		FROM lodgingPhoto
+		WHERE mhlPhotoNum = #{lPhotoNum}
+	</select>
+</mapper>
