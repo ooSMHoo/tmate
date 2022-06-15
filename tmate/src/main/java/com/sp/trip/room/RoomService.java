@@ -10,4 +10,5 @@ public interface RoomService {
 	public void insertRoomPhoto(Room room) throws Exception;
 	public List<Room> readRoomPhotolist(int roomNum);
 	public Room readRoomPhotoFile(int rPhotoNum);
+	public String readRoomCategory(int rcNum);
 }

@@ -1,5 +1,7 @@
 package com.sp.trip.host;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +55,30 @@ public class HostServiceImpl implements HostService{
 		}
 		
 		return host;
+	}
+
+	@Override
+	public String getBank(int bankNum) {
+		String bank = null;
+		try {
+			bank = dao.selectOne("host.getBank", bankNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bank;
+	}
+
+	@Override
+	public void updateHost(Host host, Map<String, Object> map) throws Exception {
+		try {
+			if (host.getMhPhone1().length()!=0 && host.getMhPhone2().length()!=0 && host.getMhPhone3().length()!=0) {
+				host.setMhPhone(host.getMhPhone1() + "-" + host.getMhPhone2() + "-" + host.getMhPhone3());
+			}
+			dao.updateData("host.updateHost", host);
+			dao.updateData("host.updateLatLon", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 }

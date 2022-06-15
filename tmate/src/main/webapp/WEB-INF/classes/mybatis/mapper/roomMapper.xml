@@ -5,35 +5,45 @@
 	<select id="roomSeq" resultType="Integer">
 		SELECT room_seq.NEXTVAL FROM dual
 	</select>
+	
 	<insert id="insertRoom" parameterType="com.sp.trip.room.Room">
 		INSERT INTO room(roomNum, roomName, roomReg_date, roomContent, roomPeople, roomMax_people,
-				rcNum, roomSeasonPrice, roomWd_price, roomWe_price, mhId, roomOption, roomBed)
+				rcNum, roomSeasonPrice, roomWd_price, roomWe_price, mhId, roomOption, roomBed, enabled)
 		VALUES (#{roomNum}, #{roomName}, SYSDATE, #{roomContent}, #{roomPeople}, #{roomMax_people},
-				#{rcNum}, #{roomSeasonPrice}, #{roomWd_price}, #{roomWe_price}, #{mhId}, #{roomOption}, #{roomBed})
+				#{rcNum}, #{roomSeasonPrice}, #{roomWd_price}, #{roomWe_price}, #{mhId}, #{roomOption}, #{roomBed}, 0)
 	</insert>
+	
 	<select id="readRoomList" parameterType="String" resultType="com.sp.trip.room.Room">
 		SELECT roomNum, roomName, roomReg_date, roomContent, roomPeople, roomMax_people,
-				rcNum, roomSeasonPrice, roomWd_price, roomWe_price, mhId, roomOption, roomBed
+				rcNum, roomSeasonPrice, roomWd_price, roomWe_price, mhId, roomOption, roomBed, enabled
 		FROM room
 		WHERE mhId = #{userId}
 	</select>
+	
 	<select id="readRoom" parameterType="Integer" resultType="com.sp.trip.room.Room">
 		SELECT roomNum, roomName, roomReg_date, roomContent, roomPeople, roomMax_people,
-				rcNum, roomSeasonPrice, roomWd_price, roomWe_price, mhId, roomOption, roomBed
+				rcNum, roomSeasonPrice, roomWd_price, roomWe_price, mhId, roomOption, roomBed, enabled
 		FROM room
-		WHERE mhId = #{roomNum}
+		WHERE roomNum = #{roomNum}
 	</select>
+	
 	<insert id="insertRoomPhoto" parameterType="com.sp.trip.room.Room">
 		INSERT INTO roomPhoto(rPhotoNum, rPhotoName, roomNum) VALUES (roomPhoto_seq.NEXTVAL, #{rPhotoName}, #{roomNum})
 	</insert>
+	
 	<select id="readRoomPhotoList" parameterType="Integer" resultType="com.sp.trip.room.Room">
 		SELECT rPhotoNum, rPhotoName, roomNum
 		FROM roomPhoto
 		WHERE roomNum = #{roomNum}
 	</select>
+	
 	<select id="readRoomPhotoFile" parameterType="Integer" resultType="com.sp.trip.room.Room">
 		SELECT rPhotoNum, rPhotoName, roomNum
 		FROM roomPhoto
 		WHERE rPhotoNum = #{rPhotoNum}
+	</select>
+	
+	<select id="readRoomCategory" parameterType="Integer" resultType="String">
+		SELECT rcName FROM roomCategory WHERE rcNum = #{rcNum}
 	</select>
 </mapper>

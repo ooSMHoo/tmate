@@ -97,4 +97,94 @@ public class LodgingServiceImpl implements LodgingService {
 		}
 		return lodging;
 	}
+
+	@Override
+	public String readLodgingCategory(int lcNum) {
+		String lodgingCategory = null;
+		try {
+			lodgingCategory = dao.selectOne("lodging.readLodgingCategory", lcNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lodgingCategory;
+	}
+
+	@Override
+	public void deleteLodgingPhotoFile(int lPhotoNum) throws Exception {
+		try {
+			dao.deleteData("lodging.deleteLodgingPhotoFile", lPhotoNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public void updateLodging(Lodging lodging, String pathname) throws Exception {
+		try {
+			if (lodging.getStart_month().length()!=0 && lodging.getStart_day().length()!=0 && 
+					lodging.getEnd_month().length()!=0 && lodging.getEnd_day().length()!=0) {
+				lodging.setLodgStart_date(lodging.getStart_month()+"-"+lodging.getStart_day());
+				lodging.setLodgEnd_date(lodging.getEnd_month()+"-"+lodging.getEnd_day());
+			}
+			if (lodging.getLodgOptionArr().length != 0) {
+				lodging.setLodgOption(String.join(",", lodging.getLodgOptionArr()));
+			}
+			
+			dao.updateData("lodging.updateLodging", lodging);
+			
+			if (! lodging.getSelectFile().isEmpty()) {
+				for(MultipartFile mf : lodging.getSelectFile()) {
+					String saveFilename = fileManager.doFileUpload(mf, pathname);
+					if(saveFilename == null) {
+						continue;
+					}
+					lodging.setlPhotoName(saveFilename);
+					
+					insertLodgingPhoto(lodging);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public void updateLodging(Lodging lodging, String pathname, String[] fileNum, String[] fileName) throws Exception {
+		try {
+			if (lodging.getStart_month().length()!=0 && lodging.getStart_day().length()!=0 && 
+					lodging.getEnd_month().length()!=0 && lodging.getEnd_day().length()!=0) {
+				lodging.setLodgStart_date(lodging.getStart_month()+"-"+lodging.getStart_day());
+				lodging.setLodgEnd_date(lodging.getEnd_month()+"-"+lodging.getEnd_day());
+			}
+			if (lodging.getLodgOptionArr().length != 0) {
+				lodging.setLodgOption(String.join(",", lodging.getLodgOptionArr()));
+			}
+			
+			dao.updateData("lodging.updateLodging", lodging);
+			
+			for(int i=0; i<fileNum.length; i++) {
+				deleteLodgingPhotoFile(Integer.parseInt(fileNum[i]));
+				fileManager.doFileDelete(fileName[i], pathname);
+			}
+			
+			if (! lodging.getSelectFile().isEmpty()) {
+				for(MultipartFile mf : lodging.getSelectFile()) {
+					String saveFilename = fileManager.doFileUpload(mf, pathname);
+					if(saveFilename == null) {
+						continue;
+					}
+					lodging.setlPhotoName(saveFilename);
+					
+					insertLodgingPhoto(lodging);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
 }

@@ -111,7 +111,7 @@ function hostOk() {
 	if ("${mode}" === "write") {
 		f.action = "${pageContext.request.contextPath}/hosts/add";
 	} else if("${mode}" === "update") {
-		f.action = "${pageContext.request.contextPath}/hosts/${member.memberId}";	
+		f.action = "${pageContext.request.contextPath}/hosts/update";	
 	}
 	
     f.submit();
@@ -155,9 +155,9 @@ function changeBank() {
                         <span>전화번호</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input type="text" maxlength="3" name="mhPhone1">
-                        <input type="text" maxlength="4" name="mhPhone2">
-                        <input type="text" maxlength="4" name="mhPhone3">
+                        <input type="text" maxlength="3" name="mhPhone1" value=${host.mhPhone1}>
+                        <input type="text" maxlength="4" name="mhPhone2" value=${host.mhPhone2}>
+                        <input type="text" maxlength="4" name="mhPhone3" value=${host.mhPhone3}>
                     </div>
                 </div>       
             </div>
@@ -174,7 +174,7 @@ function changeBank() {
                         <span>상호명 (법인명)</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input type="text" name="mhName" placeholder="상호명을 입력해주세요">
+                        <input type="text" name="mhName" placeholder="상호명을 입력해주세요" value="${host.mhName}">
                     </div>
                 </div>
                 <div class="tm_form_list">
@@ -182,7 +182,7 @@ function changeBank() {
                         <span>사업자등록번호</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input type="text" name="mhNum" placeholder="사업자등록번호를 입력해주세요('-'를 제외한 숫자만 입력해주세요)" maxlength="10">
+                        <input type="text" name="mhNum" placeholder="사업자등록번호를 입력해주세요('-'를 제외한 숫자만 입력해주세요)" maxlength="10" value="${host.mhNum}">
                     </div>
                 </div>    
                 <div class="tm_form_list address">
@@ -190,10 +190,10 @@ function changeBank() {
                         <span>업체주소</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input id="addr1" type="text" name="mhAddr1" placeholder="기본 주소" value="" readonly="readonly">
+                        <input id="addr1" type="text" name="mhAddr1" placeholder="기본 주소" value="${host.mhAddr1}" readonly="readonly">
                         <button class="tm_btn_style small" type="button" onclick="daumPostcode();" style="background: white;">주소검색</button>
-                        <input id="addr2" type="text" name="mhAddr2" placeholder="상세주소를 입력해주세요">
-                        <input type="hidden" id="zip" name="mhZip" value="">
+                        <input id="addr2" type="text" name="mhAddr2" placeholder="상세주소를 입력해주세요" value="${host.mhAddr2}">
+                        <input type="hidden" id="zip" name="mhZip" value="${host.mhZip}">
                     </div>
                 </div>    
             </div>
@@ -211,14 +211,14 @@ function changeBank() {
                     </div>
                     <div class="tm_form_input_box">
                         <select class="tm_select_style large" name="bankNum" onchange="changeBank();">
-                            <option value="0">::은행선택::</option>
-                            <option value="1">하나은행</option>
-                            <option value="2">SC제일은행</option>
-                            <option value="3">국민은행</option>
-                            <option value="4">신한은행</option>
-                            <option value="5">외환은행</option>
-                            <option value="6">우리은행</option>
-                            <option value="7">한국시티은행</option>
+                            <option value="0" ${host.bankNum=="0"?"selected='selected'":""}>::은행선택::</option>
+                            <option value="1" ${host.bankNum=="1"?"selected='selected'":""}>하나은행</option>
+                            <option value="2" ${host.bankNum=="2"?"selected='selected'":""}>SC제일은행</option>
+                            <option value="3" ${host.bankNum=="3"?"selected='selected'":""}>국민은행</option>
+                            <option value="4" ${host.bankNum=="4"?"selected='selected'":""}>신한은행</option>
+                            <option value="5" ${host.bankNum=="5"?"selected='selected'":""}>외환은행</option>
+                            <option value="6" ${host.bankNum=="6"?"selected='selected'":""}>우리은행</option>
+                            <option value="7" ${host.bankNum=="7"?"selected='selected'":""}>한국시티은행</option>
                         </select>
                     </div>
                 </div>
@@ -227,7 +227,7 @@ function changeBank() {
                         <span>예금주</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input type="text" name="mhAc_name" placeholder="예금주명을 입력해주세요" readonly="readonly">
+                        <input type="text" name="mhAc_name" placeholder="예금주명을 입력해주세요" readonly="readonly" value="${host.mhAc_name}">
                     </div>
                 </div>
                 <div class="tm_form_list">
@@ -235,9 +235,13 @@ function changeBank() {
                         <span>계좌번호</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input type="text" name="mhAc_num" placeholder="숫자만 입력해주세요" readonly="readonly">
+                        <input type="text" name="mhAc_num" placeholder="숫자만 입력해주세요" readonly="readonly" value="${host.mhAc_num}">
                     </div>
-                </div>       
+                </div>
+                <c:if test="${mode eq 'update'}">
+                <input type="hidden" name="lodgLat" value="">
+                <input type="hidden" name="lodgLon" value=""> 
+                </c:if>      
             </div>
         </div>
     
@@ -248,12 +252,13 @@ function changeBank() {
 
     <div class="tm_bottom">
         <div class="tm_btn_style large" onclick="location.href='${pageContext.request.contextPath}/';">취소하기</div>
-        <div class="tm_btn_style large" onclick="hostOk();">신청하기</div>
+        <div class="tm_btn_style large" onclick="hostOk();">${mode=='update'?'수정완료':'신청하기'}</div>
     </div>
 	</form>
 </div>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e127a9fac584024a1564da7a8555ea94&libraries=services"></script>
 <script>
 	function daumPostcode() {
 		new daum.Postcode({
@@ -282,8 +287,20 @@ function changeBank() {
 				document.getElementById('zip').value = data.zonecode;
 				document.getElementById('addr1').value = fullAddr;
 				
+				var geocoder = new kakao.maps.services.Geocoder();
+				let juso = $("input[name=mhAddr1]").val();
+				geocoder.addressSearch(juso, callback);
+				
 				document.getElementById('addr2').focus();
 			}
 		}).open();
 	}
+
+	var callback = function(result, status) {
+		if (status === kakao.maps.services.Status.OK) {
+			$("input[name=lodgLon]").val(result[0].x);
+			$("input[name=lodgLat]").val(result[0].y);
+		}
+		
+	};
 </script>

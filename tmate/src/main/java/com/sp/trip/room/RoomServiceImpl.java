@@ -112,4 +112,15 @@ public class RoomServiceImpl implements RoomService {
 		
 		return room;
 	}
+
+	@Override
+	public String readRoomCategory(int rcNum) {
+		String roomCategory = null;
+		try {
+			roomCategory = dao.selectOne("room.readRoomCategory", rcNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return roomCategory;
+	}
 }

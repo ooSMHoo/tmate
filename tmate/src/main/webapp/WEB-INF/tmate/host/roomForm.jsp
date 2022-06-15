@@ -223,7 +223,7 @@ $(function() {
                         <span>객실 이름</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input id="" type="text" name="roomName">
+                        <input type="text" name="roomName">
                     </div>
                 </div>
                 <div class="tm_form_list">
@@ -270,7 +270,6 @@ $(function() {
                         <label><input type="checkbox" name="roomOptionArr" value="주방">주방</label>
                         <label><input type="checkbox" name="roomOptionArr" value="세탁기">세탁기</label>
                         <label><input type="checkbox" name="roomOptionArr" value="넷플릭스">넷플릭스</label>
-                        <label><input type="checkbox" name="roomOptionArr" value="주방">주방</label>
                         <label><input type="checkbox" name="roomOptionArr" value="바다뷰">바다뷰</label>
                         <label><input type="checkbox" name="roomOptionArr" value="도시뷰">도시뷰</label>
                     </div>
@@ -282,17 +281,17 @@ $(function() {
                     <div class="tm_form_input_box">
                     	<div class="tm_form_input_inner">
 	                    	<span>평일가격(일~목) :  </span>
-	                    	<input id="" type="text" name="roomWd_price" style="width: 100px">
+	                    	<input type="text" name="roomWd_price" style="width: 100px">
 	                    	<span>원</span>
 	                    </div>
                         <div class="tm_form_input_inner">
 	                    	<span>주말가격(금~토) :  </span>
-	                    	<input id="" type="text" name="roomWe_price" style="width: 100px">
+	                    	<input type="text" name="roomWe_price" style="width: 100px">
 	                    	<span>원</span>
 	                    </div>
 	                    <div class="tm_form_input_inner">
 	                    	<span>성수기가격(설정한 날짜) :  </span>
-	                    	<input id="" type="text" name="roomSeasonPrice" style="width: 100px">
+	                    	<input type="text" name="roomSeasonPrice" style="width: 100px">
 	                    	<span>원</span>
 	                    </div>
                     </div>
@@ -302,7 +301,7 @@ $(function() {
                         <span>기준인원</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input id="" type="text" name="roomPeople"><span>명</span>
+                        <input type="text" name="roomPeople"><span>명</span>
                     </div>
                 </div>  
                 <div class="tm_form_list phone_number">
@@ -310,7 +309,7 @@ $(function() {
                         <span>최대인원</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input id="" type="text" name="roomMax_people"><span>명</span>
+                        <input type="text" name="roomMax_people"><span>명</span>
                     </div>
                 </div>  
                 <div class="tm_form_list phone_number">
@@ -318,7 +317,7 @@ $(function() {
                         <span>침대개수</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input id="" type="text" name="roomBed"><span>개</span>
+                        <input type="text" name="roomBed"><span>개</span>
                     </div>
                 </div>   
             </div>

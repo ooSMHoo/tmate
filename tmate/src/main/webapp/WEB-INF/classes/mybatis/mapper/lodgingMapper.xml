@@ -9,24 +9,45 @@
 				#{lodgStart_date}, #{lodgEnd_date}, #{lodgPageAddr, jdbcType=VARCHAR}, #{lodgCin_time},
 				#{lodgCout_time}, #{lodgOption})
 	</insert>
+	
 	<select id="readLodging" parameterType="String" resultType="com.sp.trip.lodging.Lodging">
 		SELECT mhId, lcNum, lodgName, lodgLat, lodgLon, lodgContent1, lodgContent2, lodgStart_date,
 				lodgEnd_date, lodgPageAddr, lodgCin_time, lodgCout_time, lodgOption
 		FROM lodging
 		WHERE mhId = #{userId}
 	</select>
+	
 	<insert id="insertLodgingPhoto" parameterType="com.sp.trip.lodging.Lodging">
 		INSERT INTO lodgingPhoto(lPhotoNum, lPhotoName, mhId)
 		VALUES (lodgingPhoto_seq.NEXTVAL, #{lPhotoName}, #{mhId})
 	</insert>
+	
 	<select id="readLodgingPhotoList" parameterType="String" resultType="com.sp.trip.lodging.Lodging">
 		SELECT lPhotoNum, lPhotoName, mhId
 		FROM lodgingPhoto
 		WHERE mhId = #{mhId}
 	</select>
+	
 	<select id="readLodgingPhotoFile" parameterType="Integer" resultType="com.sp.trip.lodging.Lodging">
 		SELECT lPhotoNum, lPhotoName, mhId
 		FROM lodgingPhoto
-		WHERE mhlPhotoNum = #{lPhotoNum}
+		WHERE lPhotoNum = #{lPhotoNum}
 	</select>
+	
+	<select id="readLodgingCategory" parameterType="Integer" resultType="String">
+		SELECT lcName FROM lodgingCategory WHERE lcNum = #{lcNum}
+	</select>
+	
+	<delete id="deleteLodgingPhotoFile" parameterType="Integer">
+		DELETE FROM lodgingPhoto WHERE lPhotoNum = #{lPhotoNum}
+	</delete>
+	
+	<update id="updateLodging" parameterType="com.sp.trip.lodging.Lodging">
+		UPDATE lodging SET lcNum=#{lcNum}, lodgName=#{lodgName}, lodgLat=#{lodgLat}, lodgLon=#{lodgLon}, 
+				lodgContent1=#{lodgContent1}, lodgContent2=#{lodgContent2}, lodgStart_date=#{lodgStart_date},
+				lodgEnd_date=#{lodgEnd_date}, lodgPageAddr=#{lodgPageAddr, jdbcType=VARCHAR}, 
+				lodgCin_time=#{lodgCin_time}, lodgCout_time=#{lodgCout_time}, lodgOption=#{lodgOption}
+		WHERE mhId = #{mhId}
+		
+	</update>
 </mapper>

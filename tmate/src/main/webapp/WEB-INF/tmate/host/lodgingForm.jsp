@@ -2,6 +2,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reg_form.css" type="text/css">
 
@@ -22,11 +23,23 @@ function lodgingOk() {
 	    return;
 	}
 	
+	<c:if test="${mode eq 'write'}">
 	if( !f.selectFile.value ) {
 		alert("숙소 사진을 등록해주세요.");
 		f.selectFile.focus();
 		return;
 	}
+	</c:if>
+	
+	<c:if test="${mode eq 'update'}">
+	if( !f.selectFile.value ) {
+		if ($('.delete-img').length == 0) {
+			alert("숙소 사진을 등록해주세요.");
+			f.selectFile.focus();
+			return;
+		}
+	}
+	</c:if>
 	
 	if ($('input[name=lodgOptionArr]:checked').length < 1) {
 	    alert("편의 시설 서비스 안내를 선택해주세요.");
@@ -95,15 +108,19 @@ function lodgingOk() {
 	if(start_month > end_month) {
 		alert("성수기 종료일은 시작일보다 작을 수 없습니다.");
 		return;
-	} else if (start_day > end_day){
-		alert("성수기 종료일은 시작일보다 작을 수 없습니다.");
-		return;
+	} else if(start_month === end_month) {
+		if (start_day > end_day){
+			alert("성수기 종료일은 시작일보다 작을 수 없습니다.");
+			return;
+		}
 	}
+	
+	
 
 	if ("${mode}" === "write") {
 		f.action = "${pageContext.request.contextPath}/lodgings/add";
 	} else if("${mode}" === "update") {
-		f.action = "${pageContext.request.contextPath}/lodgings/${lodging.mhId}";	
+		f.action = "${pageContext.request.contextPath}/lodgings/update";	
 	}
 
 	f.submit();
@@ -128,10 +145,21 @@ $(function() {
 	    
 		// 유사 배열을 배열로 변환
 	    const fileArr = Array.from(this.files);
-	    if(sel_files.length+fileArr.length > 15) {
-			alert("사진은 최대 15장까지 등록 가능합니다.");
-			return false;
-		}
+		<c:choose>
+			<c:when test="${mode eq 'write'}">
+			if(sel_files.length+fileArr.length > 15) {
+				alert("사진은 최대 15장까지 등록 가능합니다.");
+				return false;
+			}
+			</c:when>
+			<c:when test="${mode eq 'update'}">
+			if(sel_files.length+fileArr.length+$('.delete-img').length > 15) {
+				alert("사진은 최대 15장까지 등록 가능합니다.");
+				return false;
+			}
+			</c:when>
+		</c:choose>
+	    
 		fileArr.forEach((file, index) => {
 			sel_files.push(file);
 			
@@ -154,7 +182,7 @@ $(function() {
 	});
 		
 	$("body").on("click", ".tm_form .img-item", function(event) {
-		if(! confirm("선택한 파일을 삭제 하시겠습니까 ?")) {
+		if(! confirm("선택한 사진을 삭제 하시겠습니까 ?")) {
 			return false;
 		}
 		
@@ -176,6 +204,60 @@ $(function() {
 		$(this).remove();
 	});
 });
+
+<c:if test="${mode=='update'}">
+	$(function() {
+		$('input[name=lcNum]').each(function() {
+			if (this.value == '${lodging.lcNum}') {
+				$(this).attr("checked", "checked");
+			}
+		});
+		
+		$('select[name=start_month] option').each(function(){
+		    if (this.value == '${lodging.start_month}') {
+		        $(this).attr("selected", "true");
+		    }
+		});
+		
+		$('select[name=start_day] option').each(function(){
+		    if (this.value == '${lodging.start_day}') {
+		        $(this).attr("selected", "true");
+		    }
+		});
+		
+		$('select[name=end_month] option').each(function(){
+		    if (this.value == '${lodging.end_month}') {
+		        $(this).attr("selected", "true");
+		    }
+		});
+		
+		$('select[name=end_day] option').each(function(){
+		    if (this.value == '${lodging.end_day}') {
+		        $(this).attr("selected", "true");
+		    }
+		});
+		
+		$('input[name=lodgOptionArr]').each(function() {
+			if ('${lodging.lodgOption}'.indexOf(this.value) !== -1) {
+				$(this).attr("checked", "checked");
+			}
+		});
+	});
+	
+	$(function(){
+		$(".delete-img").click(function(){
+			if(! confirm("사진을 삭제 하시겠습니까 ?")) {
+				return false;
+			}
+			var $img = $(this);
+			var fileNum = $img.attr("data-fileNum");
+			var fileName = $img.attr("data-fileName")
+			$('#deleteimg').append("<input type='hidden' value='"+ fileNum +"' name='fileNum'>");
+			$('#deleteimg').append("<input type='hidden' value='"+ fileName +"' name='fileName'>");
+			$(this).remove();
+		});
+	});
+</c:if>
 </script>
 
 
@@ -193,7 +275,7 @@ $(function() {
                         <span>숙소 이름</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input id="" type="text" name="lodgName">
+                        <input type="text" name="lodgName" value="${lodging.lodgName}">
                     </div>
                 </div>
                 <div class="tm_form_list">
@@ -213,8 +295,20 @@ $(function() {
                         <span>숙소 사진 업로드 <br>(최소1장,최대15장)</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <div class="img-grid"><img class="item img-add rounded" src="${pageContext.request.contextPath}/resources/images/add_photo.png"></div>
+                        <div class="img-grid">
+                        	<img class="item img-add rounded" src="${pageContext.request.contextPath}/resources/images/add_photo.png">
+                        	<c:if test="${mode=='update'}">
+                        		<c:forEach var="vo" items="${photoList}">
+                        			<img class="item rounded delete-img" src="${pageContext.request.contextPath}/tmate/lodging/${vo.lPhotoName}"
+                        				data-fileNum="${vo.lPhotoNum}" data-fileName="${vo.lPhotoName}">
+                        		</c:forEach>
+                        	</c:if>
+                        </div>
                         <input type="file" name="selectFile" accept="image/*" multiple="multiple" style="display: none;" class="form-control">
+                        <c:if test="${mode=='update'}">
+	                        <div id="deleteimg">
+	                        </div>
+	                    </c:if>
                     </div>
                 </div>
                 <div class="tm_form_list option">
@@ -239,7 +333,7 @@ $(function() {
                         <span>숙소 이용 규칙</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <textarea class="tm_textarea" name="lodgContent1" rows="8" cols="60"></textarea>
+                        <textarea class="tm_textarea" name="lodgContent1" rows="8" cols="60">${lodging.lodgContent1}</textarea>
                     </div>
                 </div>
                 <div class="tm_form_list">
@@ -247,7 +341,7 @@ $(function() {
                         <span>기타 확인사항</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <textarea class="tm_textarea" name="lodgContent2" rows="8" cols="60"></textarea>
+                        <textarea class="tm_textarea" name="lodgContent2" rows="8" cols="60">${lodging.lodgContent2}</textarea>
                     </div>
                 </div>
                 <div class="tm_form_list summer_date">
@@ -256,13 +350,13 @@ $(function() {
                     </div>
                     <div class="tm_form_input_box">
                         <select class="tm_select_style small" name=start_month>
-                        	<option value="0" selected="selected">::월선택::</option>
+                        	<option value="0" ${mode=="write"?"selected='selected'":""}>::월선택::</option>
                         	<option value="07">07</option>
                         	<option value="08">08</option>
                         </select>
                         <span>월</span>
                         <select class="tm_select_style small" name=start_day>
-                       		<option value="0" selected="selected">::일선택::</option>
+                       		<option value="0" ${mode=="write"?"selected='selected'":""}>::일선택::</option>
                         	<option value="01">01</option>
                         	<option value="02">02</option>
                         	<option value="03">03</option>
@@ -347,12 +441,12 @@ $(function() {
                     <div class="tm_form_input_box">
 	                    <div class="tm_form_input_inner">
 	                    	<span>체크인 시간 : </span>
-	                    	<input id="" type="text" name="lodgCin_time">
+	                    	<input type="text" name="lodgCin_time" value="${lodging.lodgCin_time}">
 	                    	<span>시</span>
 	                    </div>
                         <div class="tm_form_input_inner">
 	                    	<span>체크아웃 시간 : </span>
-	                    	<input id="" type="text" name="lodgCout_time">
+	                    	<input type="text" name="lodgCout_time" value="${lodging.lodgCout_time}">
 	                    	<span>시</span>
 	                    </div>
                                          
@@ -363,11 +457,11 @@ $(function() {
                         <span>홈페이지 주소</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input id="" type="text" name="lodgPageAddr">
+                        <input type="text" name="lodgPageAddr" value="${lodging.lodgPageAddr}">
                     </div>
                 </div>
-                <input type="hidden" name=lodgLat value="">
-                <input type="hidden" name=lodgLon value="">   
+                <input type="hidden" name=lodgLat value="${lodging.lodgLat}">
+                <input type="hidden" name=lodgLon value="${lodging.lodgLon}">   
             </div>
             </form>
         </div>
@@ -378,11 +472,12 @@ $(function() {
 
     <div class="tm_bottom">
         <div class="tm_btn_style large">취소하기</div>
-        <div class="tm_btn_style large" onclick="lodgingOk();">등록하기</div>
+        <div class="tm_btn_style large" onclick="lodgingOk();">${mode=='update'?'수정완료':'신청하기'}</div>
     </div>
 
 </div>
 
+<c:if test="${mode eq 'write'}">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e127a9fac584024a1564da7a8555ea94&libraries=services"></script>
 <script type="text/javascript">
 window.onload = function() {
@@ -399,3 +494,4 @@ var callback = function(result, status) {
 	
 };
 </script>
+</c:if>

@@ -1,5 +1,8 @@
 package com.sp.trip.host;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.trip.member.Member;
@@ -79,13 +83,73 @@ public class HostController {
 		return ".host.complete";
 	}
 	
-	@GetMapping(value = "/{id}")
-	public String updateHostForm() {
-		return null;
+	@GetMapping("/info")
+	public String readHostForm(HttpSession session, Model model) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if (info == null) {
+			return "redirect:/";
+		}
+		String userId = info.getUserId();
+		Host host = hostService.readHost(userId);
+		Member member = hostService.readMember(userId);
+		String email = member.getMemberEmail();
+		String bank = hostService.getBank(host.getBankNum());
+		
+		model.addAttribute("host", host);
+		model.addAttribute("email", email);
+		model.addAttribute("bank", bank);
+		
+		return ".host.hostInfo";
 	}
 	
-	@PostMapping(value = "/{id}")
-	public String updateHostSubmit() throws Exception {
-		return null;
+	@GetMapping("/update")
+	public String updateHostForm(HttpSession session, Model model) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if (info == null) {
+			return "redirect:/";
+		}
+		String userId = info.getUserId();
+		Host host = hostService.readHost(userId);
+		Member member = hostService.readMember(userId);
+		String phone = host.getMhPhone();
+		String phone1 = phone.substring(0, phone.indexOf("-"));
+		String phone2 = phone.substring(phone.indexOf("-")+1, phone.lastIndexOf("-"));
+		String phone3 = phone.substring(phone.lastIndexOf("-")+1);
+		host.setMhPhone1(phone1);
+		host.setMhPhone2(phone2);
+		host.setMhPhone3(phone3);
+		
+		model.addAttribute("member", member);
+		model.addAttribute("host", host);
+		model.addAttribute("mode", "update");
+		
+		return ".host.hostForm";
+	}
+	
+	@PostMapping("/update")
+	public String updateHostSubmit(HttpSession session,
+									@ModelAttribute Host host,
+									@RequestParam String lodgLat, 
+									@RequestParam String lodgLon,
+									Model model) {
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if (info == null) {
+			return "redirect:/";
+		}
+		String userId = info.getUserId();
+		host.setMhId(userId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("lodgLat", lodgLat);
+		map.put("lodgLon", lodgLon);
+		map.put("mhId", userId);
+		
+		try {
+			hostService.updateHost(host, map);
+		} catch (Exception e) {
+		}
+		
+		return "redirect:/hosts/info";
 	}
 }

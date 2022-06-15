@@ -7,6 +7,9 @@
 		FROM member1
 		WHERE memberId = #{userId}
 	</select>
+	<select id="getBank" parameterType="Integer" resultType="String">
+		SELECT bankName FROM bank WHERE bankNum = #{bankNum}
+	</select>
 	<!-- 호스트 신청 관련 -->
 	<insert id="insertHost" parameterType="com.sp.trip.host.Host">
 		INSERT INTO memberHost(mhId, mhName, mhNum, mhPhone, mhAddr1, mhAddr2, mhZip, mhAc_name,
@@ -20,4 +23,12 @@
 		FROM memberHost
 		WHERE mhId = #{userId}
 	</select>
+	<update id="updateHost" parameterType="com.sp.trip.host.Host">
+		UPDATE memberHost SET mhNum = #{mhNum}, mhPhone=#{mhPhone}, mhAddr1=#{mhAddr1}, mhAddr2=#{mhAddr2},
+			mhZip=#{mhZip}, mhAc_name=#{mhAc_name}, bankNum=#{bankNum}, mhAc_num=#{mhAc_num}
+		WHERE mhId = #{mhId}
+	</update>
+	<update id="updateLatLon" parameterType="map">
+		UPDATE lodging SET lodgLat = #{lodgLat}, lodgLon = #{lodgLon} WHERE mhId = #{mhId}
+	</update>
 </mapper>

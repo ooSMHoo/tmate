@@ -1,6 +1,7 @@
 package com.sp.trip.lodging;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.trip.host.Host;
@@ -79,13 +81,67 @@ public class LodgingController {
 		return "redirect:/hosts/complete";
 	}
 	
-	@GetMapping
-	public String updateLodgingForm() {
-		return null;
+	@GetMapping("/info")
+	public String readLodging(HttpSession session, Model model) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if(info == null) {
+			return "redirect:/";
+		}
+		String userId = info.getUserId();
+		
+		Lodging lodging = lodgingService.readLodging(userId);
+		String category = lodgingService.readLodgingCategory(lodging.getLcNum());
+		List<Lodging> photoList = lodgingService.readLodgingPhotolist(lodging.getMhId());
+		
+		model.addAttribute("lodging", lodging);
+		model.addAttribute("lodgingCategory", category);
+		model.addAttribute("photoList", photoList);
+		
+		return ".host.lodgingInfo";
 	}
 	
-	@PostMapping
-	public String updateLodgingSubmit() {
-		return null;
+	@GetMapping("/update")
+	public String updateLodgingForm(HttpSession session, Model model) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		String userId = info.getUserId();
+		
+		Lodging lodging = lodgingService.readLodging(userId);
+		String lodgStart_date = lodging.getLodgStart_date();
+		String lodgEnd_date = lodging.getLodgEnd_date();
+		lodging.setStart_month(lodgStart_date.substring(0, lodgStart_date.indexOf("-")));
+		lodging.setStart_day(lodgStart_date.substring(lodgStart_date.indexOf("-")+1));
+		lodging.setEnd_month(lodgEnd_date.substring(0, lodgEnd_date.indexOf("-")));
+		lodging.setEnd_day(lodgEnd_date.substring(lodgEnd_date.indexOf("-")+1));
+		
+		
+		List<Lodging> photoList = lodgingService.readLodgingPhotolist(userId);
+		
+		model.addAttribute("lodging", lodging);
+		model.addAttribute("mode", "update");
+		model.addAttribute("photoList", photoList);
+		
+		return ".host.lodgingForm";
+	}
+	
+	@PostMapping("/update")
+	public String updateLodgingSubmit(@ModelAttribute Lodging lodging, HttpSession session,
+			@RequestParam(required = false) String[] fileNum,
+			@RequestParam(required = false) String[] fileName) {
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "tmate" + File.separator + "lodging";
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		lodging.setMhId(info.getUserId());
+		
+		try {
+			if (fileNum != null) {
+				lodgingService.updateLodging(lodging, path, fileNum, fileName);
+			} else {
+				lodgingService.updateLodging(lodging, path);
+			}
+			
+		} catch (Exception e) {
+		}
+		
+		return "redirect:/lodgings/info";
 	}
 }
