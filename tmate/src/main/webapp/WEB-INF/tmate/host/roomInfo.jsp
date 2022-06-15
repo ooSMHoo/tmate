@@ -110,7 +110,7 @@
     </div>
     
     <div class="tm_bottom">
-        <div class="tm_btn_style large" onclick="location.href='{pageContext.request.contextPath}/rooms/${room.roomNum}/update';">수정하기</div>
+        <div class="tm_btn_style large" onclick="location.href='${pageContext.request.contextPath}/rooms/${room.roomNum}/update';">수정하기</div>
     </div>
 
 </div>

@@ -123,4 +123,73 @@ public class RoomServiceImpl implements RoomService {
 		}
 		return roomCategory;
 	}
+
+	@Override
+	public void deleteRoomPhotoFile(int rPhotoNum) throws Exception {
+		try {
+			dao.deleteData("room.deleteRoomPhotoFile", rPhotoNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public void updateRoom(Room room, String pathname) throws Exception {
+		try {
+			if (room.getRoomOptionArr().length != 0) {
+				room.setRoomOption(String.join(",", room.getRoomOptionArr()));
+			}
+			
+			dao.updateData("room.updateRoom", room);
+			
+			if (!room.getSelectFile().isEmpty()) {
+				for(MultipartFile mf : room.getSelectFile()) {
+					String saveFilename = fileManager.doFileUpload(mf, pathname);
+					if(saveFilename == null) {
+						continue;
+					}
+					
+					room.setrPhotoName(saveFilename);
+					
+					insertRoomPhoto(room);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public void updateRoom(Room room, String pathname, String[] fileNum, String[] fileName) throws Exception {
+		try {
+			if (room.getRoomOptionArr().length != 0) {
+				room.setRoomOption(String.join(",", room.getRoomOptionArr()));
+			}
+			
+			dao.updateData("room.updateRoom", room);
+			
+			for(int i=0; i<fileNum.length; i++) {
+				deleteRoomPhotoFile(Integer.parseInt(fileNum[i]));
+				fileManager.doFileDelete(fileName[i], pathname);
+			}
+			
+			if (!room.getSelectFile().isEmpty()) {
+				for(MultipartFile mf : room.getSelectFile()) {
+					String saveFilename = fileManager.doFileUpload(mf, pathname);
+					if(saveFilename == null) {
+						continue;
+					}
+					
+					room.setrPhotoName(saveFilename);
+					
+					insertRoomPhoto(room);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 }

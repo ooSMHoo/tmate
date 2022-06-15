@@ -28,10 +28,22 @@ function roomOk() {
 		return;
 	}
 	
+	<c:if test="${mode eq 'write'}">
 	if (!f.selectFile.value) {
 		alert("객실 사진을 등록해주세요.");
 		return;
 	}
+	</c:if>
+	
+	<c:if test="${mode eq 'update'}">
+	if( !f.selectFile.value ) {
+		if ($('.delete-img').length == 0) {
+			alert("객실 사진을 등록해주세요.");
+			f.selectFile.focus();
+			return;
+		}
+	}
+	</c:if>
 	
 	if ($('input[name=roomOptionArr]:checked').length < 1) {
 	    alert("객실 옵션을 선택해주세요.");
@@ -134,7 +146,7 @@ function roomOk() {
 	if ("${mode}" === "write") {
 		f.action = "${pageContext.request.contextPath}/rooms/add";
 	} else if ("${mode}" === "update") {
-		f.action = "${pageContext.request.contextPath}/rooms/${room.roomNum}";
+		f.action = "${pageContext.request.contextPath}/rooms/${room.roomNum}/update";
 	}
 	
 	f.submit();
@@ -159,10 +171,20 @@ $(function() {
 	    
 		// 유사 배열을 배열로 변환
 	    const fileArr = Array.from(this.files);
-	    if(sel_files.length+fileArr.length > 15) {
-			alert("사진은 최대 15장까지 등록 가능합니다.");
-			return false;
-		}
+	    <c:choose>
+			<c:when test="${mode eq 'write'}">
+			if(sel_files.length+fileArr.length > 15) {
+				alert("사진은 최대 15장까지 등록 가능합니다.");
+				return false;
+			}
+			</c:when>
+			<c:when test="${mode eq 'update'}">
+			if(sel_files.length+fileArr.length+$('.delete-img').length > 15) {
+				alert("사진은 최대 15장까지 등록 가능합니다.");
+				return false;
+			}
+			</c:when>
+		</c:choose>
 		fileArr.forEach((file, index) => {
 			sel_files.push(file);
 			
@@ -207,6 +229,36 @@ $(function() {
 		$(this).remove();
 	});
 });
+
+<c:if test="${mode=='update'}">
+$(function() {
+	$('select[name=rcNum] option').each(function() {
+		if (this.value == '${room.rcNum}') {
+			$(this).attr("selected", "true");
+		}
+	});
+	
+	$('input[name=roomOptionArr]').each(function() {
+		if ('${room.roomOption}'.indexOf(this.value) !== -1) {
+			$(this).attr("checked", "checked");
+		}
+	});
+});
+
+$(function(){
+	$(".delete-img").click(function(){
+		if(! confirm("사진을 삭제 하시겠습니까 ?")) {
+			return false;
+		}
+		var $img = $(this);
+		var fileNum = $img.attr("data-fileNum");
+		var fileName = $img.attr("data-fileName")
+		$('#deleteimg').append("<input type='hidden' value='"+ fileNum +"' name='fileNum'>");
+		$('#deleteimg').append("<input type='hidden' value='"+ fileName +"' name='fileName'>");
+		$(this).remove();
+	});
+});
+</c:if>
 </script>
 
 <div>
@@ -223,7 +275,7 @@ $(function() {
                         <span>객실 이름</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input type="text" name="roomName">
+                        <input type="text" name="roomName" value="${room.roomName}">
                     </div>
                 </div>
                 <div class="tm_form_list">
@@ -246,7 +298,7 @@ $(function() {
                         <span>객실 설명</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <textarea class="tm_textarea" rows="8" cols="60" name="roomContent"></textarea>
+                        <textarea class="tm_textarea" rows="8" cols="60" name="roomContent">${room.roomContent}</textarea>
                     </div>
                 </div>
                 <div class="tm_form_list">
@@ -254,8 +306,20 @@ $(function() {
                         <span>객실 사진 업로드<br>(최소1장,최대15장)</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <div class="img-grid"><img class="item img-add rounded" src="${pageContext.request.contextPath}/resources/images/add_photo.png"></div>
+                        <div class="img-grid">
+                        	<img class="item img-add rounded" src="${pageContext.request.contextPath}/resources/images/add_photo.png">
+                        	<c:if test="${mode=='update'}">
+                        		<c:forEach var="vo" items="${photoList}">
+                        			<img class="item rounded delete-img" src="${pageContext.request.contextPath}/tmate/room/${vo.rPhotoName}"
+                        				data-fileNum="${vo.rPhotoNum}" data-fileName="${vo.rPhotoName}">
+                        		</c:forEach>
+                        	</c:if>
+                        </div>
                         <input type="file" name="selectFile" accept="image/*" multiple="multiple" style="display: none;" class="form-control">
+                        <c:if test="${mode=='update'}">
+	                        <div id="deleteimg">
+	                        </div>
+	                    </c:if>
                     </div>
                 </div>
                 <div class="tm_form_list option">
@@ -281,17 +345,17 @@ $(function() {
                     <div class="tm_form_input_box">
                     	<div class="tm_form_input_inner">
 	                    	<span>평일가격(일~목) :  </span>
-	                    	<input type="text" name="roomWd_price" style="width: 100px">
+	                    	<input type="text" name="roomWd_price" style="width: 100px" value="${room.roomWd_price}">
 	                    	<span>원</span>
 	                    </div>
                         <div class="tm_form_input_inner">
 	                    	<span>주말가격(금~토) :  </span>
-	                    	<input type="text" name="roomWe_price" style="width: 100px">
+	                    	<input type="text" name="roomWe_price" style="width: 100px" value="${room.roomWe_price}">
 	                    	<span>원</span>
 	                    </div>
 	                    <div class="tm_form_input_inner">
 	                    	<span>성수기가격(설정한 날짜) :  </span>
-	                    	<input type="text" name="roomSeasonPrice" style="width: 100px">
+	                    	<input type="text" name="roomSeasonPrice" style="width: 100px" value="${room.roomSeasonPrice}">
 	                    	<span>원</span>
 	                    </div>
                     </div>
@@ -301,7 +365,7 @@ $(function() {
                         <span>기준인원</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input type="text" name="roomPeople"><span>명</span>
+                        <input type="text" name="roomPeople" value="${room.roomPeople}"><span>명</span>
                     </div>
                 </div>  
                 <div class="tm_form_list phone_number">
@@ -309,7 +373,7 @@ $(function() {
                         <span>최대인원</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input type="text" name="roomMax_people"><span>명</span>
+                        <input type="text" name="roomMax_people" value="${room.roomMax_people}"><span>명</span>
                     </div>
                 </div>  
                 <div class="tm_form_list phone_number">
@@ -317,7 +381,7 @@ $(function() {
                         <span>침대개수</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input type="text" name="roomBed"><span>개</span>
+                        <input type="text" name="roomBed" value="${room.roomBed}"><span>개</span>
                     </div>
                 </div>   
             </div>
@@ -330,7 +394,7 @@ $(function() {
     
     <div class="tm_bottom">
         <div class="tm_btn_style large">취소하기</div>
-        <div class="tm_btn_style large" onclick="roomOk();">등록하기</div>
+        <div class="tm_btn_style large" onclick="roomOk();">${mode=='update'?'수정완료':'등록하기'}</div>
     </div>
 
 </div>

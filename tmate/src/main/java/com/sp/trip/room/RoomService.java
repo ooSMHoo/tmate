@@ -11,4 +11,7 @@ public interface RoomService {
 	public List<Room> readRoomPhotolist(int roomNum);
 	public Room readRoomPhotoFile(int rPhotoNum);
 	public String readRoomCategory(int rcNum);
+	public void deleteRoomPhotoFile(int rPhotoNum) throws Exception;
+	public void updateRoom(Room room, String pathname) throws Exception;
+	public void updateRoom(Room room, String pathname, String[] fileNum, String[] fileName) throws Exception;
 }

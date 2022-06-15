@@ -46,4 +46,15 @@
 	<select id="readRoomCategory" parameterType="Integer" resultType="String">
 		SELECT rcName FROM roomCategory WHERE rcNum = #{rcNum}
 	</select>
+	
+	<update id="updateRoom" parameterType="com.sp.trip.room.Room">
+		UPDATE room SET roomName=#{roomName}, roomContent=#{roomContent}, roomPeople=#{roomPeople}, roomMax_people=#{roomMax_people},
+				rcNum=#{rcNum}, roomSeasonPrice=#{roomSeasonPrice}, roomWd_price=#{roomWd_price}, roomWe_price=#{roomWe_price}, 
+				roomOption=#{roomOption}, roomBed=#{roomBed}
+		WHERE roomNum=#{roomNum}
+	</update>
+	
+	<delete id="deleteRoomPhotoFile" parameterType="Integer">
+		DELETE FROM roomPhoto WHERE rPhotoNum=#{rPhotoNum}
+	</delete>
 </mapper>

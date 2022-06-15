@@ -2,7 +2,6 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions"%>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reg_form.css" type="text/css">
 
@@ -472,7 +471,7 @@ $(function() {
 
     <div class="tm_bottom">
         <div class="tm_btn_style large">취소하기</div>
-        <div class="tm_btn_style large" onclick="lodgingOk();">${mode=='update'?'수정완료':'신청하기'}</div>
+        <div class="tm_btn_style large" onclick="lodgingOk();">${mode=='update'?'수정완료':'등록하기'}</div>
     </div>
 
 </div>

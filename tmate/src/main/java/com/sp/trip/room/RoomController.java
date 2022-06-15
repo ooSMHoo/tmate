@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.trip.lodging.Lodging;
@@ -107,13 +108,58 @@ public class RoomController {
 	}
 	
 	@GetMapping("/{roomNum}/update")
-	public String updateRoomForm(@PathVariable String roomNum) {
+	public String updateRoomForm(HttpSession session, @PathVariable String roomNum, Model model) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		if (info == null) {
+			return "redirect:/"; // 예외처리
+		}
+		
+		try {
+			int num = Integer.parseInt(roomNum);
+			Room room = roomService.readRoom(num);
+			if (room == null) {
+				return "redirect:/"; // 방이 없는데 접근
+			}
+			if (! room.getMhId().equals(info.getUserId())) {
+				return "redirect:/"; // 숙소가 없는데 접근함
+			}
+			String roomCategory = roomService.readRoomCategory(room.getRcNum());
+			List<Room> photoList = roomService.readRoomPhotolist(num);
+			
+			
+			model.addAttribute("room", room);
+			model.addAttribute("mode", "update");
+			model.addAttribute("photoList", photoList);
+			model.addAttribute("roomCategory", roomCategory);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/";
+		}
 		
 		return ".host.roomForm";
 	}
 	
 	@PostMapping("/{roomNum}/update")
-	public String updateRoomSubmit(@PathVariable String roomNum) {
+	public String updateRoomSubmit(@PathVariable String roomNum,
+							@ModelAttribute Room room,
+							HttpSession session,
+							@RequestParam(required = false) String[] fileNum,
+							@RequestParam(required = false) String[] fileName) {
+		
+		String root = session.getServletContext().getRealPath("/");
+		String path = root + "tmate" + File.separator + "room";
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		room.setMhId(info.getUserId());
+		
+		try {
+			if(fileNum != null) {
+				roomService.updateRoom(room, path, fileNum, fileName);
+			} else {
+				roomService.updateRoom(room, path);
+			}
+		} catch (Exception e) {
+		}
 		
 		return "redirect:/rooms/" + roomNum;
 	}
