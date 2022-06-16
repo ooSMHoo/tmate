@@ -245,24 +245,17 @@
 
 .list-group-item{
 	border-bottom: 1px solid gray;
-	
-}
-
-.list-group a{
-	text-decoration: none;
-	padding-top: 5px;
-
 }
 
 .list-group-date{
 	float: left;
 	color: black;
 	padding-bottom: 10px;
+	margin-top: 5px;
 }
 
 .list-group-point{
 	float: right;
-	padding: 30px;
 	margin: 10px;
 	color: #ffa81e;
 	font-weight: bold;

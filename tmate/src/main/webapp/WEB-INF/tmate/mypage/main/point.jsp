@@ -13,24 +13,19 @@
 <div class="point-content">
 	<h3 style="font-size:22px; font-weight: bold; color: #044b85;">포인트</h3>
 	<div class="title">
-	사용가능 포인트 : <i class="point-balance">포인트 잔액  P</i>
+	사용가능 포인트 : <i class="point-balance"> ${total} P</i>
 	</div>
 	
 	<hr>
 	<ul class="list-group">
-
+		<c:forEach var="dto" items="${list}" varStatus="status">
 		  <li class="list-group-item">리얼 리뷰 작성
-		  	 	<p class="list-group-point">+500</p>
+		  	 	<p class="list-group-point">+${dto.pointQuant}</p>
 		  	<div class="group">
-		  	 	<p class="list-group-date">2022-06-01</p>
+		  	 	<p class="list-group-date">${dto.pointDate}</p>
 		  	</div>
 		  </li>
-		  
-		  <li class="list-group-item">리얼 리뷰 작성
-		  	 	<p class="list-group-point">+500</p>
-		  	<div class="group">
-		  	 	<p class="list-group-date">2022-06-01</p>
-		  	</div>
-		  </li>	  
+		 </c:forEach> 
 	</ul>
+
 </div>

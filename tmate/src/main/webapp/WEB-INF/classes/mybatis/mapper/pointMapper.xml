@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="point">
+	
+   	<select id="readPoint" parameterType="String" resultType="com.sp.trip.point.Point">
+		SELECT pointQuant, 
+		TO_CHAR(pointDate, 'YYYY-MM-DD') pointDate, 
+		pointCode
+		FROM point
+		WHERE memberId = #{memberId}
+	</select>
+	
+	<insert id="insertPoint" parameterType="com.sp.trip.point.Point" >		
+ 		INSERT INTO point(pointNum, pointCode, pointDate, pointQuant, memberId) 
+ 		VALUES(point_seq.NEXTVAL, #{pointCode}, SYSDATE, #{pointQuant}, #{memberId})
+ 	</insert>
+
+
+</mapper>

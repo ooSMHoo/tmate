@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mypage">
-
+<!--  
 	<update id="updateMypage1" parameterType="com.sp.trip.mypage.Mypage">
 		UPDATE member1 SET memberPwd=#{memberPwd} ,membermod_date=SYSDATE,
 				memberEmail=#{memberEmail}
@@ -10,13 +10,24 @@
     </update>
     
     <update id="updateMypage2" parameterType="com.sp.trip.mypage.Mypage">
-		UPDATE member2 SET memberBirth=#{memberBirth}, memberPhone=#{memberPhone},
+		UPDATE member2 SET memberBirth=#{memberBirth}, memberPhone=#{memberPhone}
+		WHERE memberId=#{memberId}
+    </update>
+-->
+    <update id="updateMypage3" parameterType="map">
+		UPDATE member1 SET ${colName}=#{colValue}, membermod_date=SYSDATE
 		WHERE memberId=#{memberId}
     </update>
     
+    <update id="updateMypage4" parameterType="map">
+		UPDATE member2 SET ${colName}=#{colValue}
+		WHERE memberId=#{memberId}
+    </update>
+
+            
    <select id="readMypage" parameterType="String" resultType="com.sp.trip.mypage.Mypage">
 	    SELECT m.memberId, memberName, memberPwd, enabled,
-	    memberBirth, 
+	    TO_CHAR(memberBirth, 'YYYY-MM-DD') memberBirth, 
 	    memberEmail, memberPhone
 	    FROM member1 m
 	    LEFT OUTER JOIN member2 m1 ON m.memberId = m1.memberId 
@@ -24,4 +35,7 @@
     </select>
     
 
+
+    
+    
 </mapper>

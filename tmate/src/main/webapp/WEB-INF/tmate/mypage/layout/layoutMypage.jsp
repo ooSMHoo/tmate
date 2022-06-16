@@ -33,7 +33,7 @@
 			<tiles:insertAttribute name="header" />
 		</div>
 		
-	<div id="container-mypage">
+	<div id="container-mypage" style="width: 1300px;">
 		<div id="sidebar-left">
 			<tiles:insertAttribute name="sidebar" />
 		</div>

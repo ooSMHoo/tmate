@@ -113,9 +113,5 @@ public class Mypage {
 		this.phone3 = phone3;
 	}
 	
-	
 
-	
-	
-	
 }

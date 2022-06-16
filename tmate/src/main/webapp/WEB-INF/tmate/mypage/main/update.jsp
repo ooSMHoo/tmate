@@ -7,7 +7,6 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 <script type="text/javascript">
-
 $(document).ready(function() {
 	$('.pwd-1').show();
 	$('.pwd-option').hide();
@@ -83,22 +82,141 @@ $(document).ready(function() {
 	});
 });
 
+
 // 유효성 체크
 function update_name(){
-	const f = document.updateForm;
-	let obj;
+	let str = $("input[name=memberName]").val();
+
+	if( !/^[가-힣]{2,5}$/.test(str) ) {
+        alert("이름을 다시 입력하세요.");
+        $("input[name=memberName]").focus();
+        return;
+    }
 	
-	obj = f.firstName.value;
-	if(! obj){
-		alert("이름을 입력하지 않았습니다.");
-		f.firstName.focus();
-		return false;
+	var f = document.updateForm;
+	f.colName.value = "memberName";
+	f.colValue.value = str;
+	
+	f.action = "${pageContext.request.contextPath}/mypage/update";
+	f.submit();
+}
+
+function update_email(){
+	let str1 = $('input[name=memberEmail1]').val();
+		
+    if( ! str1 ) {
+    	alert("이메일을 다시 입력하세요.");
+        $("input[name=memberEmail1]").focus();
+        return;
+    }
+    
+    let str2 = $('input[name=memberEmail2]').val();
+    if( ! str2 ) {
+    	alert("이메일을 다시 입력하거나 선택하세요.");
+        $("input[name=memberEmail2]").focus();
+        return;
+    }
+	var f = document.updateForm;
+	f.colName.value = "memberEmail";
+	f.colValue.value = str1 + "@" + str2;
+	
+	f.action = "${pageContext.request.contextPath}/mypage/update";
+	f.submit();
+}
+
+function update_phone(){
+	let str1 =  $('input[name=phone1]').val();
+	
+    if( !str1) {
+        alert("전화번호를 입력하세요.");
+        $("input[name=phone1]").focus();
+        return;
+    }
+
+    let str2 = $('input[name=phone2]').val();
+    if( !/^\d{3,4}$/.test(str2) ) {
+        alert("숫자만 가능합니다. ");
+        $("input[name=phone3]").focus();
+        return;
+    }
+
+    let str3= $('input[name=phone3]').val();
+    if( !/^\d{4}$/.test(str3) ) {
+    	alert("숫자만 가능합니다. ");
+    	 $("input[name=phone3]").focus();
+        return;
+    }
+	
+	var f = document.updateForm;
+	f.colName.value = "memberPhone";
+	f.colValue.value = str1 + "-" + str2 + "-" + str3;
+	
+	f.action = "${pageContext.request.contextPath}/mypage/update2";
+	f.submit();
+}
+
+function update_birth(){
+	let str = $("input[name=memberBirth]").val();
+
+    if( !str ) {
+        alert("생년월일를 입력하세요. ");
+        $("input[name=memberBirth]").focus();
+        return;
+    }
+	
+	var f = document.updateForm;
+	f.colName.value = "memberBirth";
+	f.colValue.value = str;
+	
+	f.action = "${pageContext.request.contextPath}/mypage/update2";
+	f.submit();
+}
+//memberPwd: 현재비번 memberPwd2:변경비번1 memberPwd3: 변경비번3
+function update_pwd(){
+	let str1 = $("input[name=memberPwd]").val();
+	if( str1 != '${dto.memberPwd}') {
+        alert("기존 비밀번호와 다릅니다. ");
+        $("input[name=memberPwd]").focus();
+        return;
+    }
+	
+	let str2 = $("input[name=memberPwd2]").val();
+	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str2) ) { 
+		alert("패스워드를 다시 입력 하세요.");
+		$("input[name=memberPwd2]").focus();
+		return;
 	}
 	
-	return true;
+	let str3 = $("input[name=memberPwd3]").val();
+	if( str3 != str2 ) { 
+		alert("패스워드가 서로 다릅니다.");
+		$("input[name=memberPwd3]").focus();
+		return;
+	}
 	
-	f.action = "${pageContext.request.contextPath}/mypage/updateSubmit";
-    f.submit();
+	var f = document.updateForm;
+	f.colName.value = "memberPwd";
+	f.colValue.value = str2;
+	
+	f.action = "${pageContext.request.contextPath}/mypage/update";
+	f.submit();
+}
+
+function changeEmail(){
+    let x = $('select[name=selectEmail]').val();
+ 	
+    let y = $('input[name=memberEmail2]').val();
+
+    if(x !== "direct") {
+    	$('input[name=memberEmail2]').attr("value", x );
+    	$('input[name=memberEmail2]').attr("readonly", true);
+    	$('input[name=memberEmail2]').focus();
+    }
+    else {
+    	$('input[name=memberEmail2]').attr("value", x );
+    	$('input[name=memberEmail2]').attr("readonly", false);
+    	$('input[name=memberEmail2]').focus();
+    } 
 }
 
 </script>
@@ -106,10 +224,8 @@ function update_name(){
 
 
 <div class="container-md profile">
-	<form name="updateForm" method="post">
 		<div class="box-title">
-			<h3 style="font-weight: bold; color: #044b85; font-size: 22px;">사용자
-				정보</h3>
+			<h3 style="font-weight: bold; color: #044b85; font-size: 22px;">사용자 정보</h3>
 		</div>
 	
 	
@@ -125,7 +241,8 @@ function update_name(){
 		<div class="option-box option-box-info name-option">
 			<div class="option">
 				<label for="exampleFormControlInput1" class="form-label">이름</label>
-				<input type="text" name="firstName" class="form-control" id="exampleFormControlInput1">
+				<input type="text" name="memberName" class="form-control" id="exampleFormControlInput1">
+				<small class="form-control-plaintext">이름은 2-5글자 한글만 가능합니다.</small>
 			</div>
 			<div class="btn-contnet name-btn">
 				<button type="button" class="option-btn-2 option-btn-name">취소</button>
@@ -144,11 +261,12 @@ function update_name(){
 
 		<div class="option-box option-box-info birth-option ">
 			<div class="option">
-				<input type="date" name="birth" class="birth-box" placeholder="생년-월-일">
+				<input type="date" name="memberBirth" class="birth-box" value="${dto.memberBirth}" placeholder="생년월일">
+				<small class="form-control-plaintext">생년월일은 2000-00-00 형식으로 입력 합니다.</small>
 			</div>
 			<div class="btn-contnet birth-btn">
 				<button type="button" class="option-btn-2 option-btn-birth">취소</button>
-				<button type="button" class="option-btn">변경하기</button>
+				<button type="button" class="option-btn" onclick="update_birth();">변경하기</button>
 			</div>
 		</div>
 
@@ -162,15 +280,16 @@ function update_name(){
 		<div class="option-box option-box-info pwd-option">
 			<div class="option">
 				<label for="exampleFormControlInput1" class="form-label">현재 비밀번호</label> 
-				<input type="text" name="ownPwd" class="form-control" id="exampleFormControlInput1">
+				<input type="password" name="memberPwd" class="form-control" id="exampleFormControlInput1" autocomplete="new-password">
 			</div>
 			<div class="option">
 				<label for="exampleFormControlInput1" class="form-label">새 비밀번호</label> 
-				<input type="text" name="newPwd" class="form-control"id="exampleFormControlInput1">
+				<input type="password" name="memberPwd2" class="form-control"id="exampleFormControlInput1">
+				<small class="form-control-plaintext">패스워드는 5~10자이며 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</small>
 			</div>
 			<div class="option">
 				<label for="exampleFormControlInput1" class="form-label">비밀번호 확인</label> 
-				<input type="text" name="conPwd" class="form-control" id="exampleFormControlInput1">
+				<input type="password" name="memberPwd3" class="form-control" id="exampleFormControlInput1">
 			</div>
 			<div class="btn-contnet pwd-btn">
 				<button type="button" class="option-btn-2 option-btn-pwd">취소</button>
@@ -186,29 +305,29 @@ function update_name(){
 		</div>
 
 		<div class="option-box option-box-info email-option">
-			<div class="row">
+			<div class="row" id="emailChange">
 				<label for="exampleFormControlInput1" class="form-label" style="margin-left: 10px; margin-top: 10px;">이메일</label>
 				<div class="col-sm-10 row" >
 					<div class="col-3 ">
 						<select name="selectEmail" id="selectEmail" class="form-select" onchange="changeEmail();" style="margin-left: 10px;">
 							<option value="">선 택</option>
-							<option value="naver.com"
-								${dto.memberEmail2=="naver.com" ? "selected='selected'" : ""}>네이버메일</option>
+							<option value="naver.com" 
+								${dto.memberEmail2=="naver.com" ? "selected='selected'" : ""}>네이버 메일</option>
 							<option value="gmail.com"
 								${dto.memberEmail2=="gmail.com" ? "selected='selected'" : ""}>지메일</option>
 							<option value="hanmail.net"
 								${dto.memberEmail2=="hanmail.net" ? "selected='selected'" : ""}>한메일</option>
-							<option value="hotmail.com"
-								${dto.memberEmail2=="hotmail.com" ? "selected='selected'" : ""}>핫메일</option>
+							<option value="tm.com"
+								${dto.memberEmail2=="tmmail.com" ? "selected='selected'" : ""}>TM메일</option>
 							<option value="direct">직접입력</option>
 						</select>
 					</div>
 
 					<div class="col input-group">
-						<input type="text" name="email1" class="form-control" maxlength="30" value="${dto.memberEmail1}"> 
+						<input type="text" name="memberEmail1" class="form-control" maxlength="30" value="${dto.memberEmail1}"> 
 							<span class="input-group-text p-1" style="border: none; background: none;">@</span> 
-						<input type="text" name="email2" class="form-control" maxlength="30"
-							value="${dto.memberEmail2}" readonly="readonly">
+						<input type="text" name="memberEmail2" class="form-control" maxlength="30"
+							value="${dto.memberEmail2}"  readonly="readonly" >
 					</div>
 				</div>
 			</div>
@@ -243,7 +362,11 @@ function update_name(){
 			</div>
 		</div>
 		
-</form>
+		<form name="updateForm" method="post">
+			<input type="hidden" name="colName">
+			<input type="hidden" name="colValue">
+
+		</form>
 </div>
 
 

@@ -1,5 +1,7 @@
 package com.sp.trip.mypage;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,6 @@ public class MypageServiceImpl implements MypageService{
 
 	@Autowired
 	private CommonDAO dao;
-
 
 	@Override
 	public Mypage readMypage(String memberId) {
@@ -40,6 +41,33 @@ public class MypageServiceImpl implements MypageService{
 
 		return dto;
 	}
+
+	@Override
+	public void updateMypage(Map<String, Object> map) throws Exception {
+		
+		try {
+			dao.updateData("mypage.updateMypage3", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	@Override
+	public void updateMypage2(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("mypage.updateMypage4", map);
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+
+
+
+	
 
 	
 }
