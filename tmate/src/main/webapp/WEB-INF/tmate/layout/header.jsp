@@ -12,7 +12,7 @@
     font-style: normal; 
 }
 .navbar-font{
-	font-size: 25px;
+	font-size: 25px; 
 	font-family:MapoBackpacking;  
 }
 </style>
@@ -74,12 +74,11 @@
 							<a href="${pageContext.request.contextPath}/hostPage/home" title="호스트"  style="padding-top:10px; 
 							text-decoration: none; color: gray; padding-right: 40px;">호스트페이지</a>
 							</c:when>
-							<c:otherwise>
-							<a href="${pageContext.request.contextPath}/mypage/reservationList" title="마이페이지" style="padding-top:10px;  
-							text-decoration: none; color: gray; padding-right: 40px;">마이페이지</a> 
-							</c:otherwise> 
 							</c:choose>
-					
+
+						<a href="${pageContext.request.contextPath}/mypage/reservationList" title="마이페이지" style="padding-top:10px;  
+							text-decoration: none; color: gray; padding-right: 40px;">마이페이지</a> 				
+								
 					</c:otherwise>
 				</c:choose>
 			
