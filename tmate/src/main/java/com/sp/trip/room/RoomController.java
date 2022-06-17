@@ -1,7 +1,9 @@
 package com.sp.trip.room;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.trip.lodging.Lodging;
@@ -165,5 +168,46 @@ public class RoomController {
 		}
 		
 		return "redirect:/host/rooms/" + roomNum;
+	}
+	
+	@RequestMapping("/{roomNum}/delete")
+	public String deleteRoom(@PathVariable String roomNum,
+							@RequestParam String page,
+							@RequestParam(defaultValue = "") String option) throws Exception {
+		
+		String query = "page=" + page + "&option=" + option;
+		try {
+			roomService.deleteRoom(Integer.parseInt(roomNum));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/hostPage/rooms?" + query;
+	}
+	
+	@RequestMapping("/{roomNum}/enable")
+	@ResponseBody
+	public Map<String, Object> changeEnabled(@PathVariable String roomNum,
+											@RequestParam int enabled) {
+		try {
+			Map<String, Object> model = new HashMap<>();
+			if (enabled == 0) {
+				roomService.changeEnabled1(Integer.parseInt(roomNum));
+				enabled = 1;
+				model.put("result", "true");
+				model.put("enabled", enabled);
+				return model;
+			} else {
+				roomService.changeEnabled0(Integer.parseInt(roomNum));
+				enabled = 0;
+				model.put("result", "true");
+				model.put("enabled", enabled);
+				return model;
+			}
+		} catch (Exception e) {
+			Map<String, Object> model = new HashMap<>();
+			model.put("result", "false");
+			return model;
+		}
 	}
 }

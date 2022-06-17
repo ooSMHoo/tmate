@@ -13,4 +13,15 @@
 		FROM member1
 		WHERE memberId = #{memberId}
 	</select>
+	
+	<insert id="insertMember1" parameterType="com.sp.trip.member.Member">
+		INSERT INTO member1(memberId, memberName, memberPwd, memberReg_date, memberMod_date, memberAuth, 
+			enabled, memberEmail)
+		VALUES (#{memberId}, #{memberName}, #{memberPwd}, SYSDATE, SYSDATE, #{memberAuth},
+			1, #{memberEmail})
+	</insert>
+	
+	<insert id="insertMember2" parameterType="com.sp.trip.member.Member">
+		INSERT INTO member2(memberId, memberBirth, memberPhone) VALUES (#{memberId}, #{memberBirth}, #{memberPhone})
+	</insert>
 </mapper>

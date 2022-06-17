@@ -390,7 +390,7 @@ $(function(){
     </div>
     
     <div class="tm_bottom">
-        <div class="tm_btn_style large">취소하기</div>
+        <div class="tm_btn_style large" onclick="location.href='${pageContext.request.contextPath}/hostPage/rooms';">취소하기</div>
         <div class="tm_btn_style large" onclick="roomOk();">${mode=='update'?'수정완료':'등록하기'}</div>
     </div>
 

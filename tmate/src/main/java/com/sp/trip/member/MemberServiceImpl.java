@@ -1,7 +1,5 @@
 package com.sp.trip.member;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,26 +25,15 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void insertMember(Member dto) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateMembership(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateLastLogin(String userId) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateMember(Member dto) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			dto.setMemberEmail(dto.getEmail1()+"@"+dto.getEmail2());
+			dto.setMemberPhone(dto.getMemberPhone1()+"-"+dto.getMemberPhone2()+"-"+dto.getMemberPhone3());
+			dao.insertData("member.insertMember1", dto);
+			dao.insertData("member.insertMember2", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override
@@ -61,23 +48,4 @@ public class MemberServiceImpl implements MemberService {
 		
 		return dto;
 	}
-
-	@Override
-	public Member readMember(long memberIdx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteMember(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void generatePwd(Member dto) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

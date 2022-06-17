@@ -1,6 +1,7 @@
 package com.sp.trip.room;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,11 +63,14 @@ public class RoomServiceImpl implements RoomService {
 	}
 	
 	@Override
-	public List<Room> readRoomlist(String userId) {
+	public List<Room> readRoomlist(Map<String, Object> map) {
 		List<Room> list = null;
 		
 		try {
-			list = dao.selectList("room.readRoomList", userId);
+			list = dao.selectList("room.readRoomList", map);
+			for(Room room : list) {
+				room.setRoomCategory(dao.selectOne("room.readRoomCategory", room.getRcNum()));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -187,6 +191,47 @@ public class RoomServiceImpl implements RoomService {
 					insertRoomPhoto(room);
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public int roomCount(Map<String, Object> map) {
+		int roomCount = 0;
+		try {
+			roomCount = dao.selectOne("room.roomCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return roomCount;
+	}
+
+	@Override
+	public void deleteRoom(int roomNum) throws Exception {
+		try {
+			dao.updateData("room.deleteRoom", roomNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public void changeEnabled0(int roomNum) throws Exception {
+		try {
+			dao.updateData("room.changeEnabled0", roomNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	
+	@Override
+	public void changeEnabled1(int roomNum) throws Exception {
+		try {
+			dao.updateData("room.changeEnabled1", roomNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

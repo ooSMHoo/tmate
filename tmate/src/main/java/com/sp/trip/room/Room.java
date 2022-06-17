@@ -12,6 +12,7 @@ public class Room {
 	private int roomPeople;
 	private int roomMax_people;
 	private int rcNum;
+	private String roomCategory;
 	private int roomSeasonPrice;
 	private int roomWd_price;
 	private int roomWe_price;
@@ -19,6 +20,8 @@ public class Room {
 	private String[] roomOptionArr;
 	private String roomOption;
 	private int roomBed;
+	private int listNum;
+	private int enabled;
 	
 	private List<MultipartFile> selectFile;
 	private int rPhotoNum;
@@ -125,5 +128,23 @@ public class Room {
 	}
 	public void setrPhotoName(String rPhotoName) {
 		this.rPhotoName = rPhotoName;
+	}
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
+	public String getRoomCategory() {
+		return roomCategory;
+	}
+	public void setRoomCategory(String roomCategory) {
+		this.roomCategory = roomCategory;
+	}
+	public int getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
 	}
 }

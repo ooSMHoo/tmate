@@ -167,9 +167,8 @@ function memberOk() {
 		return;
 	}
     
-    /* f.action = "${pageContext.request.contextPath}/member/${mode}";
-    f.submit(); */
-    alert("성공");
+    f.action = "${pageContext.request.contextPath}/member/join";
+    f.submit();
 }
 
 function changeEmail() {
@@ -189,7 +188,6 @@ function changeEmail() {
 }
 
 function memberIdCheck() {
-	// 아이디 중복 검사
 	let memberId = $("#memberId").val();
 
 	if(!/^[a-z][a-z0-9_]{4,9}$/i.test(memberId)) { 
@@ -213,6 +211,7 @@ function memberIdCheck() {
 				let str = "<span style='color:blue; font-weight: bold;'>" + memberId + "</span> 아이디는 사용가능 합니다.";
 				$(".userId-box").find(".help-block").html(str);
 				$("#memberIdValid").val("true");
+				$("input[name=memberId]").attr("readonly", true);
 			} else {
 				let str = "<span style='color:red; font-weight: bold;'>" + memberId + "</span> 아이디는 사용할수 없습니다.";
 				$(".userId-box").find(".help-block").html(str);
@@ -274,7 +273,7 @@ function codeCheck() {
     }
 	let url = "${pageContext.request.contextPath}/mail/check";
 	let query = "authCode=" + $("input[name=authCode]").val()
-	console.log("1");
+
 	$.ajax({
 		type:"POST"
 		,url:url
@@ -286,6 +285,7 @@ function codeCheck() {
 			if (result === "true") {
 				$("input[name=authCode]").attr("disabled", "disabled");
 				$("button[name=mailcheckbtn]").attr("disabled", "disabled");
+				$("button[name=mailcheckbtn]").text("인증완료");
 				$("input[name=mailcheck]").val("true");
 				alert("메일 인증에 성공했습니다.");
 			} else {
@@ -300,7 +300,7 @@ function codeCheck() {
     <div class="row">
       <div class="input-form col-md-12 mx-auto">
         <h4 class="my-auto mb-4 text-center" style="max-width: 450px; font-weight: 800">회원가입</h4>
-     
+     	
       <form name="memberForm" method="post">
 	      <div class="row mb-3">
 			<div class="col-sm-10 userId-box">
@@ -408,6 +408,10 @@ function codeCheck() {
             	<input type="checkbox" class="custom-control-input" id="aggrement" name="aggrement">
             	<label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
          	 </div>
+          </div>
+          
+          <div>
+          	<p style="color: red;">${message}</p>
           </div>
          
           
