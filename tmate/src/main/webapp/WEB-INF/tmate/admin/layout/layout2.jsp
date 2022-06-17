@@ -15,11 +15,11 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/jquery/css/jquery-ui.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/icofont/icofont.min.css" type="text/css">
 	
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" type="text/css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main2.css" type="text/css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/forms.css" type="text/css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/paginate.css" type="text/css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ui-css.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admincss/style.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admincss/main2.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admincss/forms.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admincss/paginate.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/admincss/ui-css.css" type="text/css">
 	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/jquery/js/jquery.min.js"></script>
 	
