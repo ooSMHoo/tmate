@@ -26,8 +26,7 @@
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-3 small left-accordion-body ">
             <li><a href="${pageContext.request.contextPath}/hostPage/bookingList/list" class="link-dark rounded menu-font">예약목록</a></li>
             <li><a href="${pageContext.request.contextPath}/hostPage/roomCal" class="link-dark rounded menu-font">객실달력</a></li>
-            <li><a href="${pageContext.request.contextPath}/hostPage/calendarMain" class="link-dark rounded menu-font" >예약달력</a></li>
-            <li><a href="${pageContext.request.contextPath}/hostPage/roomState/list" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">객실현황</a></li>
+            <li><a href="${pageContext.request.contextPath}/hostPage/calendarMain" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">예약달력</a></li>
           </ul>
         </div>
       </li>
@@ -39,7 +38,7 @@
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small left-accordion-body">
           	<li><a href="${pageContext.request.contextPath}/host/info" class="link-dark rounded menu-font">나의정보</a></li>
             <li><a href="${pageContext.request.contextPath}/host/lodging/add" class="link-dark rounded menu-font">숙소등록</a></li>
-            <li><a href="${pageContext.request.contextPath}/host/rooms/add" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">객실등록</a></li>
+            <li><a href="${pageContext.request.contextPath}/host/rooms/add" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">객실관리</a></li>
           </ul>
         </div>
       </li> 
