@@ -13,11 +13,6 @@ public class hostPageController {
 		return ".hostPage.main.home";
 	}
 	
-	@RequestMapping(value="bookingList", method=RequestMethod.GET)
-	public String bookingList() {
-		return ".hostPage.main.bookingList";
-	}
-	
 	@RequestMapping(value="yearStats", method=RequestMethod.GET)
 	public String yearStats() {
 		return ".hostPage.main.yearStats";
@@ -38,10 +33,7 @@ public class hostPageController {
 		return ".hostPage.main.reviewList";
 	}
 	
-	@RequestMapping(value="roomState", method=RequestMethod.GET)
-	public String roomState() {
-		return ".hostPage.main.roomState";
-	}
+	
 	
 	@RequestMapping(value="roomCal", method=RequestMethod.GET)
 	public String roomCal() {

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bookingList">
+	
+	<sql id="where-list">
+		<choose>
+			<when test="condition=='resName' ">
+				INSTR(r.resName, #{keyword}) &gt; 0
+			</when>
+			<when test="condition=='roomName' ">
+				INSTR(r3.roomName, #{keyword}) &gt; 0
+			</when>
+			<when test="condition=='resReg_date' ">
+				( TO_CHAR(r.resReg_date, 'YYYY-MM-DD') = #{keyword}
+					OR TO_CHAR(r.resReg_date, 'YYYYMMDD') = #{keyword}
+					OR TO_CHAR(r.resReg_date, 'MM-DD') = #{keyword}
+					OR TO_CHAR(r.resReg_date, 'MMDD') = #{keyword} )
+			</when>
+		</choose>
+	</sql>
+	
+	<sql id="option-list">
+		<if test="option=='option-week' ">
+			TO_CHAR(r.resReg_date, 'YYYYMMDD') &gt;= TO_CHAR(SYSDATE+7,'YYYYMMDD')
+		</if>
+		<if test="option=='option-month' ">
+			ADD_MONTHS(r.resReg_date, 1) &gt; SYSDATE 
+		</if>
+		<if test="option=='option-threeM' ">
+			ADD_MONTHS(r.resReg_date, 3) &gt; SYSDATE 
+		</if>
+	
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		FROM memberHost m 
+		JOIN room r3 ON m.mhId = r3.mhId
+		JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		JOIN reservation r ON r.resNum = r2.resNum
+		<where>
+			<if test="keyword != null and keyword !=''">
+				<include refid="where-list"></include>
+			</if>
+			<if test="option != ''">
+				AND  <include refid="option-list"></include>
+			</if>
+			AND m.mhId = #{hostId}
+		</where>
+	</select>
+	
+	<!-- 가져올 내용 예약번호, 체크인날짜, 체크아웃날짜, 예약일시, 예약상태, 예약자이름, 연락처, 총금액, 포인트 사용금액 -->
+	<!-- 객실이름, 호스트아이디, 예약자 이메일-->
+	<select id="bookingList" parameterType="Map" resultType="com.sp.trip.hostPage.bookingList.BookingList">
+		SELECT * FROM (
+		  SELECT ROWNUM rnum, tb.* FROM (
+			SELECT r2.resNum, TO_CHAR(r.resCin_date,'RR.MM.DD') resCin_date, TO_CHAR(r.resCout_date, 'RR.MM.DD') resCout_date, 
+					TO_CHAR(r.resReg_date, 'RR.MM.DD') resReg_date, r.resCode, r.resName, 
+					 r.resTotalcost, r3.roomName
+			FROM memberHost m 
+			JOIN room r3 ON m.mhId = r3.mhId
+			JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+			JOIN reservation r ON r.resNum = r2.resNum
+			<where>
+				<if test="keyword != null and keyword !=''">
+					<include refid="where-list"></include>
+				</if>
+				<if test="option != ''">
+					AND  <include refid="option-list"></include>
+				</if>
+				AND m.mhId = #{hostId}
+			</where>
+			ORDER BY r2.resNum DESC
+		 ) tb WHERE ROWNUM &lt;= #{end}
+	  ) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="detaileBooking" parameterType="Integer" resultType="com.sp.trip.hostPage.bookingList.BookingList">
+		SELECT r2.resNum, TO_CHAR(r.resCin_date,'YYYY.MM.DD') resCin_date,  TO_CHAR(r.resCout_date, 'YYYY.MM.DD') resCout_date,
+    		TO_CHAR(r.resReg_date, 'YYYY.MM.DD HH24:MI:SS') resReg_date, r.resCode, r.resName, 
+		      r.resPhone, r.resTotalcost, r.resPoint, r3.roomName, m1.memberEmail
+		FROM memberHost m 
+		JOIN member1 m1 ON m.mhId = m1.memberId
+		JOIN room r3 ON m.mhId = r3.mhId
+		JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		JOIN reservation r ON r.resNum = r2.resNum 
+		WHERE r2.resNum = #{resNum}
+	</select>
+	
+	
+	
+	
+</mapper>
