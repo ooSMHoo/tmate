@@ -40,8 +40,8 @@ public class MailSender {
 	private class SMTPAuthenticator extends javax.mail.Authenticator {
 		@Override
 		public PasswordAuthentication getPasswordAuthentication() {
-			String username = "azq0307@naver.com";
-			String password = "aud462851^^";
+			String username = "아이디@naver.com";
+			String password = "비밀번호";
 			return new PasswordAuthentication(username, password);
 		}
 	}
