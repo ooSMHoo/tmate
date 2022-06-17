@@ -117,9 +117,9 @@ function lodgingOk() {
 	
 
 	if ("${mode}" === "write") {
-		f.action = "${pageContext.request.contextPath}/lodgings/add";
+		f.action = "${pageContext.request.contextPath}/host/lodging/add";
 	} else if("${mode}" === "update") {
-		f.action = "${pageContext.request.contextPath}/lodgings/update";	
+		f.action = "${pageContext.request.contextPath}/host/lodging/update";	
 	}
 
 	f.submit();

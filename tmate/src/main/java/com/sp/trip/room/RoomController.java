@@ -22,7 +22,7 @@ import com.sp.trip.lodging.LodgingService;
 import com.sp.trip.member.SessionInfo;
 
 @Controller("room.roomController")
-@RequestMapping("/rooms")
+@RequestMapping("/host/rooms")
 public class RoomController {
 	
 	private final RoomService roomService;
@@ -74,7 +74,7 @@ public class RoomController {
 		reAttr.addFlashAttribute("message", "정상적으로 객실등록이 완료되었습니다.");
 		reAttr.addFlashAttribute("title", "객실 등록");
 
-		return "redirect:/hosts/complete";
+		return "redirect:/host/complete";
 	}
 	
 	@GetMapping("/{roomNum}")
@@ -94,6 +94,7 @@ public class RoomController {
 			}
 			String roomCategory = roomService.readRoomCategory(room.getRcNum());
 			List<Room> photoList = roomService.readRoomPhotolist(num);
+			room.setRoomContent(room.getRoomContent().replaceAll("\n", "<br>"));
 			
 			model.addAttribute("room", room);
 			model.addAttribute("photoList", photoList);
@@ -161,6 +162,6 @@ public class RoomController {
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/rooms/" + roomNum;
+		return "redirect:/host/rooms/" + roomNum;
 	}
 }

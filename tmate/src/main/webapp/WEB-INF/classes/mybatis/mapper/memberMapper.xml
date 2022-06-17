@@ -7,4 +7,10 @@
 		FROM member1
 		WHERE memberId = #{memberId} AND enabled != 0
 	</select>
+	
+	<select id="readMember" parameterType="String" resultType="com.sp.trip.member.Member">
+		SELECT memberId, memberName, memberPwd, memberReg_date, memberMod_date, memberAuth, enabled, memberEmail
+		FROM member1
+		WHERE memberId = #{memberId}
+	</select>
 </mapper>

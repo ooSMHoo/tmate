@@ -1,7 +1,7 @@
 ﻿<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
-<!DOCTYPE html>
-<html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style type="text/css">
 .input-form {
@@ -24,28 +24,257 @@
 	color:#333;
 	
 }
-
-
 </style>
 
-</head>
-<body>
+<script type="text/javascript">
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+			} else if(jqXHR.status === 400) {
+				alert("요청 처리가 실패 했습니다.");
+				return false;
+			}
+	    	
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+function memberOk() {
+	const f = document.memberForm;
+	let str;
+	
+	str = f.memberId.value;
+	if (!str) {
+		alert("아이디를 입력해주세요. ");
+		f.memberId.focus();
+		return;
+	}
+	
+	if( !/^[a-z][a-z0-9_]{4,9}$/i.test(str) ) { 
+		alert("아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.");
+		f.memberId.focus();
+		return;
+	}
+
+	if(f.memberIdValid.value === "false") {
+		alert("아이디 중복 검사를 해주세요.");
+		str = "아이디 중복 검사가 실행되지 않았습니다.";
+		$("#memberId").parent().parent().find(".help-block").html(str);
+		f.memberId.focus();
+		return;
+	}
+	
+	str = f.memberName.value;
+    if( !/^[가-힣]{2,5}$/.test(str) ) {
+        alert("이름을 다시 입력해주세요. ");
+        f.memberName.focus();
+        return;
+    }
+	
+	str = f.memberBirth.value;
+    if( !str ) {
+        alert("생년월일를 입력해주세요. ");
+        f.memberBirth.focus();
+        return;
+    }
+	
+	str = f.memberPwd.value;
+	if (!str) {
+		alert("패스워드를 입력해주세요. ");
+		f.memberPwd.focus();
+		return;
+	}
+	
+	if( !/^(?=.*[a-z])(?=.*[!@#$%^*+=-]|.*[0-9]).{5,10}$/i.test(str) ) { 
+		alert("패스워드를 다시 입력해주세요. ");
+		f.memberPwd.focus();
+		return;
+	}
+	
+	if (!f.memberPwdcheck.value) {
+		alert("비밀번호확인란을 입력해주세요 ");
+        f.memberPwdcheck.focus();
+        return;
+	}
+
+	if( str !== f.memberPwdcheck.value ) {
+        alert("비밀번호가 일치하지 않습니다. ");
+        f.memberPwd.focus();
+        return;
+	}
+    
+    str = f.memberPhone1.value;
+    if( !str ) {
+        alert("전화번호를 입력해주세요. ");
+        f.memberPhone1.focus();
+        return;
+    }
+
+    str = f.memberPhone2.value;
+    if( !str ) {
+        alert("전화번호를 입력해주세요. ");
+        f.memberPhone2.focus();
+        return;
+    }
+    if( !/^\d{3,4}$/.test(str) ) {
+        alert("전화번호는 숫자만 가능합니다. ");
+        f.memberPhone2.focus();
+        return;
+    }
+
+    str = f.memberPhone3.value;
+    if( !str ) {
+        alert("전화번호를 입력해주세요. ");
+        f.memberPhone3.focus();
+        return;
+    }
+    if( !/^\d{4}$/.test(str) ) {
+    	alert("전화번호는 숫자만 가능합니다. ");
+        f.memberPhone3.focus();
+        return;
+    }
+    
+    str = f.email1.value.trim();
+    if( !str ) {
+        alert("이메일을 입력해주세요. ");
+        f.email1.focus();
+        return;
+    }
+
+    str = f.email2.value.trim();
+    if( !str ) {
+        alert("이메일을 입력해주세요. ");
+        f.email2.focus();
+        return;
+    }
+    
+    if (!f.aggrement.checked) {
+		alert("개인정보 수집 및 이용에 동의해주세요");
+		return;
+	}
+    
+    /* f.action = "${pageContext.request.contextPath}/member/${mode}";
+    f.submit(); */
+    alert("성공");
+}
+
+function changeEmail() {
+	const f = document.memberForm;
+	
+	let str = f.selectEmail.value;
+	if (str !== "direct") {
+        f.email2.value = str; 
+        f.email2.readOnly = true;
+        f.email1.focus(); 
+    }
+    else {
+        f.email2.value = "";
+        f.email2.readOnly = false;
+        f.email1.focus();
+    }
+}
+
+function memberIdCheck() {
+	// 아이디 중복 검사
+	let memberId = $("#memberId").val();
+
+	if(!/^[a-z][a-z0-9_]{4,9}$/i.test(memberId)) { 
+		var str = "아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.";
+		$("#memberId").focus();
+		$("#memberId").parent().parent().find(".help-block").html(str);
+		return;
+	}
+	
+	let url = "${pageContext.request.contextPath}/member/userIdCheck";
+	let query = "memberId=" + memberId;
+	$.ajax({
+		type:"POST"
+		,url:url
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			let passed = data.passed;
+
+			if(passed === "true") {
+				let str = "<span style='color:blue; font-weight: bold;'>" + memberId + "</span> 아이디는 사용가능 합니다.";
+				$(".userId-box").find(".help-block").html(str);
+				$("#memberIdValid").val("true");
+			} else {
+				let str = "<span style='color:red; font-weight: bold;'>" + memberId + "</span> 아이디는 사용할수 없습니다.";
+				$(".userId-box").find(".help-block").html(str);
+				$("#memberId").val("");
+				$("#memberIdValid").val("false");
+				$("#memberId").focus();
+			}
+		}
+	});
+}
+
+function sendEmail() {
+	let url = "${pageContext.request.contextPath}/mail/send";
+	let query = "userEmail=" + $("input[name=email1]").val() + "@" + $("input[name=email2]").val();
+	$.ajax({
+		type:"POST"
+		,url:url
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			let passed = data.passed;
+			let emailValid = data.emailValid;
+
+			if (passed === "true") {
+				let str = "<div class='row'>" +
+								"<div class='col-5 pe-1'>" +
+									"<input type='text' name='authCode' id='authCode' class='form-control' placeholder='이메일 인증 코드 입력'>" +
+						 		"</div>" +
+					   		    "<div class='col-2 ps-1'>" +
+						   			"<button type='button' class='btn btn-light btn-gray' onclick=''>인증하기</button>" +
+						  		"</div>" +
+	    				  "</div>";
+				$('#emailauth').append(str);
+				$('#emailsend').attr("disabled", "disabled");
+				alert("이메일이 전송되었습니다.");
+			} else if (passed === "error") {
+				alert("이메일 형식이 잘못되었습니다. 다시 입력해주세요.");
+			} else {
+				alert("이메일 전송에 실패하였습니다.");
+			}
+		}
+	});
+}
+</script>
+
  <div class="container">
     <div class="row">
       <div class="input-form col-md-12 mx-auto">
         <h4 class="my-auto mb-4 text-center" style="max-width: 450px; font-weight: 800">회원가입</h4>
      
-      <form class="memberForm" >
+      <form name="memberForm" method="post">
 	      <div class="row mb-3">
 			<div class="col-sm-10 userId-box">
-				 <label for="userId" class="ms-1">아이디</label>
+				 <label for="memberId" class="ms-1">아이디</label>
 				<div class="row">
 					<div class="col-7 pe-1">	
-						<input type="text" name="userId" id="userId" class="form-control" placeholder="영문 5~10자 이내">
+						<input type="text" name="memberId" id="memberId" class="form-control" placeholder="영문 또는 숫자 5~10자 이내">
 					</div>
 					<div class="col-4 ps-1"> 
-						<button type="button" class="btn btn-light btn-gray" onclick="userIdCheck();">아이디중복확인</button>
+						<button type="button" class="btn btn-light btn-gray" onclick="memberIdCheck();">아이디중복확인</button>
 					</div>
+					<small class="form-control-plaintext help-block" style="padding-left: 20px;"></small>
 				</div>
 			 </div>
 		 </div>
@@ -53,33 +282,29 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="name" class="ms-1">이름</label>
-              <input type="text" class="form-control" id="name" placeholder="이름을 입력해주세요." value="" required>
-            <div class="invalid-feedback"> 이름을 입력해주세요. </div>
+              <input type="text" class="form-control" placeholder="이름을 입력해주세요." name="memberName">
             </div>
             </div>
               <div class="row">
              <div class="col-md-6 mb-3">
               <label for="name" class="ms-1">생년월일</label>
-              <input type="date" class="form-control" id="birth" value="" required>
-            <div class="invalid-feedback"> 생년월일을 입력해주세요. </div>
+              <input type="date" class="form-control" name="memberBirth">
             </div>
             </div>
           
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="pwd" class="ms-1">비밀번호</label>
-              <input type="text" class="form-control" id="pwd" placeholder="비밀번호를 입력해주세요." value="" required>
+              <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요." name="memberPwd">
             </div>
+            <small class="form-control-plaintext">비밀번호는 5~10자이며 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</small>
           </div>
           <div class="row mb-3">
 			<div class="col-sm-10 userId-box">
 				<label for="pwdCheck" class="ms-1">비밀번호확인</label>
 			<div class="row">
 				<div class="col-7 pe-1">
-					<input type="text" name="pwd" id="pwd" class="form-control" placeholder="비밀번호를 입력해주세요.">
-				</div>
-				<div class="col-4 ps-1">
-					<button type="button" class="btn btn-light btn-gray" onclick="userIdCheck();">비밀번호확인</button>
+					<input type="password" name="memberPwdcheck" class="form-control" placeholder="비밀번호를 입력해주세요.">
 				</div>
 			</div>	
 			</div>
@@ -88,19 +313,19 @@
 		<label for="tel" class="ms-1">전화번호</label>
 			<div class="row">
 				<div class="col-2 pe-0">
-					<input type="text" name="tel1" class="form-control">
+					<input type="text" name="memberPhone1" class="form-control">
 				</div>
 				<div class="col-auto">
 					<p class="form-control-plaintext text-center">-</p>
 				</div>
 				<div class="col-2 px-0">
-					<input type="text" name="tel2" class="form-control">
+					<input type="text" name="memberPhone2" class="form-control">
 				</div>
 				<div class="col-auto">
 					<p class="form-control-plaintext text-center">-</p>
 				</div>
 				<div class="col-2 px-0">
-					<input type="text" name="tel3" class="form-control">
+					<input type="text" name="memberPhone3" class="form-control">
 				</div>
 			</div>
 		</div>
@@ -132,15 +357,15 @@
 					</select>
 				</div>	
 	        </div>
-	        <div class="d-grid gap-2 mb-3">
-  				<button class="btn btn-primary btn-light btn-gray" type="button" style="width: 80%;">메일전송</button>
-			</div>	        
+	        <div id="emailauth" class="d-grid gap-2 mb-3">
+  				<button id="emailsend" class="btn btn-primary btn-light btn-gray" type="button" style="width: 80%;" onclick="sendEmail();">메일전송</button>
+			</div>
 	    </div>    
 
 
           <div class="mb-4">
           	<div class="custom-control custom-checkbox">
-            	<input type="checkbox" class="custom-control-input" id="aggrement" required>
+            	<input type="checkbox" class="custom-control-input" id="aggrement" name="aggrement">
             	<label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
          	 </div>
           </div>
@@ -149,8 +374,8 @@
           <div class="row mb-3" style="width: 80%;">
 			   <div class="text-center">
 			       <button type="button" name="sendButton" class="btn btn-light btn-gray" onclick="memberOk();" style="background-color: #ffa81e"> 회원가입 <i class="bi bi-check2"></i></button>
-			       <button type="button" class="btn btn-light btn-gray" onclick="" style="background-color: #ffa81e"> 가입취소 <i class="bi bi-x"></i></button>
-				   <input type="hidden" name="userIdValid" id="userIdValid" value="false">
+			       <button type="button" class="btn btn-light btn-gray" onclick="location.href='${pageContext.request.contextPath}/'" style="background-color: #ffa81e"> 가입취소 <i class="bi bi-x"></i></button>
+				   <input type="hidden" name="memberIdValid" id="memberIdValid" value="false">
 			   </div>
 		</div>
           
@@ -158,9 +383,3 @@
       </div>
     </div>
 </div>
-
-   
-
-  
-</body>
-</html>

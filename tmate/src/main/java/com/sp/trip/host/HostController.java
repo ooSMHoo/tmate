@@ -17,18 +17,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sp.trip.lodging.LodgingService;
 import com.sp.trip.member.Member;
 import com.sp.trip.member.SessionInfo;
 
 @Controller("host.hostController")
-@RequestMapping("/hosts")
+@RequestMapping("/host")
 public class HostController {
 	
 	private final HostService hostService;
+	private final LodgingService lodgingService;
 	
 	@Autowired
-	public HostController(HostService hostService) {
+	public HostController(HostService hostService, LodgingService lodgingService) {
 		this.hostService = hostService;
+		this.lodgingService = lodgingService;
 	}
 	
 	@GetMapping("/add")
@@ -71,7 +74,7 @@ public class HostController {
 		reAttr.addFlashAttribute("message", "정상적으로 호스트 신청이 완료되었습니다.");
 		reAttr.addFlashAttribute("title", "호스트 신청");
 		
-		return "redirect:/hosts/complete";
+		return "redirect:/host/complete";
 	}
 	
 	@RequestMapping(value = "complete")
@@ -111,14 +114,7 @@ public class HostController {
 		String userId = info.getUserId();
 		Host host = hostService.readHost(userId);
 		Member member = hostService.readMember(userId);
-		String phone = host.getMhPhone();
-		String phone1 = phone.substring(0, phone.indexOf("-"));
-		String phone2 = phone.substring(phone.indexOf("-")+1, phone.lastIndexOf("-"));
-		String phone3 = phone.substring(phone.lastIndexOf("-")+1);
-		host.setMhPhone1(phone1);
-		host.setMhPhone2(phone2);
-		host.setMhPhone3(phone3);
-		
+
 		model.addAttribute("member", member);
 		model.addAttribute("host", host);
 		model.addAttribute("mode", "update");
@@ -129,8 +125,8 @@ public class HostController {
 	@PostMapping("/update")
 	public String updateHostSubmit(HttpSession session,
 									@ModelAttribute Host host,
-									@RequestParam String lodgLat, 
-									@RequestParam String lodgLon,
+									@RequestParam(defaultValue = "") String lodgLat, 
+									@RequestParam(defaultValue = "") String lodgLon,
 									Model model) {
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -141,15 +137,23 @@ public class HostController {
 		host.setMhId(userId);
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("lodgLat", lodgLat);
-		map.put("lodgLon", lodgLon);
-		map.put("mhId", userId);
 		
 		try {
-			hostService.updateHost(host, map);
+			if (lodgLat.equals("")) {
+				map.put("mhId", userId);
+				hostService.updateHost(host);
+			} else if (!lodgLat.equals("") && lodgingService.readLodging(userId) == null) {
+				map.put("mhId", userId);
+				hostService.updateHost(host);
+			} else if (!lodgLat.equals("") && lodgingService.readLodging(userId) != null) {
+				map.put("lodgLat", lodgLat);
+				map.put("lodgLon", lodgLon);
+				map.put("mhId", userId);
+				hostService.updateHost(host, map);
+			}
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/hosts/info";
+		return "redirect:/host/info";
 	}
 }

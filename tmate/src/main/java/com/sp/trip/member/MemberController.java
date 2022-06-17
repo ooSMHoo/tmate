@@ -1,13 +1,18 @@
 package com.sp.trip.member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller("member.memberController")
 @RequestMapping(value = "/member/*")
@@ -67,8 +72,7 @@ public class MemberController {
 
 	@RequestMapping(value = "join", method = RequestMethod.GET)
 	public String memberForm(Model model) {
-		model.addAttribute("mode", "member");
-		
+
 		return ".member.member";
 	}
 
@@ -77,5 +81,29 @@ public class MemberController {
 	@RequestMapping(value = "noAuthorized")
 	public String noAuthorized(Model model) {
 		return ".member.noAuthorized";
+	}
+	
+	
+	@PostMapping("/userIdCheck")
+	@ResponseBody
+	public Map<String, Object> userIdCheck(@RequestParam String memberId) {
+		String passed = "true";
+		Member dto = service.readMember(memberId);
+		if (dto != null) {
+			passed = "false";
+		}
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("passed", passed);
+		
+		return model;
+	}
+	
+	@RequestMapping("/sendEmail")
+	@ResponseBody
+	public Map<String, Object> sendEmail() {
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("passed", "true");
+		
+		return model;
 	}
 }

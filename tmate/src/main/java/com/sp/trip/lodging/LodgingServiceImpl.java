@@ -68,6 +68,12 @@ public class LodgingServiceImpl implements LodgingService {
 		Lodging lodging = null;
 		try {
 			lodging = dao.selectOne("lodging.readLodging", userId);
+			String lodgStart_date = lodging.getLodgStart_date();
+			String lodgEnd_date = lodging.getLodgEnd_date();
+			lodging.setStart_month(lodgStart_date.substring(0, lodgStart_date.indexOf("-")));
+			lodging.setStart_day(lodgStart_date.substring(lodgStart_date.indexOf("-")+1));
+			lodging.setEnd_month(lodgEnd_date.substring(0, lodgEnd_date.indexOf("-")));
+			lodging.setEnd_day(lodgEnd_date.substring(lodgEnd_date.indexOf("-")+1));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

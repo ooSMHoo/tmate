@@ -144,9 +144,9 @@ function roomOk() {
 	}
 	
 	if ("${mode}" === "write") {
-		f.action = "${pageContext.request.contextPath}/rooms/add";
+		f.action = "${pageContext.request.contextPath}/host/rooms/add";
 	} else if ("${mode}" === "update") {
-		f.action = "${pageContext.request.contextPath}/rooms/${room.roomNum}/update";
+		f.action = "${pageContext.request.contextPath}/host/rooms/${room.roomNum}/update";
 	}
 	
 	f.submit();

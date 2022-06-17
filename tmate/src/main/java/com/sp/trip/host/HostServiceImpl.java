@@ -50,6 +50,11 @@ public class HostServiceImpl implements HostService{
 		Host host = null;
 		try {
 			host = dao.selectOne("host.readHost", userId);
+			String phone = host.getMhPhone();
+
+			host.setMhPhone1(phone.substring(0, phone.indexOf("-")));
+			host.setMhPhone2(phone.substring(phone.indexOf("-")+1, phone.lastIndexOf("-")));
+			host.setMhPhone3(phone.substring(phone.lastIndexOf("-")+1));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,6 +71,19 @@ public class HostServiceImpl implements HostService{
 			e.printStackTrace();
 		}
 		return bank;
+	}
+	
+	@Override
+	public void updateHost(Host host) throws Exception {
+		try {
+			if (host.getMhPhone1().length()!=0 && host.getMhPhone2().length()!=0 && host.getMhPhone3().length()!=0) {
+				host.setMhPhone(host.getMhPhone1() + "-" + host.getMhPhone2() + "-" + host.getMhPhone3());
+			}
+			dao.updateData("host.updateHost", host);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	@Override

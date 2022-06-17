@@ -11,5 +11,6 @@ public interface HostService {
 	
 	public void insertHost(Host host) throws Exception; 
 	public Host readHost(String userId);
+	public void updateHost(Host host) throws Exception;
 	public void updateHost(Host host, Map<String, Object> map) throws Exception;
 }

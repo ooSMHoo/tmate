@@ -109,9 +109,9 @@ function hostOk() {
 	}
 	
 	if ("${mode}" === "write") {
-		f.action = "${pageContext.request.contextPath}/hosts/add";
+		f.action = "${pageContext.request.contextPath}/host/add";
 	} else if("${mode}" === "update") {
-		f.action = "${pageContext.request.contextPath}/hosts/update";	
+		f.action = "${pageContext.request.contextPath}/host/update";	
 	}
 	
     f.submit();
@@ -155,9 +155,9 @@ function changeBank() {
                         <span>전화번호</span>
                     </div>
                     <div class="tm_form_input_box">
-                        <input type="text" maxlength="3" name="mhPhone1" value=${host.mhPhone1}>
-                        <input type="text" maxlength="4" name="mhPhone2" value=${host.mhPhone2}>
-                        <input type="text" maxlength="4" name="mhPhone3" value=${host.mhPhone3}>
+                        <input type="text" maxlength="3" name="mhPhone1" value="${host.mhPhone1}">
+                        <input type="text" maxlength="4" name="mhPhone2" value="${host.mhPhone2}">
+                        <input type="text" maxlength="4" name="mhPhone3" value="${host.mhPhone3}">
                     </div>
                 </div>       
             </div>

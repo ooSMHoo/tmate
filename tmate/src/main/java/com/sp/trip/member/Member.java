@@ -9,6 +9,13 @@ public class Member {
 	private int memberAuth;
 	private int enabled;
 	private String memberEmail;
+	private String email1;
+	private String email2;
+	private String memberBirth;
+	private String memberPhone;
+	private String memberPhone1;
+	private String memberPhone2;
+	private String memberPhone3;
 	
 	public String getMemberId() {
 		return memberId;
@@ -58,6 +65,46 @@ public class Member {
 	public void setMemberEmail(String memberEmail) {
 		this.memberEmail = memberEmail;
 	}
-	
-
+	public String getEmail1() {
+		return email1;
+	}
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+	public String getEmail2() {
+		return email2;
+	}
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+	public String getMemberBirth() {
+		return memberBirth;
+	}
+	public void setMemberBirth(String memberBirth) {
+		this.memberBirth = memberBirth;
+	}
+	public String getMemberPhone() {
+		return memberPhone;
+	}
+	public void setMemberPhone(String memberPhone) {
+		this.memberPhone = memberPhone;
+	}
+	public String getMemberPhone1() {
+		return memberPhone1;
+	}
+	public void setMemberPhone1(String memberPhone1) {
+		this.memberPhone1 = memberPhone1;
+	}
+	public String getMemberPhone2() {
+		return memberPhone2;
+	}
+	public void setMemberPhone2(String memberPhone2) {
+		this.memberPhone2 = memberPhone2;
+	}
+	public String getMemberPhone3() {
+		return memberPhone3;
+	}
+	public void setMemberPhone3(String memberPhone3) {
+		this.memberPhone3 = memberPhone3;
+	}
 }

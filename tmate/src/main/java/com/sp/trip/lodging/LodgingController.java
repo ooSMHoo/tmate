@@ -22,7 +22,7 @@ import com.sp.trip.host.HostService;
 import com.sp.trip.member.SessionInfo;
 
 @Controller("lodging.lodgingController")
-@RequestMapping("/lodgings")
+@RequestMapping("/host/lodging")
 public class LodgingController {
 	
 	private final HostService hostService;
@@ -78,7 +78,7 @@ public class LodgingController {
 		reAttr.addFlashAttribute("message", "정상적으로 숙소등록이 완료되었습니다.");
 		reAttr.addFlashAttribute("title", "숙소 등록");
 
-		return "redirect:/hosts/complete";
+		return "redirect:/host/complete";
 	}
 	
 	@GetMapping("/info")
@@ -92,6 +92,8 @@ public class LodgingController {
 		Lodging lodging = lodgingService.readLodging(userId);
 		String category = lodgingService.readLodgingCategory(lodging.getLcNum());
 		List<Lodging> photoList = lodgingService.readLodgingPhotolist(lodging.getMhId());
+		lodging.setLodgContent1(lodging.getLodgContent1().replaceAll("\n", "<br>"));
+		lodging.setLodgContent2(lodging.getLodgContent2().replaceAll("\n", "<br>"));
 		
 		model.addAttribute("lodging", lodging);
 		model.addAttribute("lodgingCategory", category);
@@ -106,13 +108,6 @@ public class LodgingController {
 		String userId = info.getUserId();
 		
 		Lodging lodging = lodgingService.readLodging(userId);
-		String lodgStart_date = lodging.getLodgStart_date();
-		String lodgEnd_date = lodging.getLodgEnd_date();
-		lodging.setStart_month(lodgStart_date.substring(0, lodgStart_date.indexOf("-")));
-		lodging.setStart_day(lodgStart_date.substring(lodgStart_date.indexOf("-")+1));
-		lodging.setEnd_month(lodgEnd_date.substring(0, lodgEnd_date.indexOf("-")));
-		lodging.setEnd_day(lodgEnd_date.substring(lodgEnd_date.indexOf("-")+1));
-		
 		
 		List<Lodging> photoList = lodgingService.readLodgingPhotolist(userId);
 		
@@ -142,6 +137,6 @@ public class LodgingController {
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/lodgings/info";
+		return "redirect:/host/lodgings/info";
 	}
 }
