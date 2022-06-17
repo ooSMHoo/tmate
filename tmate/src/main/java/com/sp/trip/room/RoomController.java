@@ -64,11 +64,13 @@ public class RoomController {
 			room.setMhId(userId);
 			roomService.insertRoom(room, path);
 		} catch (DataIntegrityViolationException e) {
-			model.addAttribute("message", "입력형식에 맞지않아 객실등록에 실패했습니다.");
-			return ".host.roomForm";
+			reAttr.addFlashAttribute("message", "입력형식에 맞지않아 객실등록에 실패했습니다.");
+			reAttr.addFlashAttribute("title", "객실 등록 실패");
+			return "redirect:/host/complete";
 		} catch (Exception e) {
-			model.addAttribute("message", "객실등록에 실패했습니다.");
-			return ".host.roomForm";
+			reAttr.addFlashAttribute("message", "객실등록에 실패했습니다.");
+			reAttr.addFlashAttribute("title", "객실 등록 실패");
+			return "redirect:/host/complete";
 		}
 		
 		reAttr.addFlashAttribute("message", "정상적으로 객실등록이 완료되었습니다.");

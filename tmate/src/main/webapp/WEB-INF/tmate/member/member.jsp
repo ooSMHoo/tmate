@@ -225,6 +225,16 @@ function memberIdCheck() {
 }
 
 function sendEmail() {
+    if( !document.memberForm.email1.value.trim() ) {
+        alert("이메일을 입력해주세요.");
+        document.memberForm.email1.focus();
+        return;
+    }
+
+    if( !document.memberForm.email2.value.trim() ) {
+        alert("이메일을 입력해주세요.");
+        return;
+    }
 	let url = "${pageContext.request.contextPath}/mail/send";
 	let query = "userEmail=" + $("input[name=email1]").val() + "@" + $("input[name=email2]").val();
 	$.ajax({
@@ -233,25 +243,53 @@ function sendEmail() {
 		,data:query
 		,dataType:"json"
 		,success:function(data) {
-			let passed = data.passed;
-			let emailValid = data.emailValid;
+			let result = data.result;
 
-			if (passed === "true") {
+			if (result === "true") {
 				let str = "<div class='row'>" +
 								"<div class='col-5 pe-1'>" +
 									"<input type='text' name='authCode' id='authCode' class='form-control' placeholder='이메일 인증 코드 입력'>" +
 						 		"</div>" +
 					   		    "<div class='col-2 ps-1'>" +
-						   			"<button type='button' class='btn btn-light btn-gray' onclick=''>인증하기</button>" +
+						   			"<button type='button' name='mailcheckbtn' class='btn btn-light btn-gray' onclick='codeCheck();'>인증하기</button>" +
 						  		"</div>" +
 	    				  "</div>";
 				$('#emailauth').append(str);
 				$('#emailsend').attr("disabled", "disabled");
 				alert("이메일이 전송되었습니다.");
-			} else if (passed === "error") {
+			} else if (result === "error") {
 				alert("이메일 형식이 잘못되었습니다. 다시 입력해주세요.");
 			} else {
 				alert("이메일 전송에 실패하였습니다.");
+			}
+		}
+	});
+}
+
+function codeCheck() {
+	if( !document.memberForm.authCode.value.trim() ) {
+        alert("인증코드를 입력해주세요.");
+        document.memberForm.authCode.focus();
+        return;
+    }
+	let url = "${pageContext.request.contextPath}/mail/check";
+	let query = "authCode=" + $("input[name=authCode]").val()
+	console.log("1");
+	$.ajax({
+		type:"POST"
+		,url:url
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			let result = data.result;
+
+			if (result === "true") {
+				$("input[name=authCode]").attr("disabled", "disabled");
+				$("button[name=mailcheckbtn]").attr("disabled", "disabled");
+				$("input[name=mailcheck]").val("true");
+				alert("메일 인증에 성공했습니다.");
+			} else {
+				alert("메일 인증에 실패했습니다.");
 			}
 		}
 	});
@@ -360,8 +398,10 @@ function sendEmail() {
 	        <div id="emailauth" class="d-grid gap-2 mb-3">
   				<button id="emailsend" class="btn btn-primary btn-light btn-gray" type="button" style="width: 80%;" onclick="sendEmail();">메일전송</button>
 			</div>
+			<div>
+				<input type="hidden" name="mailcheck" value="false">
+			</div>
 	    </div>    
-
 
           <div class="mb-4">
           	<div class="custom-control custom-checkbox">

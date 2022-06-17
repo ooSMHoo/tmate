@@ -65,14 +65,17 @@ public class LodgingController {
 			lodging.setMhId(userId);
 			lodgingService.insertLodging(lodging, path);
 		} catch (DuplicateKeyException e) {
-			model.addAttribute("message", "한개의 숙소만 등록 가능합니다.");
-			return ".host.lodgingForm";
+			reAttr.addFlashAttribute("message", "한개의 숙소만 등록 가능합니다.");
+			reAttr.addFlashAttribute("title", "숙소 등록 실패");
+			return "redirect:/host/complete";
 		} catch (DataIntegrityViolationException e) {
-			model.addAttribute("message", "입력형식에 맞지않아 숙소등록에 실패했습니다.");
-			return ".host.lodgingForm";
+			reAttr.addFlashAttribute("message", "입력형식에 맞지않아 숙소등록에 실패했습니다.");
+			reAttr.addFlashAttribute("title", "숙소 등록 실패");
+			return "redirect:/host/complete";
 		} catch (Exception e) {
-			model.addAttribute("message", "숙소등록에 실패했습니다.");
-			return ".host.lodgingForm";
+			reAttr.addFlashAttribute("message", "숙소등록에 실패했습니다.");
+			reAttr.addFlashAttribute("title", "숙소 등록 실패");
+			return "redirect:/host/complete";
 		}
 		
 		reAttr.addFlashAttribute("message", "정상적으로 숙소등록이 완료되었습니다.");

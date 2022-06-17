@@ -61,14 +61,17 @@ public class HostController {
 			host.setMhId(info.getUserId());
 			hostService.insertHost(host);
 		} catch (DuplicateKeyException e) {
-			model.addAttribute("message", "한 사람당 한번만 호스트 신청이 가능합니다.");
-			return ".host.hostForm";
+			reAttr.addFlashAttribute("title", "호스트 신청 실패");
+			reAttr.addFlashAttribute("message", "한 사람당 한번만 호스트 신청이 가능합니다.");
+			return "redirect:/host/complete";
 		} catch (DataIntegrityViolationException e) {
-			model.addAttribute("message", "입력형식에 맞지않아 회원가입에 실패했습니다.");
-			return ".host.hostForm";
+			reAttr.addFlashAttribute("title", "호스트 신청 실패");
+			reAttr.addFlashAttribute("message", "입력형식에 맞지않아 회원가입에 실패했습니다.");
+			return "redirect:/host/complete";
 		} catch (Exception e) {
-			model.addAttribute("message", "회원가입에 실패했습니다.");
-			return ".host.hostForm";
+			reAttr.addFlashAttribute("title", "호스트 신청 실패");
+			reAttr.addFlashAttribute("message", "호스트 신청에 실패했습니다.");
+			return "redirect:/host/complete";
 		}
 		
 		reAttr.addFlashAttribute("message", "정상적으로 호스트 신청이 완료되었습니다.");

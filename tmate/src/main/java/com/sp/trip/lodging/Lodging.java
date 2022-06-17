@@ -23,6 +23,7 @@ public class Lodging {
 	private String lodgCout_time;
 	private String[] lodgOptionArr;
 	private String lodgOption;
+	private int enabled;
 	
 	private List<MultipartFile> selectFile;
 	private int lPhotoNum;
@@ -153,5 +154,11 @@ public class Lodging {
 	}
 	public void setlPhotoName(String lPhotoName) {
 		this.lPhotoName = lPhotoName;
+	}
+	public int getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
 	}
 }

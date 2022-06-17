@@ -388,9 +388,6 @@ $(function(){
             </form>
         </div>
     </div>
-    <div style="text-align: center; margin-top: 15px;">
-    	<span style="color: red;">${message}</span>
-    </div>
     
     <div class="tm_bottom">
         <div class="tm_btn_style large">취소하기</div>

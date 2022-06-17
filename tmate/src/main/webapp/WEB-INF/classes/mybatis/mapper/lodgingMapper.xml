@@ -4,15 +4,15 @@
 <mapper namespace="lodging">
 	<insert id="insertLodging" parameterType="com.sp.trip.lodging.Lodging">
 		INSERT INTO lodging(mhId, lcNum, lodgName, lodgLat, lodgLon, lodgContent1, lodgContent2, lodgStart_date,
-				lodgEnd_date, lodgPageAddr, lodgCin_time, lodgCout_time, lodgOption)
+				lodgEnd_date, lodgPageAddr, lodgCin_time, lodgCout_time, lodgOption, enabled)
 		VALUES (#{mhId}, #{lcNum}, #{lodgName}, #{lodgLat}, #{lodgLon}, #{lodgContent1}, #{lodgContent2},
 				#{lodgStart_date}, #{lodgEnd_date}, #{lodgPageAddr, jdbcType=VARCHAR}, #{lodgCin_time},
-				#{lodgCout_time}, #{lodgOption})
+				#{lodgCout_time}, #{lodgOption}, 0)
 	</insert>
 	
 	<select id="readLodging" parameterType="String" resultType="com.sp.trip.lodging.Lodging">
 		SELECT mhId, lcNum, lodgName, lodgLat, lodgLon, lodgContent1, lodgContent2, lodgStart_date,
-				lodgEnd_date, lodgPageAddr, lodgCin_time, lodgCout_time, lodgOption
+				lodgEnd_date, lodgPageAddr, lodgCin_time, lodgCout_time, lodgOption, enabled
 		FROM lodging
 		WHERE mhId = #{userId}
 	</select>
