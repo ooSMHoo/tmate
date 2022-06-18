@@ -44,7 +44,7 @@
       </li> 
     </ul>
      <div class="left-accordion-body  mb-3">
-  		<button class="btn align-items-center collapsed btn-set menu-font" onclick="location.href='${pageContext.request.contextPath}/hostPage/paymentList';">
+  		<button class="btn align-items-center collapsed btn-set menu-font" onclick="location.href='${pageContext.request.contextPath}/hostPage/paymentList/list';">
           <i class="bi bi-coin"></i> 결제내역
     	 </button>
   	</div>

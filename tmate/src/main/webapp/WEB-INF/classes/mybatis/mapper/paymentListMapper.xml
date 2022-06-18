@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="paymentList">
+	<sql id="pay-list">
+		<choose>
+			<when test="condition=='resName' ">
+				INSTR(resName, #{keyword}) &gt; 0
+			</when>
+			<when test="condition=='roomName' ">
+				INSTR(r3.roomName, #{keyword}) &gt; 0
+			</when>
+			<when test="condition=='payReg_date' ">
+				( TO_CHAR(payReg_date, 'YYYY-MM-DD') = #{keyword}
+					OR TO_CHAR(payReg_date, 'YYYYMMDD') = #{keyword}
+					OR TO_CHAR(payReg_date, 'MM-DD') = #{keyword}
+					OR TO_CHAR(payReg_date, 'MMDD') = #{keyword} )
+			</when>
+		</choose>
+	</sql>
+	
+	<sql id="payoption-list">
+		<choose>
+			<when test="option=='option-week' ">
+				(TO_CHAR(payReg_date, 'YYYYMMDD') &lt; TO_CHAR(SYSDATE+7,'YYYYMMDD') 
+				AND TO_CHAR(payReg_date, 'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD'))
+			</when>
+			<when test="option=='option-month' ">
+				ADD_MONTHS(payReg_date, 1) &gt; SYSDATE 
+			</when>
+			<when test="option=='option-threeM' ">
+				ADD_MONTHS(payReg_date, 3) &gt; SYSDATE 
+			</when>
+	</choose>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		FROM reservation r
+		JOIN payment p ON r.resNum = p.resNum  
+		JOIN reservationDetail r2 ON r.resNum = r2.resNum 
+		JOIN room r3 ON r2.roomNum = r3.roomNum 
+		<where>
+			<if test="keyword != null and keyword !=''">
+				<include refid="pay-list"></include>
+			</if>
+			<if test="option != ''">
+				AND  <include refid="payoption-list"></include>
+			</if>
+			AND mhId = #{hostId}
+		</where>
+	</select>
+	
+	<select id="paymentList" parameterType="Map" resultType="com.sp.trip.hostPage.paymentList.PaymentList">
+		SELECT * FROM (
+		  SELECT ROWNUM rnum, tb.* FROM (
+			SELECT p.payCode, TO_CHAR(p.payReg_date, 'YYYY.MM.DD') payReg_date, resCode, resName, resPhone,
+				      payCost, resPoint,  r3.roomName, r.resTotalcost
+			FROM reservation r
+			JOIN payment p ON r.resNum = p.resNum  
+			JOIN reservationDetail r2 ON r.resNum = r2.resNum 
+			JOIN room r3 ON r2.roomNum = r3.roomNum
+			<where>
+				<if test="keyword != null and keyword !=''">
+					<include refid="pay-list"></include>
+				</if>
+				<if test="option != ''">
+					AND  <include refid="payoption-list"></include>
+				</if>
+				AND mhId = #{hostId}
+			</where>
+			ORDER BY p.payReg_date ASC
+		 ) tb WHERE ROWNUM &lt;= #{end}
+	  ) WHERE rnum &gt;= #{start}
+	</select>
+	
+	
+	
+</mapper>

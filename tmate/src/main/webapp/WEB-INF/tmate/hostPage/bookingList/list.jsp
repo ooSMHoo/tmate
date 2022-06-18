@@ -146,7 +146,7 @@ function updateOk() {
 				</td>
 				<td align="right">
 					 <select name="option" id="optionSelect" class="form-select w-auto" onchange="optionList();">
-						  <option selected value=""  ${option==""?"selected='selected'":""}>전체</option>
+						  <option selected value=""  ${option==""?"selected='selected'":""}>::예약일시::</option>
 						  <option value="option-week" ${option=="option-week"?"selected='selected'":""}>일주일이내</option>
 						  <option value="option-month"  ${option=="option-month"?"selected='selected'":""} >한달이내</option>
 						  <option value="option-threeM"  ${option=="option-threeM"?"selected='selected'":""}>3개월이내</option> 
