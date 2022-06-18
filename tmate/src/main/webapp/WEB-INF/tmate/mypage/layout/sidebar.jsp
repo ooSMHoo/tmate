@@ -45,10 +45,12 @@
 					회원정보
 				</a></li>
 				
-				<li><a href="${pageContext.request.contextPath}/host/add" class="nav-link nav-link-menu"> 
-					<i class="fa-solid fa-house-user"></i>
-					호스트신청
-				</a></li>
+				<c:if test="${sessionScope.member.membership==1}">
+					<li><a href="${pageContext.request.contextPath}/host/add" class="nav-link nav-link-menu"> 
+						<i class="fa-solid fa-house-user"></i>
+						호스트신청
+					</a></li>					
+				</c:if>
 				
 			</ul>
 			

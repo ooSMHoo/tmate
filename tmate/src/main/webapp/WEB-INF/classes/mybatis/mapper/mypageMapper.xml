@@ -34,8 +34,22 @@
 	    WHERE m.memberId = #{memberId}
     </select>
     
+    <!-- 찜 리스트 -->
+    <select id="listLike" parameterType="map" resultType="com.sp.trip.mypage.LikeList">
+		SELECT lodgName, LPHOTONAME, mhAddr1, li.memberId, REVGRADE, li.roomNum, roomName
+		FROM likeList li
+		JOIN room rm ON rm.roomNum = li.roomNum
+		JOIN lodging lo ON rm.mhId = lo.mhId
+		JOIN review rv ON li.memberId = rv.memberId
+		JOIN memberHost mh ON rm.mhId = mh.mhId
+		JOIN lodgingPhoto lp ON rm.mhId = lp.mhId
+		WHERE li.memberId = #{memberId}
+    </select>
 
-
+	<delete id="deleteLike" parameterType="Integer">
+		DELETE FROM likeList 
+		WHERE roomNum = #{roomNum}
+	</delete>
     
     
 </mapper>

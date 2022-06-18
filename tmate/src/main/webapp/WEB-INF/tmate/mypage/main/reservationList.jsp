@@ -7,12 +7,12 @@
 
 <div class="reservationList-box">
 <h3 style="font-size:22px; font-weight: bold; color: #044b85;">예약내역</h3>
-
+	
 	<ul class="nav nav-tabs nav-tabs-rev" id="myTab" role="tablist">
-	  <li class="nav-item rev-nav" role="presentation">
-	    <button class="nav-link nav-link-rev active" id="home-tab" data-bs-toggle="tab" 
-	    data-bs-target="#home" type="button" role="tab" aria-controls="contact" aria-selected="true">
-	       	투숙 예정 예약</button>
+		  <li class="nav-item rev-nav" role="presentation">
+		    <button class="nav-link nav-link-rev active" id="home-tab" data-bs-toggle="tab" 
+		    data-bs-target="#home" type="button" role="tab" aria-controls="contact" aria-selected="true">
+		       	투숙 예정 예약</button>
 	  </li>
 	   
 	  <li class="nav-item" role="presentation">
@@ -31,21 +31,22 @@
 
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-  	    
-   <div class="card like-card-rev" style="width: 18rem;">
-			<img
-				src="${pageContext.request.contextPath}/resources/images/back.png"
-				class="card-img-top" alt="...">
-			<div class="card-body">
-				<h5 class="card-title">크라운하버호텔 부산</h5>
-				<p>06.06 월 - 06.06.월</p>
-				<hr>
-				<button type="button" class="btn-rev" onclick="location.href='${pageContext.request.contextPath}/mypage/reservationInfo';">상세보기</button>
-				
+  	  
+  	  <c:forEach var="dto" items="${list}" varStatus="status">
+	   		<div class="card like-card-rev" style="width: 18rem;">
+				<img
+					src="${pageContext.request.contextPath}/resources/images/back.png"class="card-img-top" alt="...">
+				<div class="card-body">
+					<h5 class="card-title">${dto.lodgName}</h5>
+					<p>${dto.resCin_date} 월 - ${dto.resCout_date}월</p>
+					<hr>
+					<button type="button" class="btn-rev" onclick="location.href='${pageContext.request.contextPath}/mypage/reservationInfo';">상세보기</button>
+					
+				</div>
 			</div>
-		</div>
-		
+		</c:forEach>
   </div>
+  
   <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 		<div class="card like-card-rev" style="width: 18rem;">
 			<img

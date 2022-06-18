@@ -1,5 +1,7 @@
 package com.sp.trip.mypage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,32 @@ public class MypageServiceImpl implements MypageService{
 			e.printStackTrace();
 			throw e;
 		}
+	}
+
+	// 찜 목록 :지역-처음 띄어쓰기에서 split
+	@Override
+	public List<LikeList> listLike(String memberId) {
+		List<LikeList> list = new ArrayList<LikeList>();
+		
+		try {
+			list = dao.selectList("mypage.listLike", memberId);
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+	@Override
+	public void deleteLike(int roomNum) throws Exception {
+		try {
+			dao.deleteData("mypage.deleteLike", roomNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
 	}
 	
 

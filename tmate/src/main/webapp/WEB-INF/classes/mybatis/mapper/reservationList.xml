@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reservationList">
+
+	<select id="revList" parameterType="String" resultType="com.sp.trip.reservationList.ReservationList">
+		SELECT TO_CHAR(rescin_date, 'MM.DD') rescin_date, TO_CHAR(rescout_date, 'MM.DD') rescout_date, resCode, lodgName, lphotoName
+		FROM member1 m1
+		JOIN reservation rev ON m1.memberId = rev.memberId
+		JOIN reservationdetail revd ON rev.resNum = revd.resNum
+		JOIN Room rm ON revd.roomNum = rm.roomNum
+		JOIN lodging lg ON rm.mhId = lg.mhId
+		JOIN LodgingPhoto lp ON lg.mhId = lp.mhId
+		WHERE m1.memberId = #{memberId}
+	</select>
+
+</mapper>
