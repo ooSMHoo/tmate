@@ -22,7 +22,8 @@
 	
 	<sql id="option-list">
 		<if test="option=='option-week' ">
-			TO_CHAR(r.resReg_date, 'YYYYMMDD') &gt;= TO_CHAR(SYSDATE+7,'YYYYMMDD')
+			(TO_CHAR(r.resReg_date, 'YYYYMMDD') &lt; TO_CHAR(SYSDATE+7,'YYYYMMDD')
+			AND TO_CHAR(r.resReg_date, 'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD'))
 		</if>
 		<if test="option=='option-month' ">
 			ADD_MONTHS(r.resReg_date, 1) &gt; SYSDATE 
