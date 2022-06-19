@@ -1,6 +1,7 @@
 package com.sp.trip.point;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class PointServiceImpl implements PointService {
 	private CommonDAO dao;
 	
 	@Override
-	public List<Point> readPoint(String memberId) {
+	public List<Point>  readPoint(String memberId) {
 		List<Point> list = null;
 		
 		try {
@@ -22,10 +23,9 @@ public class PointServiceImpl implements PointService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return list;
 	}
-
+	
 	@Override
 	public void insertPoint(Point dto) throws Exception {
 		try {
@@ -36,4 +36,30 @@ public class PointServiceImpl implements PointService {
 		}
 
 	}
+
+	@Override
+	public int dataCount(Map<String, Object> map) throws Exception {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("point.dataCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public List<Point> listPoint(Map<String, Object> map) throws Exception {
+		List<Point> list = null;
+		
+		try {
+			list = dao.selectList("point.listPoint", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
 }

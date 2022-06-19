@@ -29,4 +29,16 @@ public class ReservationListContorller {
 
 		return ".mypage.main.reservationList";
 	}
+	
+	@RequestMapping(value="reservationInfo", method=RequestMethod.GET)
+	public String reservationInfo(HttpSession session, Model model) {
+		// 포인트
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		List<ReservationList> list = service.readRev(info.getUserId());
+
+		model.addAttribute("list", list);	
+
+		return ".mypage.main.reservationInfo";
+	}
 }

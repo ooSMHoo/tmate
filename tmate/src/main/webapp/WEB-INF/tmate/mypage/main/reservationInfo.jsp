@@ -11,7 +11,7 @@
 	<div class="container-fluid contaniner-info-box">
 	 	<div class="container-info-rev">
 	 		<p class="info-menu">체크인  </p>
-	 		<p>06.06</p>
+	 		<p>${dto.resCin_date}</p>
 	 	</div>
 	 	<div class="container-info-rev">
 	 		<p class="info-menu">체크아웃  </p>

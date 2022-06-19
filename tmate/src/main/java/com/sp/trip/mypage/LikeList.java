@@ -8,8 +8,14 @@ public class LikeList {
 	private int roomWd_price; // 평일 요금
 	private int roomSeasonprice; // 성수기 요금
 	private String mhAddr1; 
-
+	private String mhaddr;
 	
+	public String getMhaddr() {
+		return mhaddr;
+	}
+	public void setMhaddr(String mhaddr) {
+		this.mhaddr = mhaddr;
+	}
 	private String mhId;
 	private int roomNum;
 	private String roomName;

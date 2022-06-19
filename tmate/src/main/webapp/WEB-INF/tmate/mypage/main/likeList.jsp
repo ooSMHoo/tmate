@@ -6,15 +6,13 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage.css" type="text/css">
 
 <script type="text/javascript">
-function list_delete(){
-	var f = document.likeList;
+function list_delete(value){
+	const f = document.likeList;
 	
-	if(confirm("리스트에서 삭제하시겠습니까?")) {
-		location.href="";
+	if(confirm("리스트에서 삭제하시겠습니까?")) {	
+		f.action = "${pageContext.request.contextPath}/mypage/deleteList?roomNum=" + value;
+		f.submit();
 	}
-	
-	f.action = "${pageContext.request.contextPath}/mypage/deleteList";
-	f.submit();
 }
 
 
@@ -31,15 +29,19 @@ function list_delete(){
 		
 	  <div class="card-body">
 	    <h5 class="card-title">${dto.lodgName} </h5>
-	    <p >${dto.mhAddr1}</p>
+	    <p >${dto.mhaddr}</p>
 	    <hr>
 		    <div class="card-info">
-			    <button type="button" class="list-btn">상세보기</button>
-			    <button type="button" class="list-btn" onclick="list_delete();">삭제하기</button>
+			    <button type="button" class="list-btn">상세보기</button>		
+			    <button type="button" class="list-btn" onclick="list_delete(${dto.roomNum});">삭제하기</button>
 		    </div>
 	  </div>
 	</div>
 </c:forEach>
+<input type="hidden" name="rows" value="${rows}">
+<div class="page-box">
+		${dataCount == 0 ? "찜한 목록이 없습니다." : paging}
+	</div>
 </form>
 
 

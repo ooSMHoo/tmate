@@ -1,6 +1,5 @@
 package com.sp.trip.mypage;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,12 +67,17 @@ public class MypageServiceImpl implements MypageService{
 
 	// 찜 목록 :지역-처음 띄어쓰기에서 split
 	@Override
-	public List<LikeList> listLike(String memberId) {
-		List<LikeList> list = new ArrayList<LikeList>();
+	public List<LikeList> listLike(Map<String, Object> map) {
+		List<LikeList> list = null;
 		
 		try {
-			list = dao.selectList("mypage.listLike", memberId);
-				
+			list = dao.selectList("mypage.listLike", map);
+		
+			for(LikeList like : list) {
+				String str [] = like.getMhAddr1().split(" ");
+				like.setMhaddr(str[0]);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -82,14 +86,27 @@ public class MypageServiceImpl implements MypageService{
 	}
 
 	@Override
-	public void deleteLike(int roomNum) throws Exception {
+	public void deleteLike(Map<String, Object> map) throws Exception {
 		try {
-			dao.deleteData("mypage.deleteLike", roomNum);
+			dao.deleteData("mypage.deleteLike",map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 		
+	}
+
+	@Override
+	public int dataCount(Map<String, Object> map) {
+		int result = 0;
+
+		try {
+			result = dao.selectOne("mypage.dataCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
 	}
 	
 

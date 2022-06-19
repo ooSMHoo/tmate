@@ -34,7 +34,7 @@
 					리뷰 관리
 				</a></li>
 				
-				<li><a href="${pageContext.request.contextPath}/mypage/point" class="nav-link nav-link-menu"> 
+				<li><a href="${pageContext.request.contextPath}/mypage/main/point" class="nav-link nav-link-menu"> 
 					<i class="fa-brands fa-product-hunt"></i>
 					포인트 관리 
 				</a></li>

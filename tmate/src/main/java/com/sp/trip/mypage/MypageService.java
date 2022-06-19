@@ -11,7 +11,8 @@ public interface MypageService {
 	public void updateMypage2(Map<String, Object> map) throws Exception;
 	
 	//찜 목록
-	public List<LikeList> listLike(String memberId);
+	public List<LikeList> listLike(Map<String, Object> map);
+	public int dataCount(Map<String, Object> map);
 	
-	public void deleteLike(int roomNum) throws Exception;
+	public void deleteLike(Map<String, Object> map) throws Exception;
 }
