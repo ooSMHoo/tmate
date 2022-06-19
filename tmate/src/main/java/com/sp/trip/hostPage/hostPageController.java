@@ -1,52 +1,59 @@
 package com.sp.trip.hostPage;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.sp.trip.member.SessionInfo;
 
 @Controller("hostPage.hostPageController")
 @RequestMapping("/hostPage/*")
 public class hostPageController {
+	@Autowired
+	private HostPageService service;
 	
 	@RequestMapping(value="home", method=RequestMethod.GET)
-	public String homeMain() {
-		return ".hostPage.main.home";
-	}
+    public String homeMain(
+    		HttpSession session,
+			Model model
+    		)throws Exception {
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("hostId", info.getUserId());
+
+		int total = service.countTotalRoom(map);
+		int restotal = service.countResRoom(map);
+		
+		model.addAttribute("total", total);
+		model.addAttribute("restotal", restotal);
+		
+		//오늘 예약자 명당
+		List<HostPage> hp = service.todayRes(map);
+
+		model.addAttribute("hp", hp);
+		
+		//오늘 예약한 건수 
+		int todayRes = service.todayResOk(map);
+		model.addAttribute("todayRes", todayRes);
+		
+		//오늘 취소된 예약건수
+		int todayCancel = service.todayCancel(map);
+		model.addAttribute("todayCancel", todayCancel);
+				
+		
+        return ".hostPage.main.home";
+    }
+
 	
-	@RequestMapping(value="yearStats", method=RequestMethod.GET)
-	public String yearStats() {
-		return ".hostPage.main.yearStats";
-	}
 	
-	@RequestMapping(value="monthStats", method=RequestMethod.GET)
-	public String monthStats() {
-		return ".hostPage.main.monthStats";
-	}
-	
-	@RequestMapping(value="paymentList", method=RequestMethod.GET)
-	public String paymentList() {
-		return ".hostPage.main.paymentList";
-	}
-	
-	@RequestMapping(value="reviewList", method=RequestMethod.GET)
-	public String reviewList() {
-		return ".hostPage.main.reviewList";
-	}
-	
-	
-	
-	@RequestMapping(value="roomCal", method=RequestMethod.GET)
-	public String roomCal() {
-		return ".hostPage.main.roomCal";
-	}
-	
-	@RequestMapping(value="calendarMain", method=RequestMethod.GET)
-	public String calendarMain() {
-		return ".hostPage.main.calendarMain";
-	}
-	
-	@RequestMapping(value="calendarWrite", method=RequestMethod.GET)
-	public String calendarWrite() {
-		return ".hostPage.main.calendarWrite";
-	}
 }

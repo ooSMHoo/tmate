@@ -26,7 +26,7 @@
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-3 small left-accordion-body ">
             <li><a href="${pageContext.request.contextPath}/hostPage/bookingList/list" class="link-dark rounded menu-font">예약목록</a></li>
             <li><a href="${pageContext.request.contextPath}/hostPage/roomCal/list" class="link-dark rounded menu-font">객실달력</a></li>
-            <li><a href="${pageContext.request.contextPath}/hostPage/calendarMain" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">예약달력</a></li>
+            <li><a href="${pageContext.request.contextPath}/hostPage/calendar/main" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">예약달력</a></li>
           </ul>
         </div>
       </li>
@@ -49,7 +49,7 @@
     	 </button>
   	</div>
     <div class="left-accordion-body mb-3">
-  	<button class="btn align-items-center collapsed btn-set menu-font" onclick="location.href='${pageContext.request.contextPath}/hostPage/reviewList';" >
+  	<button class="btn align-items-center collapsed btn-set menu-font" onclick="location.href='${pageContext.request.contextPath}/hostPage/reviewList/list';" >
          <i class="bi bi-chat-square-text"></i> 리뷰관리
      </button>
   </div>
@@ -61,8 +61,8 @@
         </button>
         <div class="collapse " id="stats-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small left-accordion-body">
-            <li><a href="${pageContext.request.contextPath}/hostPage/monthStats" class="link-dark rounded menu-font">월별 상세현황 </a></li>
-            <li><a href="${pageContext.request.contextPath}/hostPage/yearStats" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">연도별 상세현황</a></li>
+            <li><a href="${pageContext.request.contextPath}/hostPage/monthStats/main" class="link-dark rounded menu-font">월별 상세현황 </a></li>
+            <li><a href="${pageContext.request.contextPath}/hostPage/yearStats/main" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">연도별 상세현황</a></li>
           </ul>
         </div>
       </li> 
