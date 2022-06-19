@@ -38,13 +38,13 @@
     <select id="listLike" parameterType="map" resultType="com.sp.trip.mypage.LikeList">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT lodgName, mhAddr1, li.memberId, REVGRADE, li.roomNum, roomName,RPHOTONAME
+				SELECT lodgName, mhAddr1, li.memberId, revGrade, li.roomNum, roomName, rphotoName
 					FROM likeList li
 						JOIN room rm ON rm.roomNum = li.roomNum
 						JOIN lodging lo ON rm.mhId = lo.mhId
 						JOIN review rv ON li.memberId = rv.memberId
 						JOIN memberHost mh ON rm.mhId = mh.mhId
-                        JOIN roomPhoto rp ON rm.roomNum = rp.roomNum
+						JOIN lodgingPhoto lp ON rm.mhId = lp.mhId
 						WHERE li.memberId = #{memberId} AND ROWNUM =1
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
