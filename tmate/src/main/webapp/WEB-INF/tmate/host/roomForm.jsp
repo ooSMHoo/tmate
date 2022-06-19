@@ -146,7 +146,7 @@ function roomOk() {
 	if ("${mode}" === "write") {
 		f.action = "${pageContext.request.contextPath}/host/rooms/add";
 	} else if ("${mode}" === "update") {
-		f.action = "${pageContext.request.contextPath}/host/rooms/${room.roomNum}/update";
+		f.action = "${pageContext.request.contextPath}/host/rooms/${room.roomNum}/update?page=${page}&option=${option}";
 	}
 	
 	f.submit();
@@ -390,7 +390,7 @@ $(function(){
     </div>
     
     <div class="tm_bottom">
-        <div class="tm_btn_style large" onclick="location.href='${pageContext.request.contextPath}/hostPage/rooms';">취소하기</div>
+        <div class="tm_btn_style large" onclick="location.href='${pageContext.request.contextPath}/hostPage/rooms?page=${page}&option=${option}';">취소하기</div>
         <div class="tm_btn_style large" onclick="roomOk();">${mode=='update'?'수정완료':'등록하기'}</div>
     </div>
 

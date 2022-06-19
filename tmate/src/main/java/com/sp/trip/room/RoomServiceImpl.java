@@ -3,6 +3,7 @@ package com.sp.trip.room;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -236,5 +237,17 @@ public class RoomServiceImpl implements RoomService {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+
+	@Override
+	public String isReservation(String mhId) {
+		String reservedRoom = "";
+		try {
+			List<String> rooms = dao.selectList("room.isReservation", mhId);
+			reservedRoom = StringUtils.join(rooms, ",");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return reservedRoom;
 	}
 }

@@ -43,7 +43,7 @@ public class RoomManageController {
 		String cp = request.getContextPath();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
-		int rows = 10;
+		int rows = 2;
 		int total_page = 0;
 		int dataCount = 0;
 		
@@ -56,16 +56,26 @@ public class RoomManageController {
 			total_page = myUtil.pageCount(rows, dataCount);
 		}
 		
+		if (total_page < current_page) {
+			current_page = total_page;
+		}
+		
 		int start = (current_page - 1) * rows + 1;
 		int end = current_page * rows;
 		map.put("start", start);
 		map.put("end", end);
 		List<Room> list = roomService.readRoomlist(map);
+		String reservedRooms = roomService.isReservation(info.getUserId());
 		
 		int listNum, n = 0;
 		for(Room room : list) {
 			listNum = dataCount - (start + n - 1);
 			room.setListNum(listNum);
+			if (reservedRooms.indexOf(String.valueOf(room.getRoomNum())) != -1) {
+				room.setIsReserved(1);
+			} else {
+				room.setIsReserved(0);
+			}
 			n++;
 		}
 		

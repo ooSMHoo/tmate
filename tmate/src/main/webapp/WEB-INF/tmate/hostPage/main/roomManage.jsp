@@ -5,10 +5,15 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/hostPage.css" type="text/css">
 
+<style type="text/css">
+.page-box {
+	clear: both;
+	padding: 20px 0;
+	text-align: center;
+}
+</style>
+
 <script type="text/javascript">
-
-
-
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,
@@ -91,7 +96,9 @@ function deleteRoom(value) {
 					${dataCount}개(${current_page}/${total_page} 페이지)
 				</td>
 				<td align="right">
-					 <select name="option" id="optionSelect" class="form-select w-auto" onchange="changeOption(this.value);">
+					<button onclick="location.href='${pageContext.request.contextPath}/hostPage/rooms'">새로고침</button>
+					<button onclick="location.href='${pageContext.request.contextPath}/host/rooms/add';">객실 추가</button>
+					 <select name="option" id="optionSelect" class="w-auto" onchange="changeOption(this.value);">
 						  <option selected value=""  ${option==""?"selected='selected'":""}>전체</option>
 						  <option value="active" ${option=="active"?"selected='selected'":""}>활성화</option>
 						  <option value="noactive"  ${option=="noactive"?"selected='selected'":""}>비활성화</option> 
@@ -113,6 +120,7 @@ function deleteRoom(value) {
 									<th class="cell">객실유형</th>
 									<th class="cell">객실상세</th>
 									<th class="cell">객실정보수정</th>
+									<th class="cell">객실예약상태</th>
 									<th class="cell">객실삭제</th>
 									<th class="cell">활성화/비활성화</th>
 								</tr>
@@ -125,6 +133,7 @@ function deleteRoom(value) {
 										<td class="cell">${room.roomCategory}</td>
 										<td class="cell"><button onclick="location.href='${pageContext.request.contextPath}/host/rooms/${room.roomNum}?page=${current_page}&option=${option}'">객실상세</button></td>
 										<td class="cell"><button onclick="location.href='${pageContext.request.contextPath}/host/rooms/${room.roomNum}/update?page=${current_page}&option=${option}'">수정하기</button></td>
+										<td class="cell">${room.isReserved==0?"공실":"예약중"}</td>
 										<td class="cell"><button onclick="deleteRoom(${room.roomNum});">삭제하기</button></td>
 										<td class="cell">
 											<div class="form-check form-switch">
@@ -145,7 +154,6 @@ function deleteRoom(value) {
 	<div class="page-box">
 		${dataCount == 0 ? "객실이 없습니다." : paging}
 	</div>
-	
 	
 	</div>
 	<div id="booking-dialog" style="display: none;"></div>

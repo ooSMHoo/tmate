@@ -14,6 +14,7 @@ public interface RoomService {
 	public void deleteRoom(int roomNum) throws Exception;
 	public void changeEnabled0(int roomNum) throws Exception;
 	public void changeEnabled1(int roomNum) throws Exception;
+	public String isReservation(String mhId);
 	
 	public void insertRoomPhoto(Room room) throws Exception;
 	public List<Room> readRoomPhotolist(int roomNum);

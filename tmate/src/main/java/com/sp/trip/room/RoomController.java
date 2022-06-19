@@ -79,11 +79,21 @@ public class RoomController {
 		reAttr.addFlashAttribute("message", "정상적으로 객실등록이 완료되었습니다.");
 		reAttr.addFlashAttribute("title", "객실 등록");
 
-		return "redirect:/host/complete";
+		return "redirect:/host/rooms/complete";
+	}
+	
+	@RequestMapping(value = "complete")
+	public String complete(@ModelAttribute("message") String message) throws Exception {
+		if(message == null || message.length() == 0) {
+			return "redirect:/";
+		}
+		
+		return ".host.roomComplete";
 	}
 	
 	@GetMapping("/{roomNum}")
-	public String readRoom(HttpSession session, @PathVariable String roomNum, Model model) {
+	public String readRoom(HttpSession session, @PathVariable String roomNum, Model model,
+							@RequestParam(defaultValue = "") String page, @RequestParam(defaultValue = "") String option) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		if (info == null) {
 			return "redirect:/"; // 예외처리
@@ -104,6 +114,8 @@ public class RoomController {
 			model.addAttribute("room", room);
 			model.addAttribute("photoList", photoList);
 			model.addAttribute("roomCategory", roomCategory);
+			model.addAttribute("page", page);
+			model.addAttribute("option", option);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,7 +126,10 @@ public class RoomController {
 	}
 	
 	@GetMapping("/{roomNum}/update")
-	public String updateRoomForm(HttpSession session, @PathVariable String roomNum, Model model) {
+	public String updateRoomForm(HttpSession session, @PathVariable String roomNum,
+								@RequestParam(defaultValue = "") String page,
+								@RequestParam(defaultValue = "") String option,
+								Model model) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		if (info == null) {
 			return "redirect:/"; // 예외처리
@@ -137,6 +152,8 @@ public class RoomController {
 			model.addAttribute("mode", "update");
 			model.addAttribute("photoList", photoList);
 			model.addAttribute("roomCategory", roomCategory);
+			model.addAttribute("page", page);
+			model.addAttribute("option", option);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -150,6 +167,8 @@ public class RoomController {
 	public String updateRoomSubmit(@PathVariable String roomNum,
 							@ModelAttribute Room room,
 							HttpSession session,
+							@RequestParam(defaultValue = "") String page,
+							@RequestParam(defaultValue = "") String option,
 							@RequestParam(required = false) String[] fileNum,
 							@RequestParam(required = false) String[] fileName) {
 		
@@ -167,7 +186,7 @@ public class RoomController {
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/host/rooms/" + roomNum;
+		return "redirect:/host/rooms/" + roomNum + "?page="+page+"&option="+option;
 	}
 	
 	@RequestMapping("/{roomNum}/delete")

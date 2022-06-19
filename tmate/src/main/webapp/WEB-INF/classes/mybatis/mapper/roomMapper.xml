@@ -100,4 +100,13 @@
 	<update id="changeEnabled0" parameterType="Integer">
 		UPDATE room SET enabled=0 WHERE roomNum=#{roomNum}
 	</update>
+	
+	<!-- 공실이 아닌 것 -->
+	<select id="isReservation" parameterType="String" resultType="String">
+		SELECT DISTINCT room.roomNum
+		FROM room room
+		JOIN reservationDetail rd ON rd.roomNum = room.roomNum
+		JOIN reservation r ON rd.resNum = r.resNum
+		WHERE (room.mhId = #{mhId} AND r.resCode=0) AND (resCout_date &gt;= SYSDATE) AND (resCin_date &gt;= SYSDATE)
+	</select>
 </mapper>

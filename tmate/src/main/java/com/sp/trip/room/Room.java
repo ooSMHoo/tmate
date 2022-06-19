@@ -22,6 +22,7 @@ public class Room {
 	private int roomBed;
 	private int listNum;
 	private int enabled;
+	private int isReserved;
 	
 	private List<MultipartFile> selectFile;
 	private int rPhotoNum;
@@ -146,5 +147,11 @@ public class Room {
 	}
 	public void setEnabled(int enabled) {
 		this.enabled = enabled;
+	}
+	public int getIsReserved() {
+		return isReserved;
+	}
+	public void setIsReserved(int isReserved) {
+		this.isReserved = isReserved;
 	}
 }
