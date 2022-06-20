@@ -21,7 +21,7 @@ function searchList() {
 }
 </script>
 
-	<div class="main-container pt-3 p-md-3 p-lg-4">
+	<div class="main-container pt-3 p-md-3 p-lg-4 h6">
 	   <div class="row g-3 mb-4 align-items-center justify-content-between">
     <div class="col-auto">
            <h1 class="app-page-title mb-0">결제내역</h1>
@@ -34,7 +34,7 @@ function searchList() {
 					    	action="${pageContext.request.contextPath}/hostPage/paymentList/list" method="post">
 		                   	<div class="col-auto">
 		                    <select name="condition" id="searchSelect" class="form-select w-auto" onchange="searchList();">
-								<option value=""  ${condition==""?"selected='selected'":""}>::검색옵션::</option>
+								<option selected value=""  ${condition==""?"selected='selected'":""}>전체</option>
 								<option value="resName" ${condition=="resName"?"selected='selected'":""}>결제자명</option>
 								<option value="roomName" ${condition=="roomName"?"selected='selected'":""}>객실명</option>
 								<option value="payReg_date" ${condition=="payReg_date"?"selected='selected'":""}>결제일시</option>
@@ -59,14 +59,14 @@ function searchList() {
    </div>
   </div>
   <form name="optionForm" action="${pageContext.request.contextPath}/hostPage/paymentList/list" method="post">
-		<table class="table">
+		<table class="table align-middle">
 			<tr>
 				<td align="left" width="50%">
 					${dataCount}개(${page}/${total_page} 페이지)
 				</td>
 				<td align="right">
 					 <select name="option" id="optionSelect" class="form-select w-auto" onchange="optionList();">
-						  <option value=""  ${option==""?"selected='selected'":""}>::결제일시::</option>
+						  <option selected value=""  ${option==""?"selected='selected'":""}>전체정렬</option>
 						  <option value="option-week" ${option=="option-week"?"selected='selected'":""}>일주일이내</option>
 						  <option value="option-month"  ${option=="option-month"?"selected='selected'":""} >한달이내</option>
 						  <option value="option-threeM"  ${option=="option-threeM"?"selected='selected'":""}>3개월이내</option> 
@@ -82,7 +82,7 @@ function searchList() {
 		    <div class="app-card-body">
 			    <div class="table-responsive shadow">
 			        <table class="table app-table-hover mb-0 text-left">
-						<thead >
+						<thead style="height: 60px;" class="align-middle">
 							<tr class="table-secondary">
 								<th class="cell">결제방식</th>
 								<th class="cell">객실명</th>
@@ -97,7 +97,7 @@ function searchList() {
 						</thead>
 						<tbody>
 							<c:forEach var="dto" items="${list}">
-							<tr>
+							<tr class="align-middle" style="height: 60px;">
 								<td class="cell">${dto.payCode ==0 ? "신용카드" :"다른결제" }</td>
 								<td class="cell">${dto.roomName}</td>
 								<td class="cell">${dto.resName}</td>
@@ -125,7 +125,7 @@ function searchList() {
 	</div>
 	</div>
 	 <div class="page-box">
-		${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+		${dataCount == 0 ? "결제내역이 없습니다." : paging}
 	</div>
 	</div>
 

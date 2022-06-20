@@ -16,13 +16,15 @@
 			    <div class="row align-items-md-stretch">
 			      <div class="mb-4">
 			        <div class=" p-2 border bg-white rounded-3 box1 shadow">
-			          <h5 class="text-center text-black mt-2">이번달 누적현황</h5>
-			          <div class="row row-cols-4 text-center mt-4 count-box count">
-			          	<div class="col"><h1>3</h1></div>
-			          	<div class="col"><h1>0</h1></div>
-			          	<div class="col"><h1>3</h1></div>
-			          	<div class="col"><h1>1</h1></div>
+			          <h5 class="text-center mt-2 text-danger">이번달 누적현황</h5>
+			          <div class="row row-cols-5 text-center mt-4 count-box count">
+			          	<div class="col"><h1>${restotal}</h1></div>
+			          	<div class="col"><h1>${cintotal}</h1></div>
+			          	<div class="col ${totalPay !='0' ? 'mt-2' : '' } &nbsp; ${totalPay !='0' ? 'h2' : 'h1' }">${totalPay}</div>
+			          	<div class="col"><h1>${conceltotal}</h1></div>
+			          	<div class="col ${conceltotalPay !='0' ? 'mt-2' : '' } &nbsp; ${conceltotalPay !='0' ? 'h2' : 'h1' } ">${conceltotalPay}</div>
 			          	<div class="col">예약건</div>
+			          	<div class="col">입실건</div>
 			          	<div class="col">판매금액</div>
 			          	<div class="col">취소건</div>
 			          	<div class="col">취소금액</div>

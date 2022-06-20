@@ -6,8 +6,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/hostPage.css" type="text/css">
 
 	
-<h3 style="font-size: 15px; padding-top: 10px;"><i class="icofont-double-right"></i>예약상세 정보</h3>
-<table class="table td-border mx-auto my-10">
+
+<table class="table td-border mx-auto my-10" style="font-size: 19px; margin-top: 30px;">
 	<tr>
 		<td class="wp-15 text-center bg-light">예약번호</td>
 		<td class="wp-35 ps-5">${dto.resNum}</td>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="monthStats">
+	<!-- 이번달 예약 총건수 -->
+	<select id="mcountRestotal" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		FROM reservation r
+		JOIN reservationDetail r2 ON r.resNum = r2.resNum 
+		JOIN room r3 ON r2.roomNum = r3.roomNum 
+		WHERE r3.mhId = #{hostId}
+	    AND  TO_CHAR(TRUNC(resReg_date,'MM'),'YYYYMMDD') = TO_CHAR(TRUNC(SYSDATE,'MM'),'YYYYMMDD')
+	</select>
+	
+	<!-- 이번달 입실 예약자 총건 -->
+	<select id="mcountCintotal" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		FROM reservation r
+		JOIN reservationDetail r2 ON r.resNum = r2.resNum 
+		JOIN room r3 ON r2.roomNum = r3.roomNum 
+		WHERE r3.mhId = #{hostId}
+	    AND  TO_CHAR(TRUNC(resCin_date,'MM'),'YYYYMMDD') = TO_CHAR(TRUNC(SYSDATE,'MM'),'YYYYMMDD')
+	</select>
+	
+	<!-- 이번달 총결제 금액 -->
+	<select id="mtotalPay" parameterType="map" resultType="String">
+		SELECT NVL(TO_CHAR(SUM(p.payCost), 'L99,999,999'),0)
+		FROM memberHost m 
+		JOIN member1 m1 ON m.mhId = m1.memberId
+		JOIN room r3 ON m.mhId = r3.mhId
+		JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		JOIN reservation r ON r.resNum = r2.resNum 
+		JOIN payment p ON r.resNum = p.resNum  
+		WHERE m.mhId = #{hostId}
+		 AND  TO_CHAR(TRUNC(r.resReg_date,'MM'),'YYYYMMDD') = TO_CHAR(TRUNC(SYSDATE,'MM'),'YYYYMMDD')
+	</select>
+	
+	<!-- 이번달 취소 총건 -->
+	<select id="mcountCancel" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		FROM reservation r
+		JOIN reservationDetail r2 ON r.resNum = r2.resNum 
+		JOIN room r3 ON r2.roomNum = r3.roomNum 
+		WHERE r3.mhId = #{hostId}
+		AND  ((resCode = 1 OR resCode = 2) 
+     		AND TO_CHAR(TRUNC(resReg_date,'MM'),'YYYYMMDD') = TO_CHAR(TRUNC(SYSDATE,'MM'),'YYYYMMDD'))
+	</select>
+	
+	<!-- 이번달 취소된 총 금액 -->
+	<select id="mtotalpayCancel" parameterType="map" resultType="String">
+		SELECT NVL(TO_CHAR(SUM(p.payCost), 'L99,999,999'),0)
+		FROM memberHost m 
+		JOIN member1 m1 ON m.mhId = m1.memberId
+		JOIN room r3 ON m.mhId = r3.mhId
+		JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		JOIN reservation r ON r.resNum = r2.resNum 
+		JOIN payment p ON r.resNum = p.resNum  
+		WHERE m.mhId = #{hostId}
+		AND ((resCode = 1 OR resCode = 2) 
+    		AND TO_CHAR(TRUNC(resReg_date,'MM'),'YYYYMMDD') = TO_CHAR(TRUNC(SYSDATE,'MM'),'YYYYMMDD'))
+	</select>
+	
+	
+	
+	
+</mapper>

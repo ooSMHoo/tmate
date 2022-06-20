@@ -38,7 +38,7 @@
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small left-accordion-body">
           	<li><a href="${pageContext.request.contextPath}/host/info" class="link-dark rounded menu-font">나의정보</a></li>
             <li><a href="${pageContext.request.contextPath}/host/lodging/add" class="link-dark rounded menu-font">숙소등록</a></li>
-            <li><a href="${pageContext.request.contextPath}/host/rooms/add" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">객실관리</a></li>
+            <li><a href="${pageContext.request.contextPath}/hostPage/rooms" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">객실관리</a></li>
           </ul>
         </div>
       </li> 

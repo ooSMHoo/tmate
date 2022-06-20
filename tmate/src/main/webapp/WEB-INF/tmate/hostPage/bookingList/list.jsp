@@ -60,7 +60,7 @@ function detaileBooking(resNum) {
 		    	   $(this).dialog("close");
 		       }
 		  },
-		  height: 540,
+		  height: 500,
 		  width: 830,
 		  title: "예약상세정보",
 		  close: function(event, ui) {
@@ -102,10 +102,10 @@ function updateOk() {
 */
 </script>
 	
-	<div class="main-container pt-3 p-md-3 p-lg-4">
+	<div class="main-container pt-3 p-md-3 p-lg-4 h5">
 	   <div class="row g-3 mb-2 align-items-center justify-content-between">
 	    <div class="col-auto">
-	           <h1 class="app-page-title mb-0">예약목록</h1>
+	           <h1 class="app-page-title mb-0">예약목록 </h1>
 	    </div>
 	    <div class="col-auto">
 		     <div class="page-utilities">
@@ -115,6 +115,7 @@ function updateOk() {
 					    	action="${pageContext.request.contextPath}/hostPage/bookingList/list" method="post">
 		                   	<div class="col-auto">
 		                    <select name="condition" id="searchSelect" class="form-select w-auto" onchange="searchList();">
+								<option selected value=""  ${condition==""?"selected='selected'":""}>전체</option>
 								<option value="resName" ${condition=="resName"?"selected='selected'":""}>예약자명</option>
 								<option value="roomName" ${condition=="roomName"?"selected='selected'":""}>객실명</option>
 								<option value="resReg_date" ${condition=="resReg_date"?"selected='selected'":""}>예약일</option>
@@ -139,14 +140,14 @@ function updateOk() {
 	   </div>
 	  </div>
 	  <form name="optionForm" action="${pageContext.request.contextPath}/hostPage/bookingList/list" method="post">
-		<table class="table">
+		<table class="table align-middle">
 			<tr>
 				<td align="left" width="50%">
 					${dataCount}개(${page}/${total_page} 페이지)
 				</td>
 				<td align="right">
 					 <select name="option" id="optionSelect" class="form-select w-auto" onchange="optionList();">
-						  <option selected value=""  ${option==""?"selected='selected'":""}>::예약일시::</option>
+						  <option selected value=""  ${option==""?"selected='selected'":""}>전체정렬</option>
 						  <option value="option-week" ${option=="option-week"?"selected='selected'":""}>일주일이내</option>
 						  <option value="option-month"  ${option=="option-month"?"selected='selected'":""} >한달이내</option>
 						  <option value="option-threeM"  ${option=="option-threeM"?"selected='selected'":""}>3개월이내</option> 
@@ -158,13 +159,13 @@ function updateOk() {
 	  
 	  
 	  
-	<div class="tab-content text-center shadow" id="orders-table-tab-content">
+	<div class="tab-content text-center shadow " id="orders-table-tab-content">
 	       <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
 		    <div class="app-card app-card-orders-table shadow-sm mb-5">
 			    <div class="app-card-body">
 				    <div class="table-responsive">
-				        <table class="table app-table-hover mb-0 text-left table-hover">
-							<thead >
+				        <table class="table app-table-hover mb-0 text-left table-hover ">
+							<thead  style="height: 60px;" class="align-middle">
 								<tr class="table-secondary">
 									<th class="cell">예약번호</th>
 									<th class="cell">예약자명</th>
@@ -176,9 +177,9 @@ function updateOk() {
 									<th class="cell">예약상태</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody >
 								<c:forEach var="dto" items="${list}">
-								<tr class="hover" onclick="detaileBooking('${dto.resNum}');">
+								<tr class="hover align-middle" onclick="detaileBooking('${dto.resNum}');"  style="height: 60px;">
 									<td class="cell">${dto.resNum}</td>
 									<td class="cell">${dto.resName}</td>
 									<td class="cell">${dto.resReg_date}</td>
@@ -205,7 +206,7 @@ function updateOk() {
 	</div>
 	
 	<div class="page-box">
-		${dataCount == 0 ? "등록된 게시물이 없습니다." : paging}
+		${dataCount == 0 ? "예약이 없습니다." : paging}
 	</div>
 	
 	

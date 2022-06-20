@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="roomCal">
+		
+	<select id="roomCalList" parameterType="Map" resultType="com.sp.trip.hostPage.roomCal.RoomCal">
+		SELECT TO_CHAR(resCin_date,'YYYY-MM-DD') resCin_date,  TO_CHAR(resCout_date, 'YYYY-MM-DD') resCout_date,
+        	 resCode, resName, r3.roomName, r3.enabled
+		FROM reservation r
+		JOIN reservationDetail r2 ON r.resNum = r2.resNum
+		JOIN room r3 ON r2.roomNum = r3.roomNum
+		WHERE r3.mhId = #{hostId}
+		AND (resCin_date &lt;= TO_CHAR(SYSDATE+14,'YYYYMMDD') AND resCin_date >= SYSDATE) 
+		ORDER BY resCin_date ASC	
+	</select>
+</mapper>

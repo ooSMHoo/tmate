@@ -31,7 +31,7 @@ public class PaymentListController{
 	@RequestMapping("list")
 	public String paymentList(
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
-			@RequestParam(defaultValue = "resName") String condition,
+			@RequestParam(defaultValue = "") String condition,
 			@RequestParam(defaultValue = "") String keyword,
 			@RequestParam(defaultValue = "") String option,
 			HttpSession session,

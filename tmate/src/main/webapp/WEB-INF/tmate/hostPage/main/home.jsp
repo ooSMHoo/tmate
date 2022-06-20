@@ -4,33 +4,32 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/hostPage.css" type="text/css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-/*
-const dateTitle = document.getElementById("js-date");
 
-function today() {
-    const today = new Date();
-    const years = today.getFullYear(); // 년도 가져오기
-    const months = today.getMonth() + 1; // 월 가져오기
-    const dates = today.getDate(); // 일 가져오기
-    const week = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-    const days = week[today.getDay()]; // 요일 가져오기 
-
-    dateTitle.innerText = `${years}년 ${months}월 ${dates}일 ${days}`
-}
-*/
+$(function(){
+    let date = new Date();
+    let y = date.getFullYear(); //년가져오기
+    let m = date.getMonth()+1; //월 가져오기
+    let d = date.getDate(); // 일 가져오기
+   
+	if(m<10) m = "0"+m
+	
+	let s = y+"-"+m+"-"+d ;
+	$("#resultDate").html(s);
+});
 
 
 
 </script>
 <div class="container" >
 	<div class=" main-container py-4">
-		<h3 class="mb-2 ">HOME</h3>
+		<h3 class="mb-2 "> HOME </h3>
 			    <div class="row align-items-md-stretch">
 			      <div class="col-md-8 mb-3">
 			        <div class=" p-2 border bg-white rounded-3 box1 shadow">
-			          <h6 class="text-center mt-3  text-primary">Today</h6>
-			          <div class="text-center text-black" onload="today();"><h5 id="js-date"></h5></div>
+			          <h6 class="text-center mt-3  text-primary"><strong>Today</strong></h6>
+			          <div class="text-center text-black"><h4 id="resultDate"></h4></div>
 			          <div class="row row-cols-3 text-center mt-4 count-box count">
 			          	<div class="col"><h1>${restotal}</h1></div>
 			          	<div class="col"><h1>${todayRes}</h1></div>
@@ -86,12 +85,21 @@ function today() {
 						  </thead>
 						  <tbody>
 						  	<c:forEach var="hp" items="${hp}">
-						    <tr>
-						      <th scope="row">${hp.rnum}</th>
-						      <td>${hp.resName}</td>
-						      <td>${hp.resPhone}</td>
-						      <td>${hp.roomName}</td>
-						    </tr>
+							  	<c:choose>
+							  		<c:when test="${restotal !=0 }">
+							  		<tr>
+								      <td scope="row">${hp.rnum}</td>
+								      <td>${hp.resName}</td>
+								      <td>${hp.resPhone}</td>
+								      <td>${hp.roomName}</td>
+								    </tr>
+							  		</c:when>
+								  	<c:otherwise>
+							  		<tr>
+						  			 <td colspan="4">당일 입실 예약자가 없습니다.</td>
+						  			</tr>
+							     </c:otherwise>
+							   </c:choose>
 						    </c:forEach>
 						  </tbody>
 						</table>
