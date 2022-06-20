@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.sp.trip.common.FileManager;
 import com.sp.trip.common.MyUtil;
 
-@Controller("reservation.reservationController")
-@RequestMapping("/reservation/*")
+@Controller("reservation.reservationRoomController")
+@RequestMapping("/reservation")
 public class ReservationRoomController {
 	@Autowired
 	private ReservationService service;
@@ -22,7 +22,7 @@ public class ReservationRoomController {
 	private FileManager fileManager;
 	
 	// 객실 리스트 
-	@RequestMapping(value = "roomlist")
+	@RequestMapping(value = "/roomlist")
 	public String roomlist(
 			@RequestParam(defaultValue = "") String startDate,
 			@RequestParam(defaultValue = "") String endDate,
