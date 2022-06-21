@@ -1,5 +1,7 @@
-package com.sp.trip.admin.main;
+package com.sp.trip.admin.memberManage;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,28 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.sp.trip.admin.memberManage.Member;
 import com.sp.trip.common.MyUtil;
 
-@Controller("admin.mainController")
-public class MainController {
-	 
-	@RequestMapping(value="/admin/main")
-	public String method() {
-		// 대기 리스트
-		
-		
-		return ".adminLayout";
-	}
-	
-	@RequestMapping(value="/admin/revenue")
-	public String revenue() {
-		return ".admin.main.revenue";
-	}
-	
-	
+
+@Controller("admin.memberManage.memberManageController")
+@RequestMapping("/admin/memberManage/*")
+public class MemberManageController {
 	@Autowired
-	private MainService service;
+	private MemberManageService service;
 	
 	@Autowired
 	@Qualifier("myUtilGeneral")
@@ -44,7 +32,10 @@ public class MainController {
 	
 	@RequestMapping("hostList")
 	public String memberManage(@RequestParam(value = "page", defaultValue = "1") int current_page,
+			@RequestParam(defaultValue = "mhId") String condition,
+			@RequestParam(defaultValue = "") String keyword,
 			@RequestParam(defaultValue = "") String mhSign,
+			@RequestParam(defaultValue = "") String mhEnabled,
 			HttpServletRequest req,
 			Model model) throws Exception {
 
@@ -56,11 +47,16 @@ public class MainController {
 		int total_page = 0;
 		int dataCount = 0;
 
+		if (req.getMethod().equalsIgnoreCase("GET")) {
+			keyword = URLDecoder.decode(keyword, "utf-8");
+		}
 
 		// 전체 페이지 수
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mhSign", mhSign);
-
+		map.put("mhEnabled", mhEnabled);
+		map.put("condition", condition);
+		map.put("keyword", keyword);
 
 		dataCount = service.dataCountHost(map);
 		if (dataCount != 0) {
@@ -92,11 +88,22 @@ public class MainController {
 		String query = "";
 		String listUrl = cp + "/admin/memberManage/hostList";
 
+		if (keyword.length() != 0) {
+			query = "condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "utf-8");
+		}
+
 		if (mhSign.length() != 0) {
 			if (query.length() != 0)
 				query = query + "&mhSign=" + mhSign;
 			else
 				query = "mhSign=" + mhSign;
+		}
+		
+		if (mhEnabled.length() != 0) {
+			if (query.length() != 0)
+				query = query + "&mhEnabled=" + mhEnabled;
+			else
+				query = "mhEnabled=" + mhEnabled;
 		}
 		
 		if (query.length() != 0) {
@@ -111,6 +118,9 @@ public class MainController {
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
 		model.addAttribute("mhSign", mhSign);
+		model.addAttribute("mhEnabled", mhEnabled);
+		model.addAttribute("condition", condition);
+		model.addAttribute("keyword", keyword);
 
 		return ".admin.memberManage.hostList";
 	}
@@ -125,6 +135,24 @@ public class MainController {
 			return "admin/memberManage/hostDetaile";
 		}
 		
+		@RequestMapping(value = "updateHostEnabled", method = RequestMethod.POST)
+		@ResponseBody
+		public Map<String, Object> updateHostEnabled(@RequestParam Map<String, Object> paramMap) throws Exception {
+
+			String state = "true";
+			try {
+				// 호스트 활성/비활성
+				service.updateHostEnabled(paramMap);
+				
+			} catch (Exception e) {
+				state = "false";
+			}
+
+			Map<String, Object> model = new HashMap<>();
+			model.put("state", state);
+			return model;
+		}
+
 		@RequestMapping(value = "updateHostSign", method = RequestMethod.POST)
 		@ResponseBody
 		public Map<String, Object> updateHostSign(@RequestParam Map<String, Object> paramMap) throws Exception {
@@ -142,5 +170,5 @@ public class MainController {
 			model.put("state", state);
 			return model;
 		}
-	
+
 }

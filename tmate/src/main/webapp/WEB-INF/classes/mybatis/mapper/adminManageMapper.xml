@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminManage">
+
+<!-- 고객 관리 : 전체 멤버 -->
+<!-- 전체 인원수 / 리스트 / 읽기 / 비,활성화 수정 / 검색 -->
+
+	<!-- 검색 -->
+	<sql id="where-list">
+		<choose>
+			<when test="condition=='memberId'">
+				INSTR(memberId, #{keyword}) &gt;= 1
+			</when>
+			<when test="condition=='memberName'">
+				INSTR(memberName, #{keyword}) &gt;= 1
+			</when>
+			<when test="condition=='memberPhone'">
+				INSTR(memberPhone, #{keyword}) &gt;= 1
+			</when>
+			<otherwise>
+				INSTR(${condition}, #{keyword}) &gt;= 1
+			</otherwise>
+		</choose>
+	</sql>
+
+	<!-- 멤버 전체 인원수 -->
+	<select id="dataCountMember" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		FROM member1
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+			<if test="enabled!=''">
+				AND enabled = #{enabled}
+			</if>
+			<if test="memberAuth!='' ">
+				AND memberAuth = 1
+			</if>
+		</where> 
+	</select>
+	
+	
+	<!-- 고객 리스트 -->
+	<select id="listMember" parameterType="map" resultType="com.sp.trip.admin.manage.Member">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT  memberId, memberName, TO_CHAR(memberReg_date, 'YYYY-MM-DD') memberReg_date, memberMod_date, memberAuth, memberEmail
+				FROM member1
+				<where>
+					<if test="keyword!=null and keyword!='' ">
+						<include refid="where-list"/>
+					</if>
+					<if test="enabled!='' ">
+						AND enabled = #{enabled}
+					</if>
+					<if test="memberAuth!='' ">
+						AND memberAuth = 1
+					</if>
+				</where>
+				ORDER BY memberName DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	
+	<!-- 고객 정보 -->
+	<select id="readMember" parameterType="String" resultType="com.sp.trip.admin.manage.Member">
+		SELECT 
+			m.memberId, memberName, TO_CHAR(memberReg_date, 'YYYY-MM-DD') memberReg_date, memberMod_date, memberAuth, enabled, memberEmail, s.memberBirth, s.memberPhone
+		FROM member1 m
+		JOIN member2 s ON m.memberId = s.memberId
+		WHERE m.memberId = #{memberId}
+	</select>
+
+
+	<!-- 멤버 활성화 변경 -->
+	<update id="updateMemberEnabled" parameterType="map">
+		UPDATE member1 SET enabled=#{enabled} WHERE memberId = #{memberId}
+    </update>
+
+</mapper>

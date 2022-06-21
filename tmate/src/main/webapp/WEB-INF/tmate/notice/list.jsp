@@ -37,6 +37,12 @@
 	min-height: 40px;
 }
 
+.notitle {
+	background-color: #FFFFC6;
+	font-weight: lighter;
+
+}
+
 </style>
 
 <script type="text/javascript">
@@ -60,6 +66,7 @@ function searchList() {
 						<th>작성자</th>
 						<th class="noticeReg_date text-center">작성일</th>
 						<th class="noticeHit text-center">조회수</th>
+						<th></th>
 					</tr>
 				</thead>
 				

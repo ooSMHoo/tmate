@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberManage">
+
+<!-- 호스트 관리 : 전체 호스트(미/승인 모두) -->
+<!-- 전체 인원수 / 리스트 / 읽기 / 대기,승인 수정 / 비,활성화 수정 -->
+
+<sql id="where-list">
+		<choose>
+			<when test="condition=='mhId'">
+				INSTR(mhId, #{keyword}) &gt;= 1
+			</when>
+			<when test="condition=='mhname'">
+				INSTR(mhname, #{keyword}) &gt;= 1
+			</when>
+			<otherwise>
+				INSTR(${condition}, #{keyword}) &gt;= 1
+			</otherwise>
+		</choose>
+	</sql>
+
+	<!-- 호스트 전체 인원수(신청한사람,승인된사람등)  -->
+	<select id="dataCountHost" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		FROM memberHost h
+		JOIN member1 m1 ON h.mhId = m1.memberId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+			<if test="mhSign!=''">
+				AND mhSign = #{mhSign}
+			</if>
+			<if test="mhEnabled!=''">
+				AND mhEnabled = #{mhEnabled}
+			</if>
+		</where> 
+		
+    </select>
+
+	<!-- 호스트 리스트(신청한사람,승인된사람등) -->
+	<select id="listHost" parameterType="map" resultType="com.sp.trip.admin.memberManage.Member">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT  h.mhId, memberName, mhName, mhPhone, mhSign, h.mhEnabled
+				FROM memberHost h
+				JOIN member1 m1 ON h.mhId = m1.memberId
+				<where>
+					<if test="keyword!=null and keyword!='' ">
+						<include refid="where-list"/>
+					</if>
+					<if test="mhSign!=''">
+						AND mhSign = #{mhSign}
+					</if>
+					<if test="mhEnabled!=''">
+						AND mhEnabled = #{mhEnabled}
+					</if>
+				</where>
+				ORDER BY MEMBERREG_DATE DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<!-- 호스트 정보 -->
+	<select id="readHost" parameterType="String" resultType="com.sp.trip.admin.memberManage.Member">
+		SELECT 
+			h.mhId, memberName, mhName, mhNum, mhPhone, memberEmail, mhAddr1, mhAddr2, mhZip, mhSign, h.mhEnabled
+		FROM memberHost h
+		JOIN member1 m1 ON h.mhId = m1.memberId
+		WHERE h.mhId = #{mhId}
+	</select>
+
+	<!-- 호스트 승인 변경 -->
+	<update id="updateHostSign" parameterType="map">
+		UPDATE memberHost SET mhSign=#{mhSign} WHERE mhId=#{mhId}
+    </update>
+   
+	<!-- 호스트 활성화 변경 -->
+	<update id="updateHostEnabled" parameterType="map">
+		UPDATE memberHost SET mhEnabled=#{mhEnabled} WHERE mhId=#{mhId}
+    </update>
+
+	  
+
+</mapper>
