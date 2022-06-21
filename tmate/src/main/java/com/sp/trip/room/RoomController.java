@@ -191,11 +191,19 @@ public class RoomController {
 	
 	@RequestMapping("/{roomNum}/delete")
 	public String deleteRoom(@PathVariable String roomNum,
-							@RequestParam String page,
-							@RequestParam(defaultValue = "") String option) throws Exception {
-		
+							@RequestParam(defaultValue = "") String page,
+							@RequestParam(defaultValue = "") String option,
+							HttpSession session,
+							Model model) throws Exception {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		String query = "page=" + page + "&option=" + option;
 		try {
+			String reserved = roomService.isReservation(info.getUserId());
+			if (reserved.indexOf(String.valueOf(roomNum)) != -1) {
+				model.addAttribute("msg", "현재 예약이 되어 있는 객실은 삭제가 불가능합니다.");
+				model.addAttribute("url", "hostPage/rooms?" + query);
+				return "/hostPage/main/alert";
+			}
 			roomService.deleteRoom(Integer.parseInt(roomNum));
 		} catch (Exception e) {
 			e.printStackTrace();

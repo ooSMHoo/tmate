@@ -43,7 +43,7 @@ public class RoomManageController {
 		String cp = request.getContextPath();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
-		int rows = 2;
+		int rows = 10;
 		int total_page = 0;
 		int dataCount = 0;
 		

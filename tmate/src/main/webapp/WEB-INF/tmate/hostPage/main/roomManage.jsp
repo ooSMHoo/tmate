@@ -77,8 +77,12 @@ function changeState(value) {
 	
 }
 
-function deleteRoom(value) {
-	if(confirm("해당 객실을 삭제하시겠습니까?")) {
+function deleteRoom(value, reserved) {
+	if (reserved !== 0) {
+		alert("현재 예약이 되어 있는 객실은 삭제가 불가능합니다.");
+		return;
+	}
+	if (confirm("해당 객실을 삭제하시겠습니까?")) {
 		location.href="${pageContext.request.contextPath}/host/rooms/"+ value +"/delete?page=${current_page}&option=${option}";
 	}
 }
@@ -96,8 +100,8 @@ function deleteRoom(value) {
 					${dataCount}개(${current_page}/${total_page} 페이지)
 				</td>
 				<td align="right">
-					<button onclick="location.href='${pageContext.request.contextPath}/hostPage/rooms'">새로고침</button>
-					<button onclick="location.href='${pageContext.request.contextPath}/host/rooms/add';">객실 추가</button>
+					<button class="btn btn-ch2 border col-auto me-1" onclick="location.href='${pageContext.request.contextPath}/hostPage/rooms'">새로고침</button>
+					<button class="btn btn-ch2 border col-auto me-1" onclick="location.href='${pageContext.request.contextPath}/host/rooms/add';">객실 추가</button>
 					 <select name="option" id="optionSelect" class="w-auto" onchange="changeOption(this.value);">
 						  <option selected value=""  ${option==""?"selected='selected'":""}>전체</option>
 						  <option value="active" ${option=="active"?"selected='selected'":""}>활성화</option>
@@ -127,17 +131,18 @@ function deleteRoom(value) {
 							</thead>
 							<tbody>
 								<c:forEach var="room" items="${list}">
-									<tr class="hover">
+									<tr class="hover align-middle" style="height: 60px;">
 										<td class="cell">${room.listNum}</td>
 										<td class="cell">${room.roomName}</td>
 										<td class="cell">${room.roomCategory}</td>
-										<td class="cell"><button onclick="location.href='${pageContext.request.contextPath}/host/rooms/${room.roomNum}?page=${current_page}&option=${option}'">객실상세</button></td>
-										<td class="cell"><button onclick="location.href='${pageContext.request.contextPath}/host/rooms/${room.roomNum}/update?page=${current_page}&option=${option}'">수정하기</button></td>
+										<td class="cell"><button class="btn btn-ch2 border" onclick="location.href='${pageContext.request.contextPath}/host/rooms/${room.roomNum}?page=${current_page}&option=${option}'">객실상세</button></td>
+										<td class="cell"><button class="btn btn-ch2 border" onclick="location.href='${pageContext.request.contextPath}/host/rooms/${room.roomNum}/update?page=${current_page}&option=${option}'">수정하기</button></td>
 										<td class="cell">${room.isReserved==0?"공실":"예약중"}</td>
-										<td class="cell"><button onclick="deleteRoom(${room.roomNum});">삭제하기</button></td>
-										<td class="cell">
-											<div class="form-check form-switch">
+										<td class="cell"><button class="btn btn-ch2 border" onclick="deleteRoom(${room.roomNum},${room.isReserved});">삭제하기</button></td>
+										<td class="cell"  >
+											<div class="form-check form-switch ms-2" >
 											  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault${room.roomNum}" onclick="changeState(${room.roomNum});" ${room.enabled=="0"?"checked='checked' enabled=0":"enabled=1"}>
+											 	 ${room.enabled=="0"?"객실활성":"객실비활성"}
 											  <label class="form-check-label" for="flexSwitchCheckDefault${room.roomNum}"></label>
 											</div>
 										</td>
