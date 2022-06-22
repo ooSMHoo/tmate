@@ -86,9 +86,9 @@ public class MypageServiceImpl implements MypageService{
 	}
 
 	@Override
-	public void deleteLike(Map<String, Object> map) throws Exception {
+	public void deleteList(Map<String, Object> map) throws Exception {
 		try {
-			dao.deleteData("mypage.deleteLike",map);
+			dao.deleteData("mypage.deleteList",map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -108,6 +108,7 @@ public class MypageServiceImpl implements MypageService{
 
 		return result;
 	}
+
 	
 
 

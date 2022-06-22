@@ -12,24 +12,24 @@
 	
 			<ul class="nav nav-pills flex-column">
 
-				<li><a href="${pageContext.request.contextPath}/mypage/reservationList" class="nav-link nav-link-menu pt-4"> 
+				<li><a href="${pageContext.request.contextPath}/mypage/main/reservationList" class="nav-link nav-link-menu pt-4"> 
 					<i class="fa-solid fa-calendar-check"></i>
 					예약관리 
 				</a></li>
 				
 				
-				<li><a href="${pageContext.request.contextPath}/mypage/likeList" class="nav-link nav-link-menu"> 
+				<li><a href="${pageContext.request.contextPath}/mypage/main/likeList" class="nav-link nav-link-menu"> 
 					<i class="fa-brands fa-gratipay"></i>
 					찜 목록 
 				</a></li>
 				
 				
-				<li><a href="${pageContext.request.contextPath}/mypage/friend" class="nav-link nav-link-menu"> 
+				<li><a href="${pageContext.request.contextPath}/mypage/main/friend" class="nav-link nav-link-menu"> 
 					<i class="fa-solid fa-people-group"></i>
 					친구목록 
 				</a></li>
 				
-				<li><a href="${pageContext.request.contextPath}/mypage/reviewList" class="nav-link nav-link-menu"> 
+				<li><a href="${pageContext.request.contextPath}/mypage/main/reviewList" class="nav-link nav-link-menu"> 
 					<i class="fa-solid fa-star"></i>
 					리뷰 관리
 				</a></li>
@@ -40,7 +40,7 @@
 				</a></li>
 				
 				
-				<li><a href="${pageContext.request.contextPath}/mypage/update" class="nav-link nav-link-menu"> 
+				<li><a href="${pageContext.request.contextPath}/mypage/main/update" class="nav-link nav-link-menu"> 
 					<i class="fa-solid fa-circle-user"></i>
 					회원정보
 				</a></li>

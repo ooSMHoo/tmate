@@ -18,31 +18,28 @@
 	
 	<hr>
 	<ul class="list-group">
-		<c:if test="${dataCount!=0 }">
-			<c:forEach var="dto" items="${list}" varStatus="status">
-				<c:if test="${dto.pointCode==1}">
-				  <li class="list-group-item">포인트 적립
-				  	 	<p class="list-group-point">+${dto.pointQuant} </p>
-				  	<div class="group">
-				  	 	<p class="list-group-date">${dto.pointDate}</p>
-				  	</div>
-				  </li>
-				</c:if>
-				<c:if test="${dto.pointCode==0}">
-				  <li class="list-group-item">포인트 사용
-				  	 	<p class="list-group-point">-${dto.pointQuant} </p>
-				  	<div class="group">
-				  	 	<p class="list-group-date">${dto.pointDate}</p>
-				  	</div>
-				  </li>
-				</c:if>
-			 </c:forEach> 
+	<c:forEach var="dto" items="${list}" varStatus="status">
+		<c:if test="${dto.pointCode==1}">
+			 <li class="list-group-item">포인트 적립
+		  	 	<p class="list-group-point">+${dto.pointQuant} </p>
+		  		<div class="group">
+		  	 		<p class="list-group-date">${dto.pointDate}</p>
+		  		</div>
+			  </li>
 		</c:if>
+		<c:if test="${dto.pointCode==0}">
+			<li class="list-group-item">포인트 사용
+		  	 	<p class="list-group-point">-${dto.pointQuant} </p>
+		  		<div class="group">
+		  	 		<p class="list-group-date">${dto.pointDate}</p>
+		  		</div>
+		  </li>
+		</c:if>
+	</c:forEach>
 	</ul>
-		<input type="hidden" name="rows" value="${rows}">
-	
 	<div class="page-box">
-		${dataCount == 0 ? "포인트 내역이 없습니다." : paging}
+		${dto.dataCount == 0 ? "포인트 내역이 없습니다." : paging}
 	</div>
 
 </div>
+		

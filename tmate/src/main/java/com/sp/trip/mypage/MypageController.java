@@ -18,7 +18,7 @@ import com.sp.trip.common.MyUtil;
 import com.sp.trip.member.SessionInfo;
 
 @Controller("mypage.mypageController")
-@RequestMapping("/mypage/*")
+@RequestMapping("/mypage/main/*")
 public class MypageController {
 
 	@Autowired
@@ -35,30 +35,31 @@ public class MypageController {
 		
 		String cp = req.getContextPath();
 		
-		int rows = 9;
+		int rows = 6;
 		int total_page = 0;
 		int dataCount = 0;
 		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		dataCount = service.dataCount(map);
-		if(dataCount != 0) {
-			total_page = myUtil.pageCount(rows, dataCount);
-		}
-		
+		map.put("memberId", info.getUserId());
+
 		int start = (current_page - 1) * rows + 1;
 		int end = current_page * rows;
 		map.put("start", start);
 		map.put("end", end);
+				
+		dataCount = service.dataCount(map);
+		if(dataCount != 0) {
+			total_page = myUtil.pageCount(rows, dataCount);
+		}
+		if(total_page < current_page ) {
+			current_page = total_page;
+		}
 		
+		List<LikeList> list = service.listLike(map);
 		String listUrl = cp + "/mypage/main/likeList";
 		
 		String paging = myUtil.paging(current_page, total_page, listUrl);
-		
-		
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		map.put("memberId", info.getUserId());
-		List<LikeList> list = service.listLike(map);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);
@@ -70,7 +71,7 @@ public class MypageController {
 	}
 	
 	@RequestMapping(value="deleteList", method=RequestMethod.POST)
-	public String deletelist(@RequestParam String roomNum, HttpSession session) throws Exception {
+	public String deleteList(@RequestParam String roomNum, HttpSession session) throws Exception {
 
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
@@ -79,11 +80,11 @@ public class MypageController {
 		try {
 			map.put("memberId", info.getUserId());
 			map.put("roomNum",  Integer.parseInt(roomNum));
-			service.deleteLike(map);
+			service.deleteList(map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/mypage/likeList"; 
+		return "redirect:/mypage/main/likeList";
 	}
 	
 	@RequestMapping(value="friend", method=RequestMethod.GET)

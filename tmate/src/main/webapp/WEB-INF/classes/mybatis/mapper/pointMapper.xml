@@ -2,28 +2,20 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="point">
-	
-   	<select id="readPoint" parameterType="String" resultType="com.sp.trip.point.Point">
-		SELECT pointQuant, 
-		TO_CHAR(pointDate, 'YYYY-MM-DD') pointDate, 
-		pointCode
-		FROM point
-		WHERE memberId = #{memberId}
-	</select>
-	
+
 	<select id="listPoint" parameterType="map" resultType="com.sp.trip.point.Point">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT pointNum, p.memberId, pointCode, pointQuant,
+				SELECT DISTINCT(pointNum), p.memberId, pointCode, pointQuant,
 				TO_CHAR(pointDate, 'YYYY-MM-DD') pointDate
 				FROM point p
 				JOIN member1 m ON p.memberId=m.memberId
-				ORDER BY pointNum DESC
+                WHERE p.memberId = #{memberId}
+				ORDER BY pointDate ASC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
-	
-	
+		
 	<insert id="insertPoint" parameterType="com.sp.trip.point.Point" >		
  		INSERT INTO point(pointNum, pointCode, pointDate, pointQuant, memberId) 
  		VALUES(point_seq.NEXTVAL, #{pointCode}, SYSDATE, #{pointQuant}, #{memberId})
@@ -33,6 +25,7 @@
  		SELECT NVL(COUNT(*), 0)
  		FROM point p
  		JOIN member1 m ON p.memberId = m.memberId
+ 		WHERE p.memberId = #{memberId}
  	</select>
  	
 </mapper>

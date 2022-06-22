@@ -11,7 +11,6 @@ public class ReservationList {
 	private int roomNum;
 	private String mhId;
 	
-	
 	public String getResCin_date() {
 		return resCin_date;
 	}
@@ -66,5 +65,6 @@ public class ReservationList {
 	public void setMhId(String mhId) {
 		this.mhId = mhId;
 	}
-	
+
+
 }

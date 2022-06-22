@@ -9,6 +9,21 @@ public class LikeList {
 	private int roomSeasonprice; // 성수기 요금
 	private String mhAddr1; 
 	private String mhaddr;
+	private int roomNum;
+	private String roomName;
+	
+	public String getRoomName() {
+		return roomName;
+	}
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+	public int getRoomNum() {
+		return roomNum;
+	}
+	public void setRoomNum(int roomNum) {
+		this.roomNum = roomNum;
+	}
 	public String getRphotoName() {
 		return rphotoName;
 	}

@@ -14,5 +14,5 @@ public interface MypageService {
 	public List<LikeList> listLike(Map<String, Object> map);
 	public int dataCount(Map<String, Object> map);
 	
-	public void deleteLike(Map<String, Object> map) throws Exception;
+	public void deleteList(Map<String, Object> map) throws Exception;
 }

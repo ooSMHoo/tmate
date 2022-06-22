@@ -228,7 +228,7 @@
 .point-content{
 	font-size: 18px;
 	width: 800px;
-	margin-top: 20px;
+	margin-top: 10px;
 	margin-left: 20px;
 }
 
@@ -252,6 +252,7 @@
 
 .list-group-item{
 	border-bottom: 1px solid gray;
+	margin-bottom: 15px;
 }
 
 .list-group-date{
@@ -271,21 +272,18 @@
 /*likeList.jsp========================================================*/
 
 .like-card{
-	width: 18rem;
+	width: 250px;
 	float: left;
 	margin-top: 0px;
 	margin-bottom: 15px;
 	margin-right: 20px;
 	box-shadow: 0 3px 5px 0px gray;
-	height: 300px;
+	height: 285px;
 }
 
-.card-body{
-	overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.card-body p{
+	margin-bottom: 3px;
 }
-
 .card-img-top{
 	width: 100%;
 	height: 165px;
@@ -302,7 +300,7 @@
 }
 
 .card-info{
-	height: 25px;
+	height: 20px;
 	display: flex;
 	justify-content: space-between;
 }

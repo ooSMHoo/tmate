@@ -35,25 +35,39 @@
     </select>
     
     <!-- 찜 리스트 -->
+
+    
     <select id="listLike" parameterType="map" resultType="com.sp.trip.mypage.LikeList">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT lodgName, mhAddr1, li.memberId, revGrade, li.roomNum, roomName, rphotoName
-					FROM likeList li
-						JOIN room rm ON rm.roomNum = li.roomNum
-						JOIN lodging lo ON rm.mhId = lo.mhId
-						JOIN review rv ON li.memberId = rv.memberId
-						JOIN memberHost mh ON rm.mhId = mh.mhId
-						JOIN lodgingPhoto lp ON rm.mhId = lp.mhId
-						WHERE li.memberId = #{memberId} AND ROWNUM =1
+				SELECT lodgName, mhAddr1, li.memberId, revGrade, lo.mhId, roomName, MIN(rphotoName)
+				FROM likeList li
+				    JOIN room rm ON rm.roomNum = li.roomNum
+				    JOIN lodging lo ON rm.mhId = lo.mhId
+				    JOIN review rv ON li.memberId = rv.memberId
+				    JOIN memberHost mh ON rm.mhId = mh.mhId
+				    JOIN roomPhoto rp ON rm.roomNum = rp.roomNum 
+				    WHERE li.memberId = #{memberId}
+				    GROUP BY lodgName, mhAddr1, li.memberId, revGrade, lo.mhId, roomName
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
     </select>
 
-	<delete id="deleteLike" parameterType="map" >
+	<delete id="deleteList" parameterType="map" >
 		DELETE FROM likeList  
 		WHERE roomNum = #{roomNum} AND memberId = #{memberId}
 	</delete>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+ 		FROM likeList li
+ 		JOIN room rm ON rm.roomNum = li.roomNum
+	    JOIN lodging lo ON rm.mhId = lo.mhId
+	    JOIN review rv ON li.memberId = rv.memberId
+	    JOIN memberHost mh ON rm.mhId = mh.mhId
+	    JOIN roomPhoto rp ON rm.roomNum = rp.roomNum 
+	    WHERE li.memberId = #{memberId}
+	</select>
     
     
 </mapper>

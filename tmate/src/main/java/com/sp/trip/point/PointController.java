@@ -34,29 +34,35 @@ public class PointController {
 		// 포인트
 		String cp = req.getContextPath();
 		
-		int rows = 4;
+		int rows = 5;
 		int total_page = 0;
 		int dataCount = 0;
 			
+		SessionInfo info = (SessionInfo)session.getAttribute("member"); 
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberId", info.getUserId());
+		
 		
 		dataCount = service.dataCount(map);
 		if(dataCount != 0) {
 			total_page = myUtil.pageCount(rows, dataCount);
+		}
+		if(total_page < current_page ) {
+			current_page = total_page;
 		}
 		
 		int start = (current_page -1) * rows + 1;
 		int end = current_page * rows;
 		map.put("start", start);
 		map.put("end", end);
+			
+		List<Point> list = service.listPoint(map);
 		
-		SessionInfo info = (SessionInfo)session.getAttribute("member"); 
-		
-		List<Point> list = service.readPoint(info.getUserId());
 		int totalPoint = 0;
 		for(Point p: list) {
 			totalPoint += p.getPointQuant();
 		}
+		map.put("total", totalPoint);
 				
 		String listUrl = cp + "/mypage/main/point";
 		

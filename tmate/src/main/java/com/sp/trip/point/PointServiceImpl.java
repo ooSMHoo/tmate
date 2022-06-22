@@ -14,17 +14,7 @@ public class PointServiceImpl implements PointService {
 	@Autowired
 	private CommonDAO dao;
 	
-	@Override
-	public List<Point>  readPoint(String memberId) {
-		List<Point> list = null;
-		
-		try {
-			list = dao.selectList("point.readPoint", memberId);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
+
 	
 	@Override
 	public void insertPoint(Point dto) throws Exception {

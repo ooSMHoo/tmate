@@ -15,15 +15,15 @@
 	 	</div>
 	 	<div class="container-info-rev">
 	 		<p class="info-menu">체크아웃  </p>
-	 		<p>06.06</p>
+	 		<p>${dto.resCout_date}</p>
 	 	</div>
 	 	<div class="container-info-rev">
 	 		<p class="info-menu">예약번호 </p>
-	 		<p>06.06</p>
+	 		<p>${dto.resNum}</p>
 	 	</div>
 	 	<div class="container-info-rev">
 	 		<p class="info-menu">예약자이름</p>
-	 		<p>06.06</p>
+	 		<p>${dto.memberName}</p>
 	 	</div>
 
 	</div>
@@ -31,7 +31,7 @@
 	<div class="container-fluid container-pirce">
 	<hr style="clear:both; width: 300px;">
 		<p style="font-weight: bold">결제정보</p>
-		<p>총 결제 금액 </p>
+		<p>총 결제 금액 : ${dto.resTotalCost} 원</p>
 	</div>
 	
 </div>
