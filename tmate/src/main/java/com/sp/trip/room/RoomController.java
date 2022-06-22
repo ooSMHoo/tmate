@@ -102,7 +102,7 @@ public class RoomController {
 			int num = Integer.parseInt(roomNum);
 			Room room = roomService.readRoom(num);
 			if (room == null) {
-				return "redirect:/"; // 방이 없는데 접근
+				return "redirect:/"; // 방이 없는데 접근 또는 방을 삭제했는데 접근
 			}
 			if (! room.getMhId().equals(info.getUserId())) {
 				return "redirect:/"; // 숙소가 없는데 접근함

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reservationRoomList">
+	<select id="readLodging" parameterType="String" resultType="com.sp.trip.reservation.Lodging">
+        SELECT lodgName, lodgLat, lodgLon, lodgContent1, lodgContent2, lodgStart_Date, lodgEnd_date,
+        lodgPageaddr, lodgCin_time, lodgCout_time, lodgOption, l.mhId, mhName, mhNum, mhPhone, mhAddr1, mhAddr2, 
+        			m2.memberPhone, m1.memberEmail, memberName
+		FROM lodging l
+        JOIN memberHost mh ON mh.mhId = l.mhId
+        JOIN member1 m1 ON m1.memberId = mh.mhId
+        JOIN member2 m2 ON m1.memberId = m2.memberId
+		WHERE mh.mhEnabled=0 AND l.enabled=0 AND l.mhId=#{mhId}
+	</select>
+	
+	<select id="readLodgingPhotoList" parameterType="String" resultType="com.sp.trip.reservation.Lodging">
+		SELECT lPhotoNum, lPhotoName   
+		FROM lodging l
+		JOIN lodgingPhoto lp ON lp.mhId=l.mhId
+		WHERE l.mhId=#{mhId}
+	</select>
+	
+	<select id="readReview" parameterType="String" resultType="com.sp.trip.reservation.Review">
+		SELECT review.revNum, review.memberId, review.resNum, review.revSubject, review.revContent, review.revGrade,
+				review.revReg_date, review.resAnswer
+		FROM review review
+		JOIN Reservation rv ON rv.resNum = review.resNum	
+		JOIN reservationDetail rd ON rd.resNum = rv.resNum
+		JOIN room r ON r.roomNum = rd.roomNum
+		JOIN lodging l ON l.mhId = r.mhId
+		WHERE l.mhId=#{mhId}
+	</select>
+	
+	<select id="readCanReservationRoomList" parameterType="map" resultType="com.sp.trip.reservation.Room">
+		SELECT DISTINCT r.roomNum, r.roomName, r.roomContent, r.roomPeople, r.roomMax_people, rc.rcName, r.roomOption, r.roomBed,
+        	CASE
+            	WHEN SYSDATE&gt;=TO_DATE(EXTRACT (YEAR FROM SYSDATE)||l.lodgStart_date, 'YYYY-MM-DD') AND SYSDATE&lt;=TO_DATE(EXTRACT (YEAR FROM SYSDATE)||l.lodgEnd_date, 'YYYY-MM-DD') THEN roomSeasonprice
+            	WHEN TO_CHAR(TO_DATE(#{start}), 'd') IN ('6','7') THEN roomWe_price
+            ELSE roomWd_price
+        	END as price
+		FROM Lodging l
+		JOIN Memberhost mh ON l.mhId = mh.mhId
+		JOIN LodgingCategory lc ON l.lcNum = lc.lcNum
+		JOIN Room r ON l.mhId = r.mhId
+		JOIN RoomCategory rc ON rc.rcNum = r.rcNum
+		LEFT JOIN ReservationDetail rvd ON r.roomNum = rvd.roomNum
+		LEFT JOIN Reservation rv ON rvd.resNum = rv.resNum
+		WHERE r.roomNum NOT IN 
+		(
+		    SELECT r.roomNum
+		    FROM Room r
+		    JOIN ReservationDetail rvd ON r.roomNum = rvd.roomNum
+		    JOIN Reservation rv ON rvd.resNum = rv.resNum
+		    WHERE ( TO_CHAR(resCin_date, 'YYYYMMDD') &lt;= #{start} AND TO_CHAR(resCout_date, 'YYYYMMDD') &gt;= #{end} AND rv.resCode=0 AND r.enabled=0)
+		        OR ( TO_CHAR(resCout_date, 'YYYYMMDD') &gt; #{start} AND TO_CHAR(resCout_date, 'YYYYMMDD') &lt; #{end} AND rv.resCode=0 AND r.enabled=0) 
+		        OR ( TO_CHAR(resCin_date, 'YYYYMMDD') &gt;= #{start} AND TO_CHAR(resCin_date, 'YYYYMMDD') &lt; #{end} AND rv.resCode=0 AND r.enabled=0)
+		) AND l.mhId=#{mhId} AND r.roomPeople=#{roomPeople}
+	</select>
+	
+	<select id="readCanReservationRoomPhotoList" parameterType="Integer" resultType="com.sp.trip.reservation.Room">
+		SELECT rphotoName FROM roomPhoto WHERE roomNum = #{roomNum}
+	</select>
+</mapper>
