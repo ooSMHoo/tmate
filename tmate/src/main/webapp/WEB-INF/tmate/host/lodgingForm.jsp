@@ -146,14 +146,14 @@ $(function() {
 	    const fileArr = Array.from(this.files);
 		<c:choose>
 			<c:when test="${mode eq 'write'}">
-			if(sel_files.length+fileArr.length > 15) {
-				alert("사진은 최대 15장까지 등록 가능합니다.");
+			if(sel_files.length+fileArr.length > 8) {
+				alert("사진은 최대 8장까지 등록 가능합니다.");
 				return false;
 			}
 			</c:when>
 			<c:when test="${mode eq 'update'}">
-			if(sel_files.length+fileArr.length+$('.delete-img').length > 15) {
-				alert("사진은 최대 15장까지 등록 가능합니다.");
+			if(sel_files.length+fileArr.length+$('.delete-img').length > 8) {
+				alert("사진은 최대 8장까지 등록 가능합니다.");
 				return false;
 			}
 			</c:when>
@@ -291,7 +291,7 @@ $(function() {
                 </div>
                 <div class="tm_form_list">
                     <div class="tm_form_lable_box">
-                        <span>숙소 사진 업로드 <br>(최소1장,최대15장)</span>
+                        <span>숙소 사진 업로드 <br>(최소1장,최대8장)</span>
                     </div>
                     <div class="tm_form_input_box">
                         <div class="img-grid">

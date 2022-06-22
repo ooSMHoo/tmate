@@ -469,19 +469,18 @@ function ajaxFun(url, method, query, dataType, fn) {
 	});
 }
 
-function roomInfo() {
+function roomInfo(value) {
 	var dlg = $("roomInfo-dialog").dialog({
 		  autoOpen: false,
 		  modal: true,
 		  height: 540,
 		  width: 830,
-		  title: "회원상세정보",
 		  close: function(event, ui) {
 		  }
 	});
 
 	let url = "${pageContext.request.contextPath}/reservation/roomInfo";
-	let query = "userId=";
+	let query = "roomNum="+value;
 	
 	const fn = function(data){
 		$('.modal-body').html(data);
@@ -602,52 +601,6 @@ $("#roomDate").change(function(){
 	
 	alert(ciDate + "," + coDate);	
 });
-  
-  
-  
-  
-// 슬라이더
-$('.slider > .pages > div').click(function() {
-    var $this = $(this);
-    var $slider = $this.closest('.slider');
-    
-    $this.addClass('active');
-    $this.siblings('.active').removeClass('active');
-    
-    var index = $this.index();
-    
-    $slider.find(' > .slides > .active').removeClass('active');
-    $slider.find(' > .slides > div').eq(index).addClass('active');
-});
-
-
-$('.slider > .side-btns > div').click(function() {
-    var $this = $(this);
-    var index = $this.index();
-    var $slider = $this.closest('.slider');
-    
-    var $current = $slider.find('.pages > div.active');
-    var $post;
-    
-    if ( index == 0 ) {
-        $post = $current.prev();
-    }
-    else {
-        $post = $current.next();
-    }
-    
-    if ( $post.length == 0 ) {
-        if ( index == 0 ) {
-            $post = $slider.find('.pages > div:last-child');
-        }
-        else {
-            $post = $slider.find('.pages > div:first-child');
-        }
-    }
-    
-    $post.click();
-});
-
 </script>
 
 <script>
@@ -680,8 +633,8 @@ function showSlides(n) {
 }
 </script>
 <div class="modal fade" id="myDialogModal" tabindex="-1" aria-labelledby="myDialogModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
+	<div class="modal-dialog modal-dialog-centered modal-xl">
+		<div class="modal-content pos_rel">
 			<div class="modal-header">
 				<h5 class="modal-title" id="myDialogModalLabel">객실 상세 보기</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

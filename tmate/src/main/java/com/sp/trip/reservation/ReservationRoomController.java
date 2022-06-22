@@ -29,15 +29,15 @@ public class ReservationRoomController {
 	public String roomlist(
 			@RequestParam(defaultValue = "") String startDate,
 			@RequestParam(defaultValue = "") String endDate,
-			@RequestParam(defaultValue = "abc12345") String mhId,
-			@RequestParam(defaultValue = "2") int people,
+			@RequestParam(defaultValue = "tmhost1") String mhId,
+			@RequestParam(defaultValue = "4") int people,
 			Model model) throws Exception {
 		
 		if( startDate.equals("") || endDate.equals("")) {
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.DATE, 1);
 			startDate = String.format("%tF", cal);
-			cal.add(Calendar.DATE, 2);
+			cal.add(Calendar.DATE, 1);
 			endDate = String.format("%tF", cal);
 		}
 		
@@ -65,6 +65,7 @@ public class ReservationRoomController {
 	
 	@PostMapping("/roomInfo")
 	public String roomInfo() {
+		
 		return "/reservation/roomInfoModal";
 	}
 }
