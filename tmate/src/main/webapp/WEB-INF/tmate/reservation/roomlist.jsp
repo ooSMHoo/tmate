@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/lodging.css?after" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/paginate.css?after" type="text/css">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
@@ -43,8 +44,17 @@
 			<div class="room_name mb-3">
 				${lodging.lodgName}
 			</div>
-			<div class="room_grade mb-2">
-				평점 + (리뷰수)
+			<div class="d-flex">
+					<div class="star-ratings">
+						<div class="star-ratings-fill" style=" width: ${total*20}% ">
+							<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+						</div>
+						<div class="star-ratings-base">
+							<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+						</div>	
+					</div>
+					<div style="width: 85%;">
+					</div>	
 			</div>
 			<div class="room_place">
 				<button onclick="window.open('https://map.kakao.com/link/map/${lodging.lodgName},${lodging.lodgLat},${lodging.lodgLon}')">지도로 보기</button>
@@ -55,7 +65,7 @@
 				</c:if>
 			</div>
 			
-			<form>
+			<form name="changeForm" method="get">
 				<div class="d-flex mt-3" style="text-align: right;">
 					<div>
 						<span>예약 날짜</span> 
@@ -64,21 +74,24 @@
 					<div class="peopleform">
 						<span>숙박인원</span>
 						<select name="sel_people">
-							<option value="1" selected="selected">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="etc">직접입력</option>
+							<option value="1" ${people==1?"selected='selected'":""}>1</option>
+							<option value="2" ${people==2?"selected='selected'":""}>2</option>
+							<option value="3" ${people==3?"selected='selected'":""}>3</option>
+							<option value="4" ${people==4?"selected='selected'":""}>4</option>
+							<option value="etc" ${people>=5?"selected='selected'":""}>직접입력</option>
 						</select>
-						<input type="text" name="input_people" readonly="readonly" value="1" style="width: 35px;">명
+						<input type="text" name="people" ${people>=5?"":"readonly='readonly'"} value="${people}" style="width: 35px;">명
 					</div>
-					<div><button>선택</button></div>
+					<div><button onclick="change();">선택</button></div>
 				</div>
+				<input type="hidden" name="startDate" value="">
+				<input type="hidden" name="endDate" value="">
+				<input type="hidden" name="mhId" value="${lodging.mhId}">
 			</form>
 
 		</div>
 		
-		<div class="room_content px-3 py-2 mt-3">
+		<div class="room_content px-3 py-2 mt-3" style="height: 430px; overflow: auto;">
 			<div>
 				객실 리스트
 			</div>
@@ -89,8 +102,8 @@
 			<c:when test="${not empty room}">
 			<c:forEach var="vo" items="${room}" varStatus="status">
 			<div class="d-flex room_list">
-				<div class="tm_wid35">
-					<div style="border: 1px solid; background: #bdd; height: 96%; width: 96%; cursor: pointer;'"
+				<div class="tm_wid35" style="width: 31%">
+					<div style="border: 1px solid; background-image: url(${pageContext.request.contextPath}/tmate/room/${vo.rphotoName}); height: 96%; width: 96%; cursor: pointer;'"
 					data-bs-toggle="modal" data-bs-target="#roomInfo" >
 					</div>
 				</div>
@@ -105,12 +118,12 @@
 						기준 ${vo.roomPeople}명 / 최대 ${vo.roomMax_people}명
 					</div>
 					<div>
-						<button onclick="roomInfo();">객실 상세 정보 보기</button>
+						<button onclick="roomInfo(${vo.roomNum});">객실 상세 정보 보기</button>
 								
 					</div>
 					
 					<div class="lodg_price">
-						<div>가격 <span class="price_won">원</span></div>
+						<div>가격 <span class="price_won">${vo.price}원</span></div>
 						<div><button onclick="goReservation()">예약하기</button></div>
 					</div>
 				</div>
@@ -118,7 +131,7 @@
 				</c:forEach>
 				</c:when>
 				<c:otherwise>
-					예약 가능한 객실이 없습니다.
+					<b style="font-size: 30px;">예약 가능한 객실이 없습니다.</b>
 				</c:otherwise>
 				</c:choose>
 			</div>
@@ -218,10 +231,8 @@
 		<div class="room_content px-3 py-2 mt-2">
 			주변 가볼만한 곳
 			<div class="tm_hr my-2"></div>
-			<div>
-				~~~가 있습니다.
-			</div>
 			
+			<div id="map" style="width:800px; height:500px;"></div>
 			
 			<div class="tm_hr mt-2"></div>
 			
@@ -286,156 +297,33 @@
 			<div class="tm_hr mt-2"></div>
 			
 			
-						<div class="pos_rel">
-			
-							<button type="button" class="mt-2 tm_right" data-bs-toggle="modal" data-bs-target="#reivewWrite">
-							 	<div>
-								 	<div class="host_modal">
-								 		리뷰작성
-								 	</div>
-							 	</div>
-							</button>
-							
-							
-							<div class="modal fade" id="reivewWrite" tabindex="-1" aria-labelledby="reivewWriteLabel" aria-hidden="true">
-							  <div class="modal-dialog modal-dialog-centered modal-lg">
-							    <div class="modal-content pos_rel">
-							      <div class="d-flex">
-							      	<div>
-								        <h5 class="modal-title" id="reivewWriteLabel">리뷰 작성</h5>
-							      	</div>
-							      	<div>
-								        <button type="button" class="btn-close tm_right mt-1 me-1" data-bs-dismiss="modal" aria-label="Close"></button>
-							      	</div>
-							      </div>
-							      
-									<form class="w-75" name="reviewForm">
-										<div class="mt-3">
-											<div class="d-flex">
-											
-												<div class="star-rating">
-												  <input type="radio" id="5-stars" name="rating" value="5">
-												 	 <label for="5-stars" class="star">&#9733;</label>
-												  <input type="radio" id="4-stars" name="rating" value="4">
-												  	<label for="4-stars" class="star">&#9733;</label>
-												  <input type="radio" id="3-stars" name="rating" value="3">
-												  	<label for="3-stars" class="star">&#9733;</label>
-												  <input type="radio" id="2-stars" name="rating" value="2">
-												  	<label for="2-stars" class="star">&#9733;</label>
-												  <input type="radio" id="1-star" name="rating" value="1">
-												 	 <label for="1-star" class="star">&#9733;</label>
-												</div>
-												<div>
-													<span id="rating_result"></span>점
-													<input type="hidden" name="reviewrating">
-												</div>
-											</div>
-											<div>
-											  <textarea class="w-100 mt-3" style="resize: none; height: 150px;"></textarea>
-											</div>
-											<div class="mt-2 mb-3 host_modal">
-												<button type="button" onclick=""> 작성하기 </button>
-											</div>
-										</div>
-									</form>
-									
-							      </div>
-							    </div>
-							  </div>
-						</div>
-					
-
-			
 			<div class="tm-text-cen">
 				<div class="star-ratings">
-					<div class="star-ratings-fill" style="{ width: ratingToPercent + '%' }">
+					<div class="star-ratings-fill" style="width: ${total*20}%">
 						<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
 					</div>
 					<div class="star-ratings-base">
 						<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
 					</div>
 				</div>
-				<div>평점</div>
+				<div>${total}</div>
 			</div>
 			
 			
 			<div>
 				관심 있는 키워드를 선택해서 후기를 살펴보세요.
 				<ul class="d-flex list-no review-cate mt-2">
-					<li>청결 +</li> <!-- (깔끔, 깨끗, 청결, 위생, 더러, 더럽) -->
-					<li>서비스 +</li> <!--(친절, 직원, 매너, 서비스) -->
-					<li>위치 +</li> <!--(근처, 위치)-->
-					<li>소음 +</li> <!--(조용, 시끄러움, 소음) -->
-					<li>편안함 +</li> <!--(편안, 편한, 쉼) -->
-					<li>난/냉방 +</li> <!--(난방 ,냉방) -->
+					<li onclick="search('all');">전체</li>
+					<li onclick="search('clean');">청결 +</li> <!-- (깔끔, 깨끗, 청결, 위생, 더러, 더럽) -->
+					<li onclick="search('service');">서비스 +</li> <!--(친절, 직원, 매너, 서비스) -->
+					<li onclick="search('location');">위치 +</li> <!--(근처, 위치)-->
+					<li onclick="search('loud');">소음 +</li> <!--(조용, 시끄러움, 소음) -->
+					<li onclick="search('comfort');">편안함 +</li> <!--(편안, 편한, 쉼) -->
+					<li onclick="search('wind');">난/냉방 +</li> <!--(난방 ,냉방) -->
 				</ul>
+				
 			</div>
-			<div class="mt-3">
-				<div class="d-flex">
-					<div style="width: 8%;">
-						<div>
-							<i class="fa-solid fa-user"></i>
-						</div>
-						<div>
-							OOO 님
-						</div>
-					</div>
-					<div class=" "style="width: 92%;">
-						<div>
-							리뷰 제목
-						</div>
-						<div class="d-flex">
-								<div class="star-ratings">
-									<div class="star-ratings-fill" style="{ width: ratingToPercent + '%' }">
-										<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-									</div>
-									<div class="star-ratings-base">
-										<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-									</div>	
-								</div>
-								<div style="width: 85%;">
-									몇점
-								</div>	
-						</div>
-						<div>
-							선택 객실
-						</div>
-						<div>
-							리뷰내용이에요~
-							어떻게 이럴 수 있는지 정말 좋더라구요.
-						</div>
-						<div>
-							날짜
-						</div>
-						
-							<div class="host_modal">
-								<div>
-									<button type='button' class='btn btn-light btnSendReplyLike' data-replyNum='${vo.replyNum}' data-replyLike='1' title="좋아요"><i class="bi bi-hand-thumbs-up"></i> <span>${vo.likeCount}</span></button>
-									<button type='button' class='btn btn-light btnSendReplyLike' data-replyNum='${vo.replyNum}' data-replyLike='0' title="싫어요"><i class="bi bi-hand-thumbs-down"></i> <span>${vo.disLikeCount}</span></button>	        
-								</div>
-							</div>
-						
-						
-						
-						<div class="mt-2 d-flex room_review">
-							<div class="tm_wid8">
-								<div>
-									<i class="fa-solid fa-building-user"></i>
-								</div>
-								<div>
-									OOO
-								</div>
-							</div>
-							<div class="tm_wid92">
-								<div>제휴점 답변</div>
-								<div>답변 내용 답변 내용</div>		
-								<div>시간</div>						
-							</div>
-						</div>
-						
-					</div>
-				</div>
-			</div>
+			<div id="roomReview"></div>
 		</div>
 		
 		
@@ -444,6 +332,20 @@
 
 
 <script type="text/javascript">
+function change() {
+	const f = document.changeForm;
+	let str;
+	
+	str = f.people.value;
+	if ( !str ) {
+		alert("인원을 선택 혹은 입력해주세요");
+		return;
+	}
+    
+	f.action = "${pageContext.request.contextPath}/reservation/roomlist";
+	f.submit();
+}
+
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,
@@ -489,12 +391,54 @@ function roomInfo(value) {
 	ajaxFun(url, "post", query, "html", fn);
 }
 
+$(function() {
+	listPage(1, "all");
+	console.log(${attraction});
+});
+
+function listPage(page, option) {
+	let url = "${pageContext.request.contextPath}/reservation/roomReview";
+	let query = "mhId=${lodging.mhId}&pageNo="+page+"&option="+option;
+	let selector = "#roomReview";
+	
+	const fn = function(data) {
+		$(selector).html(data);
+	};
+	ajaxFun(url, "get", query, "html", fn);
+}
+
+function search(value) {
+	listPage(1, value);
+}
+
+function writeReview(value) {
+	var dlg = $("writeReview-dialog").dialog({
+		  autoOpen: false,
+		  modal: true,
+		  height: 540,
+		  width: 830,
+		  close: function(event, ui) {
+		  }
+	});
+
+	let url = "${pageContext.request.contextPath}/reservation/writeReview";
+	let query = "mhId="+value;
+	console.log("query");
+	
+	const fn = function(data){
+		$('.modal-body2').html(data);
+		$("#reivewWrite").modal("show");
+	};
+	ajaxFun(url, "get", query, "html", fn);
+}
+
 /*
 ratingToPercent() {
     const score = +this.restaurant.averageScore * 20;
     return score + 1.5;
 }
 */
+
 
 $("input[name=rating]").click(function() {
     	var rating = $(this).val();
@@ -526,14 +470,14 @@ var today = function() {
 
 // 숙박인원
 function goReservation() {
-    location.href = "${pageContext.request.contextPath}/reservation/reservation";
+
 }
 
 $("select[name=sel_people]").on("change", function(){
-    var $addr = $(this).closest(".peopleform").find("input[name=input_people]");
+    var $addr = $(this).closest(".peopleform").find("input[name=people]");
     if ($(this).val() == "etc") {
         $addr.val('');
-        $(this).closest(".peopleform").find("input[name=input_people]").focus();
+        $(this).closest(".peopleform").find("input[name=people]").focus();
         $addr.prop("readonly",false);
 
     } else {
@@ -599,7 +543,8 @@ $("#roomDate").change(function(){
 	var ciDate = $(this).val().substr(0, 10);
 	var coDate = $(this).val().substr(13, 10);
 	
-	alert(ciDate + "," + coDate);	
+	$('input[name=startDate]').val(ciDate);
+	$('input[name=endDate]').val(coDate);
 });
 </script>
 
@@ -632,6 +577,75 @@ function showSlides(n) {
   dots[slideIndex-1].className += " active";
 }
 </script>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6b5f3fcfb7cb246f1390e33c8725bd6c&libraries=services"></script>
+<script type="text/javascript">
+	var mapContainer = document.getElementById('map');
+	var mapOption = {
+		center: new kakao.maps.LatLng(${lodging.lodgLat}, ${lodging.lodgLon}),  // 지도의 중심좌표 : 위도(latitude), 경도(longitude)
+		level: 7  // 지도의 레벨(확대, 축소 정도)
+	};
+	
+	// 지도를 생성
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+	
+	// 주소-좌표 변환 객체를 생성
+	var geocoder = new kakao.maps.services.Geocoder();
+	
+	var data = ${attraction};
+	
+	$(function() {
+
+		$(data.response.body.items.item).each(function(index, item){
+			var subject = item.title;
+			var addr = item.addr1;
+			var dist = ((item.dist)/1000).toFixed(2);
+			console.log(dist);
+			// 주소로 마커 찍기
+			geocoder.addressSearch(addr, function(result, status) {
+
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === kakao.maps.services.Status.OK) {
+
+			        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			        // 결과값으로 받은 위치를 마커로 표시
+			        var marker = new kakao.maps.Marker({
+			            map: map,
+			            position: coords
+			        });
+
+			        // 인포윈도우로 장소에 대한 설명을 표시
+			        var infowindow = new kakao.maps.InfoWindow({
+			        	content:"<div class='marker-info'>"+subject+"("+dist+"km)</div>"
+			        });
+			        console.log(subject);
+			        // 지도의 중심을 결과값으로 받은 위치로 이동
+			        // map.setCenter(coords);
+			        
+				    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+				    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));			        
+			    } 
+			});
+			
+		});
+		
+		// 인포윈도우를 표시하는 클로저를 만드는 함수
+		function makeOverListener(map, marker, infowindow) {
+		    return function() {
+		        infowindow.open(map, marker);
+		    };
+		}
+
+		// 인포윈도우를 닫는 클로저를 만드는 함수
+		function makeOutListener(infowindow) {
+		    return function() {
+		        infowindow.close();
+		    };
+		}	
+	});
+	
+	
+</script>
 <div class="modal fade" id="myDialogModal" tabindex="-1" aria-labelledby="myDialogModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-xl">
 		<div class="modal-content pos_rel">
@@ -642,5 +656,55 @@ function showSlides(n) {
 			<div class="modal-body pt-1">
 			</div>
 		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="reivewWrite" tabindex="-1" aria-labelledby="reivewWriteLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content pos_rel">
+			<div class="d-flex">
+				<div>
+	        		<h5 class="modal-title" id="reivewWriteLabel">리뷰 작성</h5>
+      			</div>
+	      		<div>
+		      		<button type="button" class="btn-close tm_right mt-1 me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+	      		</div>
+      		</div>
+      
+      		<form class="w-75" name="reviewForm">
+				<div class="mt-3">
+					<div class="d-flex">
+					
+						<div class="star-rating">
+						  <input type="radio" id="5-stars" name="rating" value="5">
+						 	 <label for="5-stars" class="star">&#9733;</label>
+						  <input type="radio" id="4-stars" name="rating" value="4">
+						  	<label for="4-stars" class="star">&#9733;</label>
+						  <input type="radio" id="3-stars" name="rating" value="3">
+						  	<label for="3-stars" class="star">&#9733;</label>
+						  <input type="radio" id="2-stars" name="rating" value="2">
+						  	<label for="2-stars" class="star">&#9733;</label>
+						  <input type="radio" id="1-star" name="rating" value="1">
+						 	 <label for="1-star" class="star">&#9733;</label>
+						</div>
+						<div>
+							<span id="rating_result"></span>점
+							<input type="hidden" name="reviewrating">
+						</div>
+					</div>
+					<select name="roomNameRivew">
+						<option value=""></option>
+					</select>
+					<div>
+					  <textarea class="w-100 mt-3" style="resize: none; height: 150px;"></textarea>
+					</div>
+					<div class="mt-2 mb-3 host_modal">
+						<button type="button" onclick=""> 작성하기 </button>
+					</div>
+				</div>
+			</form>
+      
+    	</div>
 	</div>
 </div>

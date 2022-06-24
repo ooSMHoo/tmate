@@ -32,17 +32,19 @@
 	</select>
 	
 	<select id="readCanReservationRoomList" parameterType="map" resultType="com.sp.trip.reservation.Room">
+	SELECT * FROM (
 		SELECT DISTINCT r.roomNum, r.roomName, r.roomContent, r.roomPeople, r.roomMax_people, rc.rcName, r.roomOption, r.roomBed,
         	CASE
             	WHEN SYSDATE&gt;=TO_DATE(EXTRACT (YEAR FROM SYSDATE)||l.lodgStart_date, 'YYYY-MM-DD') AND SYSDATE&lt;=TO_DATE(EXTRACT (YEAR FROM SYSDATE)||l.lodgEnd_date, 'YYYY-MM-DD') THEN roomSeasonprice
             	WHEN TO_CHAR(TO_DATE(#{start}), 'd') IN ('6','7') THEN roomWe_price
             ELSE roomWd_price
-        	END as price
+        	END as price, rphotoName, ROW_NUMBER() OVER(PARTITION BY r.roomNum ORDER BY rp.rphotoName DESC) AS rn
 		FROM Lodging l
 		JOIN Memberhost mh ON l.mhId = mh.mhId
 		JOIN LodgingCategory lc ON l.lcNum = lc.lcNum
 		JOIN Room r ON l.mhId = r.mhId
 		JOIN RoomCategory rc ON rc.rcNum = r.rcNum
+		JOIN RoomPhoto rp ON r.roomNum = rp.roomNum
 		LEFT JOIN ReservationDetail rvd ON r.roomNum = rvd.roomNum
 		LEFT JOIN Reservation rv ON rvd.resNum = rv.resNum
 		WHERE r.roomNum NOT IN 
@@ -55,9 +57,113 @@
 		        OR ( TO_CHAR(resCout_date, 'YYYYMMDD') &gt; #{start} AND TO_CHAR(resCout_date, 'YYYYMMDD') &lt; #{end} AND rv.resCode=0 AND r.enabled=0) 
 		        OR ( TO_CHAR(resCin_date, 'YYYYMMDD') &gt;= #{start} AND TO_CHAR(resCin_date, 'YYYYMMDD') &lt; #{end} AND rv.resCode=0 AND r.enabled=0)
 		) AND l.mhId=#{mhId} AND r.roomPeople=#{roomPeople}
+	)
+	WHERE rn = 1
+	ORDER BY roomNum
 	</select>
 	
 	<select id="readCanReservationRoomPhotoList" parameterType="Integer" resultType="com.sp.trip.reservation.Room">
 		SELECT rphotoName FROM roomPhoto WHERE roomNum = #{roomNum}
+	</select>
+	
+	<!-- 리뷰 테이블에 인서트 -->
+	<insert id="insertRoomReview" parameterType="com.sp.trip.reservation.Review">
+		INSERT INTO review(revNum, memberId, resNum, revSubject, revContent, revGrade, revReg_date, resAnswer)
+		VALUES (review_seq.NEXTVAL, #{memberId}, #{resNum}, #{revSubject}, #{revContent}, #{revGrade}, SYSDATE, #{resAnswer, jdbcType=VARCHAR})		
+	</insert>
+	
+	<!-- 리뷰를 작성할 수 있는 객실 리스트 -->
+	<select id="canWriteReviewRoomList" parameterType="map" resultType="Integer">
+		SELECT r.roomName
+		FROM member1 m
+		JOIN reservation rv ON rv.memberId = m.memberId
+		JOIN reservationDetail rd ON rv.resNum = rd.resNum
+		JOIN room r ON rd.roomNum = r.roomNum
+		JOIN lodging l ON l.mhId = r.mhId
+		LEFT JOIN review review ON review.resNum = rv.resNum
+		WHERE resCout_date &lt; SYSDATE AND resCode=0 AND l.mhId = #{mhId} AND m.memberId=#{memberId} AND revNum IS NULL;
+	</select>
+	
+	<sql id="where-list">
+		<choose>
+			<when test="option == 'clean'">
+				AND INSTR(review.revContent, '깔끔') &gt; 0
+				OR INSTR(review.revContent, '깨끗') &gt; 0
+				OR INSTR(review.revContent, '청결') &gt; 0
+				OR INSTR(review.revContent, '위생') &gt; 0
+				OR INSTR(review.revContent, '더러') &gt; 0
+				OR INSTR(review.revContent, '더럽') &gt; 0
+			</when>
+			<when test="option == 'service'">
+				AND INSTR(review.revContent, '친절') &gt; 0
+				OR INSTR(review.revContent, '직원') &gt; 0
+				OR INSTR(review.revContent, '매너') &gt; 0
+				OR INSTR(review.revContent, '서비스') &gt; 0
+			</when>
+			<when test="option == 'location'">
+				AND INSTR(review.revContent, '근처') &gt; 0
+				OR INSTR(review.revContent, '위치') &gt; 0
+			</when>
+			<when test="option == 'loud'">
+				AND INSTR(review.revContent, '조용') &gt; 0
+				OR INSTR(review.revContent, '시끄러움') &gt; 0
+				OR INSTR(review.revContent, '소음') &gt; 0
+			</when>
+			<when test="option == 'comfort'">
+				AND INSTR(review.revContent, '편안') &gt; 0
+				OR INSTR(review.revContent, '편한') &gt; 0
+				OR INSTR(review.revContent, '쉼') &gt; 0
+			</when>
+			<when test="option == 'wind'">
+				AND INSTR(review.revContent, '난방') &gt; 0
+				OR INSTR(review.revContent, '냉방') &gt; 0
+			</when>
+		</choose>
+	</sql>
+	
+	<select id="reviewCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM review review
+		JOIN reservation rv ON rv.resNum = review.resNum
+		JOIN reservationDetail rd ON rd.resNum = rv.resNum
+		JOIN room r ON rd.roomNum = r.roomNum
+		JOIN lodging l ON l.mhId = r.mhId
+		<where>
+			<if test="option != 'all'">
+				<include refid="where-list"/>
+			</if>
+			AND l.mhId=#{mhId}
+		</where>
+	</select>
+	
+	<select id="readReviewList" parameterType="map" resultType="com.sp.trip.reservation.Review">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT review.revNum, review.memberId memberId, review.resNum, revSubject, revContent,
+					revGrade, revReg_date, resAnswer, l.lodgName, r.roomName
+				FROM review review
+				JOIN reservation rv ON rv.resNum = review.resNum
+				JOIN reservationDetail rd ON rd.resNum = rv.resNum
+				JOIN room r ON rd.roomNum = r.roomNum
+				JOIN lodging l ON l.mhId = r.mhId
+				<where>
+					<if test="option != 'all'">
+						<include refid="where-list"/>
+					</if>
+					AND l.mhId=#{mhId}
+				</where>
+				ORDER BY review.revNum DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="totalReviewGrade" parameterType="String" resultType="Double">
+		SELECT NVL(ROUND(AVG(revGrade),1),0)
+		FROM review review
+		JOIN reservation rv ON rv.resNum = review.resNum
+		JOIN reservationDetail rd ON rd.resNum = rv.resNum
+		JOIN room r ON rd.roomNum = r.roomNum
+		JOIN lodging l ON l.mhId = r.mhId
+		WHERE l.mhId=#{mhId}
 	</select>
 </mapper>

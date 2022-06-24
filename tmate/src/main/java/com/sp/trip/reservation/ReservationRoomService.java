@@ -8,4 +8,7 @@ public interface ReservationRoomService {
 	public List<Lodging> readLodgingPhotoList(String mhId);
 	public List<Room> readCanReservationRoomList(Map<String, Object> map);
 	public List<Room> readCanReservationRoomPhotoList(int roomNum);
+	public int reviewCount(Map<String, Object> map);
+	public List<Review> reviewList(Map<String, Object> map);
+	public double totalReviewGrade(String mhId);
 }

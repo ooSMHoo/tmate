@@ -40,6 +40,7 @@ public abstract class MyUtil {
 	 * @return				페이징 처리 결과
 	 */
     public abstract String pagingMethod(int current_page, int total_page, String methodName);
+    public abstract String pagingMethod2(int current_page, int total_page, String methodName, String option);
 
 	public abstract String pagingUrl(int current_page, int total_page, String list_url);
 	public abstract String pagingFunc(int current_page, int total_page, String methodName);

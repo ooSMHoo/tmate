@@ -62,10 +62,12 @@ function changeState(value) {
 		let enabled = data.enabled;
 		let result = data.result;
 		if (result === "true") {
-			if (enabled === "1") {
-				$('#flexSwitchCheckDefault'+value).attr("checked", false);	
+			if (enabled === 1) {
+				$('#flexSwitchCheckDefault'+value).attr("checked", false);
+				$('#enabled'+value).text("객실비활성");
 			} else {
 				$('#flexSwitchCheckDefault'+value).attr("checked", true);
+				$('#enabled'+value).text("객실활성");
 			}
 			$('#flexSwitchCheckDefault'+value).attr("enabled", enabled);
 		} else {
@@ -142,7 +144,7 @@ function deleteRoom(value, reserved) {
 										<td class="cell"  >
 											<div class="form-check form-switch ms-2" >
 											  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault${room.roomNum}" onclick="changeState(${room.roomNum});" ${room.enabled=="0"?"checked='checked' enabled=0":"enabled=1"}>
-											 	 ${room.enabled=="0"?"객실활성":"객실비활성"}
+											 	 <span id="enabled${room.roomNum}">${room.enabled=="0"?"객실활성":"객실비활성"}</span>
 											  <label class="form-check-label" for="flexSwitchCheckDefault${room.roomNum}"></label>
 											</div>
 										</td>

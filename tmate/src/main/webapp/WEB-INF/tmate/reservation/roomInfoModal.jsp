@@ -5,23 +5,22 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 			
 
-<div class="modal-body d-flex w-100 shadow-sm" style="height: 500px">
+
+<div class="d-flex w-100 shadow-sm" style="height: 500px">
 <div class="w-75 h-100 room_slide" style="background: black">
 
-
+	
 	<div class="slider slider-1">
 	    <div class="slides">
-	        <div class="active"><img src=""></div>
-			<div><img src=""></div>
-	        <div><img src=""></div>
-	        <div><img src=""></div>
+	    	<c:forEach var="vo" items="${roomPhoto}" varStatus="status">
+	        <div class="${status.count==1?'active':''}"><img src="${pageContext.request.contextPath}/tmate/room/${vo.rphotoName}"></div>
+	        </c:forEach>
 	    </div>
 	    
 	    <div class="pages">
-	        <div class="active"><img src=""></div>
-	        <div><img src=""></div>
-	        <div><img src=""></div>
-	        <div><img src=""></div>
+	        <c:forEach var="vo" items="${roomPhoto}" varStatus="status">
+	        <div class="${status.count==1?'active':''}"><img src="${pageContext.request.contextPath}/tmate/room/${vo.rphotoName}"></div>
+	        </c:forEach>
 	    </div>
 	    
 	    <div class="side-btns">
@@ -35,51 +34,74 @@
 	<div class="room_detail_modal shadow-sm" style="height: 85%; overflow-y: auto;">
 	
 		<div>
-			<div>객실 이름</div>
-		</div>
+			<div>${room.roomName}</div>
+		</div>	
 		<div>
-			<div>숙소 공용 시설 / 서비스</div>
-			<div><i class="fa-solid fa-square-parking"></i>주차장 L</div>
-			<div><i class="fa-solid fa-mug-saucer"></i>카페 L</div>
-			<div><i class="fa-solid fa-fire-burner"></i>바베큐L</div>
-			<div><i class="fa-solid fa-utensils"></i>조식 L</div>
-			<div><i class="fa-solid fa-dog"></i>반려견 동반 가능 / 불가 L</div>
-			<div><i class="fa-solid fa-bowl-food"></i>조리 가능 / 불가 L</div>
-		</div>													
+			<div>객실 유형</div>
+			<c:if test="${room.rcNum==1}">
+			<div>혼성</div>
+			</c:if>
+			<c:if test="${room.rcNum==2}">
+			<div>여성</div>
+			</c:if>
+			<c:if test="${room.rcNum==3}">
+			<div>남성</div>
+			</c:if>
+			<c:if test="${room.rcNum==4}">
+			<div>개인실</div>
+			</c:if>
+			<c:if test="${room.rcNum==5}">
+			<div>독채</div>
+			</c:if>
+		</div>				
+									
 		<div>
 			<div>객실 정원</div>
-			<div><i class="fa-solid fa-person-circle-check"></i>적정인원 : X명</div>
-			<div><i class="fa-solid fa-person-circle-exclamation"></i>최대인원 : X명</div>
+			<div><i class="fa-solid fa-person-circle-check"></i>적정인원 : ${room.roomPeople}명</div>
+			<div><i class="fa-solid fa-person-circle-exclamation"></i>최대인원 : ${room.roomMax_people}명</div>
 		</div>
 		<div>
 			<div>객실 구성</div>
-			<div><i class="fa-solid fa-bed"></i>침대 O개</div>
-			<div><i class="fa-solid fa-shower"></i>샤워실</div>
-			<div><i class="fa-solid fa-kitchen-set"></i>주방r</div>
-			<div><i class="fa-solid fa-person-swimming"></i>수영장r</div>
+			<div><i class="fa-solid fa-bed"></i>침대 ${room.roomBed}개</div>
+			<c:if test="${fn:contains(room.roomOption, '주방')}">
+				<div><i class="fa-solid fa-kitchen-set"></i>주방</div>
+			</c:if>
+			<c:if test="${fn:contains(room.roomOption, '수영장')}">
+				<div><i class="fa-solid fa-person-swimming"></i>수영장</div>
+			</c:if>
 		</div>
 		<div>
 			<div>욕실 및 세면 도구</div>
-			<div><i class="fa-solid fa-bath"></i>욕조r</div>
-			<div><i class="fa-solid fa-hands-bubbles"></i>세면 도구r</div>
+			<c:if test="${fn:contains(room.roomOption, '욕조')}">
+				<div><i class="fa-solid fa-bath"></i>욕조</div>
+			</c:if>
+			<c:if test="${fn:contains(room.roomOption, '세면도구')}">
+				<div><i class="fa-solid fa-hands-bubbles"></i>세면 도구</div>
+			</c:if>
 			<div><i class="fa-solid fa-grip-lines"></i>타월</div>
-			<div><i class="fa-solid fa-fan"></i>헤어드라이기 L</div>
 		</div>
 		<div>
 			<div>편의 시설/용품</div>
-			<div><i class="fa-solid fa-wifi"></i>무료 Wi-Fi L</div>
-			<div><i class="fa-solid fa-tv"></i>넷플릭스r</div>
-			<div><i class="fa-solid fa-computer"></i>컴퓨터r</div>
-			<div><i class="fa-solid fa-socks"></i>세탁기r</div>
-			<div><i class="fa-brands fa-hotjar"></i>난방</div>
-			<div><i class="fa-solid fa-bolt"></i>전자레인지</div>
-			<div><i class="fa-regular fa-snowflake"></i>냉장고 L</div>
-			<div><i class="fa-solid fa-wind"></i>에어컨 L</div>
+			<c:if test="${fn:contains(room.roomOption, '넷플릭스')}">
+				<div><i class="fa-solid fa-tv"></i>넷플릭스</div>
+			</c:if>
+			<c:if test="${fn:contains(room.roomOption, '컴퓨터')}">
+				<div><i class="fa-solid fa-computer"></i>컴퓨터r</div>
+			</c:if>
+			<c:if test="${fn:contains(room.roomOption, '세탁기')}">
+				<div><i class="fa-solid fa-socks"></i>세탁기r</div>
+			</c:if>
 		</div>
 		<div>
+			<c:if test="${fn:contains(room.roomOption, '뷰')}">
 			<div>객실 전망</div>
-			<div><i class="fa-solid fa-water"></i>바다뷰r</div>
-			<div><i class="fa-solid fa-mountain-city"></i>도시뷰r</div>
+			</c:if>
+			<c:if test="${fn:contains(room.roomOption, '바다뷰')}">
+				<div><i class="fa-solid fa-water"></i>바다뷰</div>
+			</c:if>
+			<c:if test="${fn:contains(room.roomOption, '도시뷰')}">
+				<div><i class="fa-solid fa-mountain-city"></i>도시뷰</div>
+			</c:if>
 		</div>
 		<div>
 			<div>안전 및 보안 시설</div>
@@ -89,7 +111,7 @@
 		</div>
 	</div>
 	<div class="pos_rel" style="height: 15%;">
-		<div class="lodg_price">1박(평일) / OOO,OOO원</div>
+		<div class="lodg_price">1박(평일) / ${room.roomWd_price}원<br>1박(주말) / ${room.roomWe_price}원<br>1박(성수기) / ${room.roomSeasonPrice}원</div>
 	</div>
 </div>
 </div>
@@ -98,44 +120,49 @@
 		</div>
 </div>
 <script type="text/javascript">
-$('.slider > .pages > div').click(function() {
-    var $this = $(this);
-    var $slider = $this.closest('.slider');
-    
-    $this.addClass('active');
-    $this.siblings('.active').removeClass('active');
-    
-    var index = $this.index();
-    
-    $slider.find(' > .slides > .active').removeClass('active');
-    $slider.find(' > .slides > div').eq(index).addClass('active');
-});
+$(function() {
+	$('.slider > .pages > div').click(function() {
+	    let $this = $(this);
+	    let $slider = $this.closest('.slider');
+	    
+	    $this.addClass('active');
+	    $this.siblings('.active').removeClass('active');
+	    
+	    let index = $this.index();
+	    
+	    $slider.find(' > .slides > .active').removeClass('active');
+	    $slider.find(' > .slides > div').eq(index).addClass('active');
+	});
 
 
-$('.slider > .side-btns > div').click(function() {
-    var $this = $(this);
-    var index = $this.index();
-    var $slider = $this.closest('.slider');
-    
-    var $current = $slider.find('.pages > div.active');
-    var $post;
-    
-    if ( index == 0 ) {
-        $post = $current.prev();
-    }
-    else {
-        $post = $current.next();
-    }
-    
-    if ( $post.length == 0 ) {
-        if ( index == 0 ) {
-            $post = $slider.find('.pages > div:last-child');
-        }
-        else {
-            $post = $slider.find('.pages > div:first-child');
-        }
-    }
-    
-    $post.click();
+	$('.slider > .side-btns > div').click(function() {
+	    let $this = $(this);
+	    let index = $this.index();
+
+	    let $slider = $this.closest('.slider');
+	    
+	    let $current = $slider.find('.pages > div.active');
+	    let $post;
+	    
+	    if ( index == 0 ) {
+	        $post = $current.prev();
+	    }
+	    else {
+	        $post = $current.next();
+	    }
+	    
+	    if ( $post.length == 0 ) {
+	        if ( index == 0 ) {
+	            $post = $slider.find('.pages > div:last-child');
+	        }
+	        else {
+	            $post = $slider.find('.pages > div:first-child');
+	        }
+	    }
+	    
+	    $post.click();
+	});
 });
+
 </script>
+

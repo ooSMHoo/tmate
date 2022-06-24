@@ -73,4 +73,37 @@ public class ReservationRoomServiceImpl implements ReservationRoomService{
 		return list;
 	}
 
+	@Override
+	public int reviewCount(Map<String, Object> map) {
+		int reviewCount = 0;
+		try {
+			reviewCount = dao.selectOne("reservationRoomList.reviewCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return reviewCount;
+	}
+
+	@Override
+	public List<Review> reviewList(Map<String, Object> map) {
+		List<Review> list = null;
+		try {
+			list = dao.selectList("reservationRoomList.readReviewList", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public double totalReviewGrade(String mhId) {
+		double total = 0;
+		try {
+			total = dao.selectOne("reservationRoomList.totalReviewGrade", mhId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return total;
+	}
+
 }
