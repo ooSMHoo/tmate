@@ -40,7 +40,7 @@
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/board/list">자유게시판</a></li>
 							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/pr/list">홍보게시판</a></li>
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/partner/list">여행파트너</a></li>
+							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mate/list">여행파트너</a></li>
 						</ul></li>
 
 					<li class="nav-item dropdown me-3"><a

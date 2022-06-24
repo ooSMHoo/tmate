@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<insert id="insertBoard" parameterType="com.sp.trip.board.Board">
+		INSERT INTO board(boardNum, memberId, boardSubject, boardContent, 
+			 boardHit, boardReg_date, boardEnabled)
+		VALUES (board_seq.NEXTVAL, #{memberId}, #{boardSubject}, #{boardContent},
+			0, SYSDATE, 0)
+	</insert>
+
+
+	<sql id="where-list">
+		<choose>
+			<when test="condition == 'all' ">
+			   ( INSTR(boardSubject, #{keyword}) &gt; 0
+		          OR DBMS_LOB.INSTR(boardContent, #{keyword}) &gt; 0 )
+			</when>
+			<when test="condition == 'boardReg_date' ">
+			   ( TO_CHAR(boardReg_date, 'YYYYMMDD') = #{keyword}
+		          OR TO_CHAR(boardReg_date, 'YYYY-MM-DD') = #{keyword} )
+			</when>
+			<when test="condition == 'boardContent'">
+			    DBMS_LOB.INSTR(boardContent, #{keyword}) &gt; 0
+			</when>
+			<otherwise>
+			    INSTR(${condition}, #{keyword}) &gt; 0
+			</otherwise>
+		</choose>
+	</sql>
+
+	<!-- 글개수 -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM board b
+		JOIN member1 m ON b.memberId=m.memberId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>   
+	</select>
+
+	<!-- 글리스트 -->
+	<select id="listBoard" parameterType="map" resultType="com.sp.trip.board.Board">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT b.boardNum, b.memberId, memberName, boardSubject, 
+				       TO_CHAR(b.boardReg_date, 'YYYY-MM-DD') boardReg_date,
+				       boardHit
+				       
+				FROM board b
+				JOIN member1 m ON b.memberId=m.memberId
+				<where>
+					<if test="keyword != null and keyword != ''">
+						<include refid="where-list"/>
+					</if>
+				</where>
+				ORDER BY boardNum DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}	
+	</select>
+
+	<!-- 글보기 -->
+	<select id="readBoard" parameterType="Integer" resultType="com.sp.trip.board.Board">
+		SELECT b.boardNum, b.memberId, memberName, boardSubject, boardContent,
+			   boardHit, b.boardReg_date, boardEnabled
+		FROM board b
+		JOIN member1 m ON b.memberId=m.memberId
+		WHERE boardNum = #{boardNum}  
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateHitCount" parameterType="Integer">
+		UPDATE board SET boardHit=boardHit+1 WHERE boardNum = #{boardNum}
+	</update>
+	
+	<!-- AND 가 필요 없는 경우 자동으로 제거 됨 -->
+	<!-- 이전글 -->
+	<select id="preReadBoard" parameterType="map" resultType="com.sp.trip.board.Board">
+		SELECT * FROM (
+			SELECT boardNum, boardSubject
+			FROM board b
+			JOIN member1 m ON b.memberId=m.memberId
+			<where>
+				<if test="keyword != null and keyword != '' ">
+					<include refid="where-list"/>
+				</if>
+				AND (boardNum &gt; #{boardNum})
+			</where>
+			ORDER BY boardNum ASC
+		) WHERE ROWNUM = 1	
+	</select>
+
+	<!-- 다음글 -->
+	<select id="nextReadBoard" parameterType="map" resultType="com.sp.trip.board.Board">
+		SELECT * FROM (
+			SELECT boardNum, boardSubject
+			FROM board b
+			JOIN member1 m ON b.memberId=m.memberId
+			<where>
+				<if test="keyword != null and keyword != '' ">
+					<include refid="where-list"/>
+				</if>
+				AND (boardNum &lt; #{boardNum})
+			</where>
+			ORDER BY boardNum DESC
+		) WHERE ROWNUM = 1
+	</select>
+
+	<!-- 수정 -->
+	<update id="updateBoard" parameterType="com.sp.trip.board.Board">
+		UPDATE board SET boardSubject=#{boardSubject}, boardContent=#{boardContent}
+		WHERE boardNum = #{boardNum}
+	</update>
+      
+	<!-- 삭제 -->
+	<delete id="deleteBoard" parameterType="Integer">
+		DELETE FROM board WHERE boardNum = #{boardNum}
+	</delete>
+      
+      <!-- 댓글 -->
+	<insert id="insertReply" parameterType="com.sp.trip.board.Reply">
+		INSERT INTO boardReply(boardRe_num, boardNum, memberId, boardRe_content, boardRe_parent, boardRe_reg_date, boardRe_enabled)
+		VALUES (boardReply_seq.NEXTVAL, #{boardNum}, #{memberId}, #{boardRe_content}, #{boardRe_parent}, SYSDATE, 0)
+	</insert>
+
+	<select id="replyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM boardReply
+		WHERE boardNum=#{boardNum} AND boardRe_parent=0
+	</select>
+
+	<!-- 댓글리스트 -->
+	<select id="listReply" parameterType="map" resultType="com.sp.trip.board.Reply">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT r.boardRe_num, r.memberId, memberName, boardNum, boardRe_content, r.boardRe_reg_date, 
+				       NVL(answerCount, 0) answerCount
+				FROM boardReply r
+				JOIN member1 m ON r.memberId = m.memberId
+				LEFT OUTER JOIN (
+					SELECT boardRe_parent, COUNT(*) answerCount
+					FROM boardReply WHERE boardRe_parent!=0 GROUP BY boardRe_parent
+				) a ON r.boardRe_num = a.boardRe_parent
+				WHERE boardNum=#{boardNum}  AND r.boardRe_parent=0
+				ORDER BY r.boardRe_num DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<delete id="deleteReply" parameterType="map">
+		DELETE FROM boardReply
+		WHERE boardRe_num=#{boardRe_num}
+		<if test="mode=='reply'">
+			OR boardRe_parent=#{boardRe_num}
+		</if>
+	</delete>
+	
+	<!-- 댓글의 답글 리스트 -->
+	<select id="listReplyAnswer" parameterType="Integer" resultType="com.sp.trip.board.Reply">
+		SELECT boardRe_num, boardNum, r.memberId, memberName, boardRe_content, boardRe_reg_date, boardRe_parent
+		FROM boardReply r
+		JOIN member1 m ON r.memberId = m.memberId
+		WHERE boardRe_parent = #{boardRe_parent}
+		ORDER BY boardRe_num DESC
+	</select>
+	
+	<!-- 댓글의 답글 개수 -->
+	<select id="replyAnswerCount" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM boardReply WHERE boardRe_parent = #{boardRe_parent}
+	</select>
+	
+</mapper>
