@@ -20,6 +20,7 @@
  		INSERT INTO point(pointNum, pointCode, pointDate, pointQuant, memberId) 
  		VALUES(point_seq.NEXTVAL, #{pointCode}, SYSDATE, #{pointQuant}, #{memberId})
  	</insert>
+
  	
  	<select id="dataCount" parameterType="map" resultType="Integer">
  		SELECT NVL(COUNT(*), 0)

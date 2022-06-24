@@ -12,7 +12,7 @@
 	
 			<ul class="nav nav-pills flex-column">
 
-				<li><a href="${pageContext.request.contextPath}/mypage/main/reservationList" class="nav-link nav-link-menu pt-4"> 
+				<li><a href="${pageContext.request.contextPath}/mypage/main/revMain" class="nav-link nav-link-menu pt-4"> 
 					<i class="fa-solid fa-calendar-check"></i>
 					예약관리 
 				</a></li>
@@ -23,13 +23,7 @@
 					찜 목록 
 				</a></li>
 				
-				
-				<li><a href="${pageContext.request.contextPath}/mypage/main/friend" class="nav-link nav-link-menu"> 
-					<i class="fa-solid fa-people-group"></i>
-					친구목록 
-				</a></li>
-				
-				<li><a href="${pageContext.request.contextPath}/mypage/main/reviewList" class="nav-link nav-link-menu"> 
+				<li><a href="${pageContext.request.contextPath}/mypage/main/reviewMain" class="nav-link nav-link-menu"> 
 					<i class="fa-solid fa-star"></i>
 					리뷰 관리
 				</a></li>

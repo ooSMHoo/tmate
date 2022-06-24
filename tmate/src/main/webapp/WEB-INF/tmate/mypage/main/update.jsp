@@ -97,7 +97,7 @@ function update_name(){
 	f.colName.value = "memberName";
 	f.colValue.value = str;
 	
-	f.action = "${pageContext.request.contextPath}/mypage/update";
+	f.action = "${pageContext.request.contextPath}/mypage/main/update";
 	f.submit();
 }
 
@@ -120,7 +120,7 @@ function update_email(){
 	f.colName.value = "memberEmail";
 	f.colValue.value = str1 + "@" + str2;
 	
-	f.action = "${pageContext.request.contextPath}/mypage/update";
+	f.action = "${pageContext.request.contextPath}/mypage/main/update";
 	f.submit();
 }
 
@@ -151,7 +151,7 @@ function update_phone(){
 	f.colName.value = "memberPhone";
 	f.colValue.value = str1 + "-" + str2 + "-" + str3;
 	
-	f.action = "${pageContext.request.contextPath}/mypage/update2";
+	f.action = "${pageContext.request.contextPath}/mypage/main/update2";
 	f.submit();
 }
 
@@ -168,7 +168,7 @@ function update_birth(){
 	f.colName.value = "memberBirth";
 	f.colValue.value = str;
 	
-	f.action = "${pageContext.request.contextPath}/mypage/update2";
+	f.action = "${pageContext.request.contextPath}/mypage/main/update2";
 	f.submit();
 }
 //memberPwd: 현재비번 memberPwd2:변경비번1 memberPwd3: 변경비번3
@@ -198,7 +198,7 @@ function update_pwd(){
 	f.colName.value = "memberPwd";
 	f.colValue.value = str2;
 	
-	f.action = "${pageContext.request.contextPath}/mypage/update";
+	f.action = "${pageContext.request.contextPath}/mypage/main/update";
 	f.submit();
 }
 
@@ -241,7 +241,7 @@ function changeEmail(){
 		<div class="option-box option-box-info name-option">
 			<div class="option">
 				<label for="exampleFormControlInput1" class="form-label">이름</label>
-				<input type="text" name="memberName" class="form-control" id="exampleFormControlInput1">
+				<input type="text" name="memberName" class="form-control">
 				<small class="form-control-plaintext">이름은 2-5글자 한글만 가능합니다.</small>
 			</div>
 			<div class="btn-contnet name-btn">
@@ -284,12 +284,12 @@ function changeEmail(){
 			</div>
 			<div class="option">
 				<label for="exampleFormControlInput1" class="form-label">새 비밀번호</label> 
-				<input type="password" name="memberPwd2" class="form-control"id="exampleFormControlInput1">
+				<input type="password" name="memberPwd2" class="form-control" id="exampleFormControlInput2">
 				<small class="form-control-plaintext">패스워드는 5~10자이며 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</small>
 			</div>
 			<div class="option">
 				<label for="exampleFormControlInput1" class="form-label">비밀번호 확인</label> 
-				<input type="password" name="memberPwd3" class="form-control" id="exampleFormControlInput1">
+				<input type="password" name="memberPwd3" class="form-control" id="exampleFormControlInput3">
 			</div>
 			<div class="btn-contnet pwd-btn">
 				<button type="button" class="option-btn-2 option-btn-pwd">취소</button>

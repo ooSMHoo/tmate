@@ -50,6 +50,19 @@ public class ReservationListServiceImpl implements ReservationListService{
 		return result;
 	}
 
+	@Override
+	public List<ReservationList> listResCode(Map<String, Object> map) {
+		List<ReservationList> listResCode = null;
+		
+		try {
+			listResCode = dao.selectList("reservationList.listMain", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listResCode;
+	}
+
+
 
 
 	

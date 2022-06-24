@@ -2,6 +2,12 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reservationList">
+	<select id="listMain" parameterType="map" resultType="com.sp.trip.reservationList.ReservationList">
+		SELECT resCode
+		FROM reservation
+		WHERE memberId = #{memberId}
+	</select>
+	
 	<select id="listRev" parameterType="map" resultType="com.sp.trip.reservationList.ReservationList">
 	SELECT * FROM (
       	 SELECT ROWNUM rnum, tb.* FROM (
@@ -12,12 +18,11 @@
 				JOIN Room rm ON revd.roomNum = rm.roomNum
 				JOIN lodging lg ON rm.mhId = lg.mhId
 				JOIN lodgingPhoto lp ON rm.mhId = lp.mhId
-				WHERE m1.memberId = #{memberId}
+				WHERE m1.memberId = #{memberId} AND resCode = #{resCode}
         ) tb WHERE ROWNUM &lt;= #{end}
     ) WHERE rnum &gt;= #{start}
     </select>
-
-	
+    
 	<select id="revInfoList" parameterType="map" resultType="com.sp.trip.reservationList.ReservationInfo">
 		SELECT TO_CHAR(rescin_date, 'MM.DD')resCin_date, TO_CHAR(rescout_date, 'MM.DD')resCout_date, m1.memberName, rd.resNum, rs.memberId, resTotalCost, resPoint
 		FROM reservation rs
@@ -35,7 +40,7 @@
 		JOIN Room rm ON revd.roomNum = rm.roomNum
 		JOIN lodging lg ON rm.mhId = lg.mhId
 		JOIN lodgingPhoto lp ON rm.mhId = lp.mhId
-		WHERE m1.memberId = #{memberId}
+		WHERE m1.memberId = #{memberId} AND resCode = #{resCode}
 	</select>
 
 </mapper>

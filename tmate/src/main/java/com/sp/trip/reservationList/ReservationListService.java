@@ -5,10 +5,13 @@ import java.util.Map;
 
 public interface ReservationListService {
 	
+	public List<ReservationList> listResCode(Map<String, Object> map);
 	
 	public List<ReservationList> listRev(Map<String, Object>map);
+
 	public int dataCount(Map<String, Object> map);
 	
 	public ReservationInfo readRevInfo(Map<String, Object>map);
+
 
 }

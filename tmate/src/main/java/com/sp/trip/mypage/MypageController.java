@@ -86,18 +86,7 @@ public class MypageController {
 		}
 		return "redirect:/mypage/main/likeList";
 	}
-	
-	@RequestMapping(value="friend", method=RequestMethod.GET)
-	public String friend() {
-		// 친구
-		return ".mypage.main.friend";
-	}
-	
-	@RequestMapping(value="reviewList", method=RequestMethod.GET)
-	public String reviewList() {
-		// 리뷰
-		return ".mypage.main.reviewList";
-	}
+
 	
 	@RequestMapping(value="update", method=RequestMethod.GET)
 	public String updateForm(HttpSession session, Model model) {
@@ -124,7 +113,7 @@ public class MypageController {
 		} catch (Exception e) {
 		}
 				
-		return "redirect:/mypage/update";
+		return "redirect:/mypage/main/update";
 	}	
 
 	@RequestMapping(value="update2", method=RequestMethod.POST)
@@ -141,7 +130,7 @@ public class MypageController {
 		} catch (Exception e) {
 		}
 				
-		return "redirect:/mypage/update";
+		return "redirect:/mypage/main/update";
 	}	
 	
 	
