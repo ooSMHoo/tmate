@@ -39,7 +39,6 @@ $(function(){
 	listPage(1);
     $("button[role='tab']").on("click", function(e){
     	listPage(1);
-    	
     });
 });
 
@@ -49,7 +48,7 @@ function listPage(page) {
 	
 	let url = "${pageContext.request.contextPath}/mypage/main/reviewList";
 	let query ="page="+page+"&revNum="+revNum;
-	
+	console.log(query);
 	let selector = "#nav-content";
 	
 	const fn = function(data){
@@ -57,9 +56,6 @@ function listPage(page) {
 	};
 	ajaxFun(url, "get", query, "html", fn);
 }
-
-
-
 </script>
 
 <div class="reviewList-box" style="margin-left: 10px;">
@@ -84,4 +80,3 @@ function listPage(page) {
 </div>
 
 <div id="booking-dialog" style="display: none;"></div>
- 

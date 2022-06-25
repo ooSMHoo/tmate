@@ -140,6 +140,6 @@ public class LodgingController {
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/host/lodgings/info";
+		return "redirect:/host/lodging/info";
 	}
 }

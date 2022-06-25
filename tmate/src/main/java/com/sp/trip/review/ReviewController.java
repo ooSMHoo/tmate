@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,16 +19,19 @@ import com.sp.trip.common.MyUtil;
 import com.sp.trip.member.SessionInfo;
 
 @Controller("review.reviewController")
-@RequestMapping("/mypage/main/*")
+@RequestMapping("/mypage/main")
 public class ReviewController {
 	
-	@Autowired
-	ReviewService service;
+	private final ReviewService service;
+	private final MyUtil myUtil;
 	
 	@Autowired
-	private MyUtil myUtil;
+	public ReviewController(ReviewService service, MyUtil myUtil) {
+		this.service = service;
+		this.myUtil = myUtil;
+	}
 	
-	@RequestMapping(value="reviewMain")
+	@RequestMapping(value="/reviewMain")
 	public String main(HttpSession session, Model model) throws Exception{
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -41,10 +46,10 @@ public class ReviewController {
 		return ".mypage.main.reviewMain";
 	}
 	
-	@RequestMapping(value="reviewList")
+	@RequestMapping(value="/reviewList")
 	public String reviewList(HttpSession session, Model model,
 			@RequestParam(value="page", defaultValue = "1")int current_page,
-			@RequestParam String revNum,
+			@RequestParam(defaultValue = "true") String revNum,
 			HttpServletRequest req) throws Exception{
 		
 		int rows = 6;
@@ -69,9 +74,8 @@ public class ReviewController {
 		int end = current_page * rows;
 		map.put("start", start);
 		map.put("end", end);
-
-		List<Review> list = service.listReview(map);
 		
+		List<Review> list = service.listReview(map);
 		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);
@@ -83,6 +87,18 @@ public class ReviewController {
 		return "mypage/main/reviewList";
 	}
 	
+	@PostMapping("/addReview")
+	public String addReview(HttpSession session, @ModelAttribute Review review, @RequestParam int rating) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		review.setMemberId(info.getUserId());
 
+		try {
+			service.insertReview(review);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/mypage/main/reviewMain";
+	}
 	
 }

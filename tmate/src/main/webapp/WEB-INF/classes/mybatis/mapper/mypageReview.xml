@@ -6,31 +6,35 @@
 	<select id="reviewMain" parameterType="map" resultType="com.sp.trip.review.Review">
 		SELECT r.roomNum
 		FROM member1 m
-			JOIN reservation rv ON rv.memberId = m.memberId
-			JOIN reservationDetail rd ON rv.resNum = rd.resNum
-			JOIN room r ON rd.roomNum = r.roomNum
-			JOIN lodging l ON l.mhId = r.mhId
+		JOIN reservation rv ON rv.memberId = m.memberId
+		JOIN reservationDetail rd ON rv.resNum = rd.resNum
+		JOIN room r ON rd.roomNum = r.roomNum
+		JOIN lodging l ON l.mhId = r.mhId
 		LEFT JOIN review review ON review.resNum = rv.resNum
 		WHERE resCout_date &gt; SYSDATE AND resCode=0 AND m.memberId= #{memberId} AND revNum IS NULL
+		ORDER BY rv.resCout_date DESC
 	</select>
 	
 	<select id="listReview" parameterType="map" resultType="com.sp.trip.review.Review">
 		SELECT * FROM (
 		      	 SELECT ROWNUM rnum, tb.* FROM (
-		            SELECT r.roomNum, r.roomName, lodgName, TO_CHAR(resCout_date, 'MM.DD')resCout_date,revNum, rd.resNum 
+		            SELECT r.roomNum, r.roomName, lodgName, TO_CHAR(resCout_date, 'YYYY.MM.DD')resCout_date ,revNum, rd.resNum, l.mhId 
 		            FROM member1 m
 					JOIN reservation rv ON rv.memberId = m.memberId
 					JOIN reservationDetail rd ON rv.resNum = rd.resNum
 					JOIN room r ON rd.roomNum = r.roomNum
 					JOIN lodging l ON l.mhId = r.mhId
 				LEFT JOIN review review ON review.resNum = rv.resNum
-				WHERE resCout_date &gt; SYSDATE AND resCode=0 AND m.memberId= #{memberId}
-				 <if test="revNum == 'true'">
-				 	AND revNum IS NULL
-				 </if>
-				 <if test="revNum == 'false'">
-					AND revNum IS NOT NULL
-				</if>				 
+				WHERE resCout_date &lt; SYSDATE AND resCode=0 AND m.memberId= #{memberId}
+				<choose>
+					<when test="revNum.equals('true')">
+						AND revNum IS NULL
+					</when>
+					<otherwise>
+						AND revNum IS NOT NULL
+					</otherwise>
+				</choose>
+				ORDER BY rv.resCout_date DESC				 
 	        ) tb WHERE ROWNUM &lt;= #{end}
 	    ) WHERE rnum &gt;= #{start}
 	</select>	
@@ -38,17 +42,24 @@
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
 		FROM member1 m
-			JOIN reservation rv ON rv.memberId = m.memberId
-			JOIN reservationDetail rd ON rv.resNum = rd.resNum
-			JOIN room r ON rd.roomNum = r.roomNum
-			JOIN lodging l ON l.mhId = r.mhId
+		JOIN reservation rv ON rv.memberId = m.memberId
+		JOIN reservationDetail rd ON rv.resNum = rd.resNum
+		JOIN room r ON rd.roomNum = r.roomNum
+		JOIN lodging l ON l.mhId = r.mhId
 		LEFT JOIN review review ON review.resNum = rv.resNum
-		WHERE resCout_date &gt; SYSDATE AND resCode=0 AND m.memberId= #{memberId}
-        <if test="revNum == 'true'">
-			AND revNum IS NULL
-		</if>
-		 <if test="revNum == 'false'">
-			AND revNum IS NOT NULL
-		</if>
+		WHERE resCout_date &lt; SYSDATE AND resCode=0 AND m.memberId= #{memberId}
+        <choose>
+			<when test="revNum.equals('true')">
+				AND revNum IS NULL
+			</when>
+			<otherwise>
+				AND revNum IS NOT NULL
+			</otherwise>
+		</choose>
 	</select>
+	
+	<insert id="insertReview" parameterType="com.sp.trip.review.Review">
+		INSERT INTO review(revNum, memberId, resNum, revSubject, revContent, revGrade, revReg_date, resAnswer)
+		VALUES (review_seq.NEXTVAL, #{memberId}, #{resNum}, #{revSubject}, #{revContent}, #{revGrade}, SYSDATE, #{resAnswer, jdbcType=VARCHAR})
+	</insert>
 </mapper>

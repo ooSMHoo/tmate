@@ -51,4 +51,14 @@ public class ReviewServiceImpl implements ReviewService{
 		return result;
 	}
 
+	@Override
+	public void insertReview(Review review) throws Exception {
+		try {
+			dao.insertData("review.insertReview", review);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 }

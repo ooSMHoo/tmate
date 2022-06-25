@@ -152,7 +152,7 @@
 					</if>
 					AND l.mhId=#{mhId}
 				</where>
-				ORDER BY review.revNum DESC
+				ORDER BY review.revReg_date DESC
 			) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
