@@ -15,28 +15,29 @@
 			<p>체크아웃 : ${dto.resCout_date}일 </p>
 			<hr>
 			<c:if test="${revNum==true}">
-			<button type="button" class="btn-rev " data-bs-toggle="modal" data-bs-target="#revWrite"style="margin-right: 130px;">리뷰쓰기</button>	
+			<button type="button" class="btn-rev " data-bs-toggle="modal" data-bs-target="#revWrite" style="margin-right: 130px;">리뷰쓰기</button>	
 			</c:if>
-			<button type="button" class="btn-rev btn-singo"  onclick="">신고하기</button>
+			<button type="button" class="btn-rev"data-bs-toggle="modal" data-bs-target="#singo">신고하기</button>
 		</div>
 	</div>
 	</c:forEach>
 	
 </c:if>
 
-
+<!-- 리뷰 -->
 <div class="modal fade" id="revWrite" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel" style="height: 15px; vertical-align:middle;">리뷰작성하기</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header" style="margin-bottom: 5px; padding: 5px;">
+        <h5 class="modal-title" id="staticBackdropLabel" >리뷰작성하기</h5>
+        <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       	<form class="w-75" name="reviewForm">
 			<div class="mt-3">
-				<div class="d-flex">
-					<div class="star-rating">
+					<p id="subject">숙소는 어떠셨어요?</p>
+				<div class="d-flex justify-content-center" style="width:100%; margin-left: 65px;">
+					<div class="star-rating" style="border: none;">
 					  <input type="radio" id="5-stars" name="rating" value="5">
 					 	 <label for="5-stars" class="star">&#9733;</label>
 					  <input type="radio" id="4-stars" name="rating" value="4">
@@ -49,12 +50,11 @@
 					 	 <label for="1-star" class="star">&#9733;</label>
 					</div>
 					<div>
-						<span id="rating_result" style="margin-left: 10px;"></span>점
 						<input type="hidden" name="reviewrating">
 					</div>
 				</div>
 				<div>
-				  <textarea class="form-control" placeholder="내용을 입력하세요" "floatingTextarea2" style=" resize: none; height: 100px; margin-top: 10px;"  ></textarea>
+				  <textarea class="form-control form-memo" placeholder="내용을 입력하세요." style=" resize: none; height: 100px; margin-top: 10px;"  ></textarea>
 				</div>
 			</div>
 		</form>
@@ -67,3 +67,42 @@
     </div>
   </div>
 </div>
+
+<!-- 신고 -->
+<div class="modal fade" id="singo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="margin-bottom: 5px; padding: 5px;">
+        <h5 class="modal-title" id="staticBackdropLabel">신고하기</h5>
+        <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      	<form class="w-75" name="reviewForm">
+			<div class="mt-3">
+		
+				<select class="form-select" name="stateCode" id="stateCode" onchange="selectStateChange()">
+					<option value="">신고사유</option>
+					<c:if test="${dto.enabled==0}">
+						<option value="0">잠금 해제</option>
+					</c:if>
+					<option value="2">불법적인 숙소</option>
+					<option value="3">게시물과 다른 숙소</option>
+					<option value="4">개인정보 유출</option>
+					<option value="5">기타 약관 위반</option>
+				</select>
+
+				<div>
+				  <textarea class="form-control form-memo" placeholder="신고 상세 내용을 입력하세요." style=" resize: none; height: 100px; margin-top: 10px;"  ></textarea>
+				</div>
+			</div>
+		</form>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary">신고하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+

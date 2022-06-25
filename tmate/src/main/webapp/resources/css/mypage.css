@@ -381,4 +381,8 @@
 
 
 /*==============================review modal*/
-
+.modal-body{ margin-left: 15px; margin-right: 15px; padding: 0px;}
+.modal-title{ height: 35px; padding: 5px;}
+#subject{ margin-bottom: 0px; margin-left: 165px; font-size: 18px; }
+.star-rating{font-size: 2em;}
+.form-memo{width: 470px; margin-bottom: 10px;}
