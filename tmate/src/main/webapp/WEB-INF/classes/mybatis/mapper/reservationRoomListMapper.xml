@@ -38,7 +38,7 @@
             	WHEN SYSDATE&gt;=TO_DATE(EXTRACT (YEAR FROM SYSDATE)||l.lodgStart_date, 'YYYY-MM-DD') AND SYSDATE&lt;=TO_DATE(EXTRACT (YEAR FROM SYSDATE)||l.lodgEnd_date, 'YYYY-MM-DD') THEN roomSeasonprice
             	WHEN TO_CHAR(TO_DATE(#{start}), 'd') IN ('6','7') THEN roomWe_price
             ELSE roomWd_price
-        	END as price, rphotoName, ROW_NUMBER() OVER(PARTITION BY r.roomNum ORDER BY rp.rphotoName DESC) AS rn
+        	END as price, rphotoName, ROW_NUMBER() OVER(PARTITION BY r.roomNum ORDER BY rp.rphotoName ASC) AS rn
 		FROM Lodging l
 		JOIN Memberhost mh ON l.mhId = mh.mhId
 		JOIN LodgingCategory lc ON l.lcNum = lc.lcNum

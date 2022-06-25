@@ -18,12 +18,14 @@
 	<select id="listReview" parameterType="map" resultType="com.sp.trip.review.Review">
 		SELECT * FROM (
 		      	 SELECT ROWNUM rnum, tb.* FROM (
-		            SELECT r.roomNum, r.roomName, lodgName, TO_CHAR(resCout_date, 'YYYY.MM.DD')resCout_date ,revNum, rd.resNum, l.mhId 
+		            SELECT r.roomNum, r.roomName, lodgName, TO_CHAR(resCout_date, 'YYYY.MM.DD')resCout_date ,revNum, rd.resNum, 
+		            		l.mhId, lPhotoName, ROW_NUMBER() OVER(PARTITION BY r.roomNum ORDER BY lp.lPhotoName ASC) AS rn 
 		            FROM member1 m
 					JOIN reservation rv ON rv.memberId = m.memberId
 					JOIN reservationDetail rd ON rv.resNum = rd.resNum
 					JOIN room r ON rd.roomNum = r.roomNum
 					JOIN lodging l ON l.mhId = r.mhId
+					JOIN lodgingPhoto lp ON l.mhId = lp.mhId
 				LEFT JOIN review review ON review.resNum = rv.resNum
 				WHERE resCout_date &lt; SYSDATE AND resCode=0 AND m.memberId= #{memberId}
 				<choose>
@@ -35,7 +37,7 @@
 					</otherwise>
 				</choose>
 				ORDER BY rv.resCout_date DESC				 
-	        ) tb WHERE ROWNUM &lt;= #{end}
+	        ) tb WHERE ROWNUM &lt;= #{end} AND rn=1
 	    ) WHERE rnum &gt;= #{start}
 	</select>	
 	
@@ -61,5 +63,15 @@
 	<insert id="insertReview" parameterType="com.sp.trip.review.Review">
 		INSERT INTO review(revNum, memberId, resNum, revSubject, revContent, revGrade, revReg_date, resAnswer)
 		VALUES (review_seq.NEXTVAL, #{memberId}, #{resNum}, #{revSubject}, #{revContent}, #{revGrade}, SYSDATE, #{resAnswer, jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertPoint" parameterType="String">
+		INSERT INTO point(pointNum, pointCode, pointDate, pointQuant, memberId)
+		VALUES (point_seq.NEXTVAL, 0, SYSDATE, 1000, #{memberId})
+	</insert>
+	
+	<insert id="insertReport" parameterType="map">
+		INSERT INTO hostReport(memberId, mhId, hrSubject, hrContent, hrCode)
+		VALUES (#{memberId}, #{mhId}, #{hrSubject}, #{hrContent}, 0)
 	</insert>
 </mapper>

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -88,17 +89,46 @@ public class ReviewController {
 	}
 	
 	@PostMapping("/addReview")
-	public String addReview(HttpSession session, @ModelAttribute Review review, @RequestParam int rating) {
+	public String addReview(HttpSession session, @ModelAttribute Review review, @RequestParam int rating, Model model) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		review.setMemberId(info.getUserId());
 
 		try {
-			service.insertReview(review);
+			review.setMemberId(info.getUserId());
+			review.setRevGrade(rating);
+			service.insertReview(review, info.getUserId());
+			model.addAttribute("msg", "리뷰 작성이 완료되었습니다. 1000포인트 적립되었습니다.");
+			model.addAttribute("url", "mypage/main/reviewMain");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "redirect:/mypage/main/reviewMain";
+		return "/reservation/alert";
+	}
+	
+	@PostMapping("/report")
+	public String report(HttpSession session, @RequestParam String hrSubject, @RequestParam String hrContent, 
+					@RequestParam String mhId, Model model) {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		try {
+			Map<String, Object> map = new HashMap<>();
+			map.put("memberId", info.getUserId());
+			map.put("mhId", mhId);
+			map.put("hrSubject", hrSubject);
+			map.put("hrContent", hrContent);
+			
+			service.insertReport(map);
+			model.addAttribute("msg", "신고가 완료되었습니다.");
+			model.addAttribute("url", "mypage/main/reviewMain");
+		} catch (DuplicateKeyException e) {
+			model.addAttribute("msg", "해당 숙소에 대해 신고 내역이 존재합니다.");
+			model.addAttribute("url", "mypage/main/reviewMain");
+			return "reservation/alert";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "/reservation/alert";
 	}
 	
 }

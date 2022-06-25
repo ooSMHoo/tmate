@@ -7,7 +7,7 @@
 
 	<c:forEach var="dto" items="${list}" varStatus="status">
 	<div class="card like-card-rev" style="width: 18rem;" >
-		<img src="${pageContext.request.contextPath}/resources/images/back.png" class="card-img-top" alt="...">
+		<img src="${pageContext.request.contextPath}/tmate/lodging/${dto.lPhotoName}" class="card-img-top" alt="...">
 		<div class="card-body" id="review-card">
 			<h5 class="card-title">${dto.lodgName}</h5>
 			<p>${dto.roomName}</p>
@@ -48,9 +48,6 @@
 					 	 <label for="1-star" class="star">&#9733;</label>
 					</div>
 					<div>
-						<input type="hidden" name="reviewrating">
-					</div>
-					<div>
 						<input id="resNum" type="hidden" name="resNum">
 					</div>
 				</div>
@@ -80,23 +77,20 @@
         <h5 class="modal-title" id="staticBackdropLabel">신고하기</h5>
         <button type="button" class="btn-close me-1" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-      	<form class="w-75" name="reportForm">
+      <div class="modal-body" id="reportReview">
+      	<form class="w-75" name="reportForm" method="post">
 			<div class="mt-3">
 		
-				<select class="form-select" name="stateCode" id="stateCode" onchange="selectStateChange()">
-					<option value="">신고사유</option>
-					<c:if test="${dto.enabled==0}">
-						<option value="0">잠금 해제</option>
-					</c:if>
-					<option value="2">불법적인 숙소</option>
-					<option value="3">게시물과 다른 숙소</option>
-					<option value="4">개인정보 유출</option>
-					<option value="5">기타 약관 위반</option>
+				<select class="form-select" name="hrSubject" id="stateCode" onchange="selectStateChange()">
+					<option value="0">::신고사유::</option>
+					<option value="불법적인 숙소">불법적인 숙소</option>
+					<option value="게시물과 다른 숙소">게시물과 다른 숙소</option>
+					<option value="개인정보 유출">개인정보 유출</option>
+					<option value="기타 약관 위반">기타 약관 위반</option>
 				</select>
-
+				<input type="hidden" id="mhId" name="mhId">
 				<div>
-				  <textarea class="form-control form-memo" placeholder="신고 상세 내용을 입력하세요." style=" resize: none; height: 100px; margin-top: 10px;"></textarea>
+				  <textarea class="form-control form-memo" placeholder="신고 상세 내용을 입력하세요." name="hrContent" style=" resize: none; height: 100px; margin-top: 10px;"></textarea>
 				</div>
 			</div>
 		</form>
@@ -104,7 +98,7 @@
       
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-primary">신고하기</button>
+        <button type="button" class="btn btn-primary" onclick="report();">신고하기</button>
       </div>
     </div>
   </div>
@@ -119,7 +113,10 @@ $(".btn-rev").click(function(){
 	});
 	$("form[name=reviewForm] input[name=revSubject]").val("");
 	$("form[name=reviewForm] textarea[name=revContent]").val("");
+	$("#stateCode").val("0").attr("selected", "selected");
+	$("form[name=reportForm] textarea[name=hrContent]").val("");
     $("#writeReview #resNum").val(data);
+    $("#reportReview #mhId").val(data);
 });
 
 function addReview() {
@@ -147,6 +144,25 @@ function addReview() {
 	}
 	
 	f.action="${pageContext.request.contextPath}/mypage/main/addReview";
+	f.submit();
+}
+
+function report() {
+	const f = document.reportForm;
+	let str;
+	str = f.hrSubject.value;
+	if (str === "0") {
+		alert("신고 사유를 선택해주세요.");
+		return;
+	}
+	
+	str = f.hrContent.value;
+	if (!str) {
+		alert("신고 상세 내용을 입력해주세요.");
+		return;
+	}
+	
+	f.action="${pageContext.request.contextPath}/mypage/main/report";
 	f.submit();
 }
 </script>

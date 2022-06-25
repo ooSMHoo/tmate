@@ -393,7 +393,6 @@ function roomInfo(value) {
 
 $(function() {
 	listPage(1, "all");
-	console.log(${attraction});
 });
 
 function listPage(page, option) {
@@ -423,7 +422,6 @@ function writeReview(value) {
 
 	let url = "${pageContext.request.contextPath}/reservation/writeReview";
 	let query = "mhId="+value;
-	console.log("query");
 	
 	const fn = function(data){
 		$('.modal-body2').html(data);
@@ -459,8 +457,6 @@ var month = ('0' + (date.getMonth() + 1)).slice(-2);
 var day = ('0' + date.getDate()).slice(-2);
 
 var today =  year + '-' + month  + '-' + day;
-
-console.log(today);
 
 var today = function() {
   document.write(today);
@@ -530,7 +526,7 @@ $('#roomDate').daterangepicker({
     "endDate": "${endDate}",
     "minDate": moment()
 }, function(start, end, label) {
-  console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+ 
 });
   
 $("#roomDate").on('show.daterangepicker', function (ev, picker) {
@@ -600,7 +596,6 @@ function showSlides(n) {
 			var subject = item.title;
 			var addr = item.addr1;
 			var dist = ((item.dist)/1000).toFixed(2);
-			console.log(dist);
 			// 주소로 마커 찍기
 			geocoder.addressSearch(addr, function(result, status) {
 
@@ -618,7 +613,6 @@ function showSlides(n) {
 			        var infowindow = new kakao.maps.InfoWindow({
 			        	content:"<div class='marker-info'>"+subject+"("+dist+"km)</div>"
 			        });
-			        console.log(subject);
 			        // 지도의 중심을 결과값으로 받은 위치로 이동
 			        // map.setCenter(coords);
 			        

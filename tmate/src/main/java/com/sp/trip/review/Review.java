@@ -16,6 +16,7 @@ public class Review {
 	private int roomNum;
 	private String roomName;
 	private String lodgName;
+	private String lPhotoName;
 	
 	public int getRevNum() {
 		return revNum;
@@ -100,5 +101,11 @@ public class Review {
 	}
 	public void setLodgName(String lodgName) {
 		this.lodgName = lodgName;
+	}
+	public String getlPhotoName() {
+		return lPhotoName;
+	}
+	public void setlPhotoName(String lPhotoName) {
+		this.lPhotoName = lPhotoName;
 	}
 }

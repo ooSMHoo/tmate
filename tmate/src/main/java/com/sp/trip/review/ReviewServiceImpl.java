@@ -52,9 +52,20 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public void insertReview(Review review) throws Exception {
+	public void insertReview(Review review, String memberId) throws Exception {
 		try {
 			dao.insertData("review.insertReview", review);
+			dao.insertData("review.insertPoint", memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	@Override
+	public void insertReport(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("review.insertReport", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
