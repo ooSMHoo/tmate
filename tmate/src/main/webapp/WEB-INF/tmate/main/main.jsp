@@ -101,17 +101,83 @@
 			src="${pageContext.request.contextPath}/resources/images/busan.png">
 
 	</div>
-
 	<div class="container-fluid recommend">
-		<h5>오늘의 추천글</h5>
-		<img
-			src="${pageContext.request.contextPath}/resources/images/hotel1.png">
-		<img
-			src="${pageContext.request.contextPath}/resources/images/hotel2.png">
-		<img
-			src="${pageContext.request.contextPath}/resources/images/hotel3.png">
-
-	</div>
+		<h5>트래블 메이트가 고객님께 추천하는 숙소</h5>
+		<div class="card main-card" style="width: 280px;">
+		  <img class="main-img" src="..." class="card-img-top">
+			  <div class="card-body">
+			    <p class="card-name" style="font-size: 18px; font-weight: bold;">숙소이름</p>
+			    <p class="card-addr">숙소주소</p>
+			    <hr>
+			    <p>1박당 요금 시작가</p>
+			    <p>123,123 원</p>
+			</div>		
+		</div>
+		<div class="card main-card" style="width: 280px;">
+		  <img class="main-img" src="..." class="card-img-top">
+			  <div class="card-body">
+			    <p class="card-name" style="font-size: 18px; font-weight: bold;">숙소이름</p>
+			    <p class="card-addr">숙소주소</p>
+			    <hr>
+			    <p>1박당 요금 시작가</p>
+			    <p>123,123 원</p>
+			</div>		
+		</div><div class="card main-card" style="width: 280px;">
+		  <img class="main-img" src="..." class="card-img-top">
+			  <div class="card-body">
+			    <p class="card-name" style="font-size: 18px; font-weight: bold;">숙소이름</p>
+			    <p class="card-addr">숙소주소</p>
+			    <hr>
+			    <p>1박당 요금 시작가</p>
+			    <p>123,123 원</p>
+			</div>		
+		</div><div class="card main-card" style="width: 280px;">
+		  <img class="main-img" src="..." class="card-img-top">
+			  <div class="card-body">
+			    <p class="card-name" style="font-size: 18px; font-weight: bold;">숙소이름</p>
+			    <p class="card-addr">숙소주소</p>
+			    <hr>
+			    <p>1박당 요금 시작가</p>
+			    <p>123,123 원</p>
+			</div>		
+		</div><div class="card main-card" style="width: 280px;">
+		  <img class="main-img" src="..." class="card-img-top">
+			  <div class="card-body">
+			    <p class="card-name" style="font-size: 18px; font-weight: bold;">숙소이름</p>
+			    <p class="card-addr">숙소주소</p>
+			    <hr>
+			    <p>1박당 요금 시작가</p>
+			    <p>123,123 원</p>
+			</div>		
+		</div><div class="card main-card" style="width: 280px;">
+		  <img class="main-img" src="..." class="card-img-top">
+			  <div class="card-body">
+			    <p class="card-name" style="font-size: 18px; font-weight: bold;">숙소이름</p>
+			    <p class="card-addr">숙소주소</p>
+			    <hr>
+			    <p>1박당 요금 시작가</p>
+			    <p>123,123 원</p>
+			</div>		
+		</div><div class="card main-card" style="width: 280px;">
+		  <img class="main-img" src="..." class="card-img-top">
+			  <div class="card-body">
+			    <p class="card-name" style="font-size: 18px; font-weight: bold;">숙소이름</p>
+			    <p class="card-addr">숙소주소</p>
+			    <hr>
+			    <p>1박당 요금 시작가</p>
+			    <p>123,123 원</p>
+			</div>		
+		</div><div class="card main-card" style="width: 280px;">
+		  <img class="main-img" src="..." class="card-img-top">
+			  <div class="card-body">
+			    <p class="card-name" style="font-size: 18px; font-weight: bold;">숙소이름</p>
+			    <p class="card-addr">숙소주소</p>
+			    <hr>
+			    <p>1박당 요금 시작가</p>
+			    <p>123,123 원</p>
+			</div>		
+		</div>
+</div>
 </div>
 
 

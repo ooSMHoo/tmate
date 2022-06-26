@@ -2,6 +2,14 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<style>
+.main-footer{
+	clear : both;
+}
+.nav a{
+	text-decoration: none;
+}
+</style>
 
 <div class="container-fluid">
     <ul class="nav justify-content-center p-3">

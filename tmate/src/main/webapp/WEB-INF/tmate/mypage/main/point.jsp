@@ -13,13 +13,13 @@
 <div class="point-content">
 	<h3 style="font-size:22px; font-weight: bold; color: #044b85;">포인트</h3>
 	<div class="title">
-	사용가능 포인트 : <i class="point-balance"> ${total} P</i>
+	사용가능 포인트 : <i class="point-balance"> ${dto.total} P</i>
 	</div>
 	
 	<hr>
 	<ul class="list-group">
 	<c:forEach var="dto" items="${list}" varStatus="status">
-		<c:if test="${dto.pointCode==1}">
+		<c:if test="${dto.pointCode==0}">
 			 <li class="list-group-item">포인트 적립
 		  	 	<p class="list-group-point">+${dto.pointQuant} </p>
 		  		<div class="group">
@@ -27,7 +27,7 @@
 		  		</div>
 			  </li>
 		</c:if>
-		<c:if test="${dto.pointCode==0}">
+		<c:if test="${dto.pointCode==1}">
 			<li class="list-group-item">포인트 사용
 		  	 	<p class="list-group-point">-${dto.pointQuant} </p>
 		  		<div class="group">
