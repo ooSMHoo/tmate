@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mainLodging">
+	<select id="famousLodgingList" resultType="com.sp.trip.LodgingDTO">
+		SELECT * FROM (
+		    SELECT ROWNUM rnum, tb.* FROM (
+		        SELECT l.mhId, mh.mhAddr1, COUNT(l.lodgName), l.lodgName, 
+		                lphotoName, ROW_NUMBER() OVER(PARTITION BY l.mhId ORDER BY lp.lphotoName ASC) AS rn
+		        FROM reservation rv
+		        JOIN reservationDetail rvd ON rv.resNum=rvd.resNum
+		        JOIN room r ON r.roomNum=rvd.roomNum
+		        JOIN lodging l ON l.mhId=r.mhId
+		        JOIN memberHost mh ON mh.mhId=l.mhId
+		        JOIN lodgingPhoto lp ON lp.mhId=l.mhId
+		        WHERE mh.mhEnabled=0 AND l.enabled=0
+		        GROUP BY l.mhId, mh.mhAddr1, l.lodgName, lphotoName
+		        ORDER BY COUNT(l.lodgName) DESC
+		    ) tb WHERE ROWNUM &lt;= 8 AND rn=1
+		) WHERE rnum &gt;= 1
+	</select>
+</mapper>

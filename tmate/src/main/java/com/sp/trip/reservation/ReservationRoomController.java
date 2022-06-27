@@ -60,7 +60,7 @@ public class ReservationRoomController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("mhId", mhId);
 		map.put("start",startDate.replaceAll("-", ""));
-		map.put("end",startDate.replaceAll("-", ""));
+		map.put("end",endDate.replaceAll("-", ""));
 		map.put("roomPeople", people);
 		
 		List<Room> roomList = roomReservationService.readCanReservationRoomList(map);
