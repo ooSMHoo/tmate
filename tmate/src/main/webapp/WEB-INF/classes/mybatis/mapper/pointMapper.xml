@@ -5,13 +5,12 @@
 
 	<select id="listPoint" parameterType="map" resultType="com.sp.trip.point.Point">
 	SELECT * FROM (
-		SELECT DISTINCT((
-			SELECT SUM(pointQuant) FROM point WHERE pointCode = 0 AND memberId = '#{memberId}') -
-			(SELECT SUM(pointQuant) FROM point WHERE pointCode = 1 AND memberId = '#{memberId}')) total,
-			pointQuant, p.memberId, pointCode, TO_CHAR(pointDate, 'YYYY-MM-DD') pointDate
-			FROM point p
-			JOIN member1 m ON p.memberId=m.memberId
-			GROUP BY p.memberId, pointCOde, pointDate, pointQuant
+			SELECT DISTINCT(pointNum), p.memberId, pointCode, pointQuant,
+				TO_CHAR(pointDate, 'YYYY-MM-DD') pointDate
+				FROM point p
+				JOIN member1 m ON p.memberId=m.memberId
+                WHERE p.memberId = #{memberId}
+				ORDER BY pointNum DESC
 	) tb WHERE ROWNUM &lt;= #{end}
 	) WHERE rnum &gt;= #{start}
 	</select>
