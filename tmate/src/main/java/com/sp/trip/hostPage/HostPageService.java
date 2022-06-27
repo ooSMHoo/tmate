@@ -11,4 +11,7 @@ public interface HostPageService {
 	public List<HostPage> todayRes(Map<String, Object> map);
 	public int todayResOk(Map<String, Object> map);
 	public int todayCancel(Map<String, Object> map);
+	
+	public String todayPay(Map<String, Object> map);
+	public String todayrCinPay(Map<String, Object> map);
 }

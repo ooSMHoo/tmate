@@ -6,12 +6,13 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/hostPage.css" type="text/css">
 	
   <div class="left-body">
- 	 <div class="header-name p-3">
-		<i class="bi bi-person-workspace"></i> 호스트
+ 	 <div class="header-name p-3 mb-4">
+		<i class="bi bi-person-workspace"></i> HOST
+		 <div class="left-name menu-font">
+		<h6>Management</h6>
+		</div>
 	</div>
-    <div class="left-name menu-font">
-	<h6>Management</h6>
-	</div>
+   
 	 <div class="left-accordion-body mb-3">
   		<div class="btn align-items-center collapsed btn-set menu-font"  onclick="location.href='${pageContext.request.contextPath}/hostPage/home';">
           <i class="bi bi-house-door"></i> HOME
@@ -24,9 +25,8 @@
         </button>
         <div class="collapse" id="home-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-3 small left-accordion-body ">
-            <li><a href="${pageContext.request.contextPath}/hostPage/bookingList/list" class="link-dark rounded menu-font">예약목록</a></li>
-            <li><a href="${pageContext.request.contextPath}/hostPage/roomCal/list" class="link-dark rounded menu-font">객실달력</a></li>
-            <li><a href="${pageContext.request.contextPath}/hostPage/schedule/main" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">예약달력</a></li>
+            <li><a href="${pageContext.request.contextPath}/hostPage/bookingList/list" class="link-dark rounded menu-font">예약현황</a></li>
+            <li><a href="${pageContext.request.contextPath}/hostPage/roomCal/list" class="link-dark rounded menu-font" style="border-bottom: 1px solid #fff;">객실별예약현황</a></li>
           </ul>
         </div>
       </li>

@@ -9,7 +9,7 @@
 		JOIN reservationDetail r2 ON r.resNum = r2.resNum 
 		JOIN room r3 ON r2.roomNum = r3.roomNum 
 		WHERE r3.mhId =#{hostId}
-   		AND  TO_CHAR(TRUNC(resReg_date,'YYYY'),'YYYYMMDD') = TO_CHAR(TRUNC(SYSDATE,'YYYY'),'YYYYMMDD')
+   		AND  TO_CHAR(resReg_date,'YYYY') = #{startDate}
 	</select>
 	
 	<!-- 이번년도 총결제 금액 -->
@@ -22,7 +22,7 @@
 		JOIN reservation r ON r.resNum = r2.resNum 
 		JOIN payment p ON r.resNum = p.resNum  
 		WHERE m.mhId = #{hostId}
-		 AND  TO_CHAR(TRUNC(resReg_date,'YYYY'),'YYYYMMDD') = TO_CHAR(TRUNC(SYSDATE,'YYYY'),'YYYYMMDD')
+		 AND  TO_CHAR(p.payReg_date,'YYYY') = #{startDate}
 	</select>
 	
 	<!-- 이번년도 취소 총건 -->
@@ -32,8 +32,8 @@
 		JOIN reservationDetail r2 ON r.resNum = r2.resNum 
 		JOIN room r3 ON r2.roomNum = r3.roomNum 
 		WHERE r3.mhId = #{hostId}
-		AND  ((resCode = 1 OR resCode = 2) 
-     		AND TO_CHAR(TRUNC(resReg_date,'YYYY'),'YYYYMMDD') = TO_CHAR(TRUNC(SYSDATE,'YYYY'),'YYYYMMDD'))
+		AND resCode != 0 
+     		AND TO_CHAR(resReg_date,'YYYY') = #{startDate}
 	</select>
 	
 	<!-- 이번연도 취소된 총 금액 -->
@@ -46,8 +46,139 @@
 		JOIN reservation r ON r.resNum = r2.resNum 
 		JOIN payment p ON r.resNum = p.resNum  
 		WHERE m.mhId = #{hostId}
-		AND ((resCode = 1 OR resCode = 2) 
-    		AND TO_CHAR(TRUNC(resReg_date,'YYYY'),'YYYYMMDD') = TO_CHAR(TRUNC(SYSDATE,'YYYY'),'YYYYMMDD'))
+		AND  resCode != 0 
+     		AND TO_CHAR(p.payReg_date,'YYYY') = #{startDate}
 	</select>
+	
+	<!-- 전년도 객실별 판매상세 : 예약건수 -->
+	<select id="lastyPaytotal" parameterType="map" resultType="com.sp.trip.hostPage.yearStats.YearStats">
+	SELECT*FROM (
+		SELECT r3.roomNum, NVL(SUM(p.payCost),0) total, r3.roomName
+		FROM memberHost m 
+		JOIN room r3 ON m.mhId = r3.mhId
+		LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		LEFT JOIN reservation r ON r.resNum = r2.resNum 
+		LEFT JOIN payment p ON r.resNum = p.resNum
+		WHERE m.mhId = #{hostId} AND TO_CHAR(resReg_date,'YYYY') = #{startDate}
+		GROUP BY  r3.roomName, r3.roomNum
+		union all
+		SELECT r.roomNum, TO_NUMBER('0') total, r.roomName
+		FROM memberHost m 
+		JOIN room r ON m.mhId = r.mhId
+		WHERE  m.mhId = #{hostId}  AND 
+		   r.roomName NOT IN (
+		    SELECT r3.roomName
+		    FROM memberHost m 
+		    JOIN room r3 ON m.mhId = r3.mhId
+		    LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		    LEFT JOIN reservation r ON r.resNum = r2.resNum 
+		    LEFT JOIN payment p ON r.resNum = p.resNum
+		    WHERE m.mhId = #{hostId}  AND TO_CHAR(p.payReg_date,'YYYY') = #{startDate}
+		)
+		)ORDER BY roomNum ASC
+		</select>
+		
+	<!-- 이번년도 객실별 판매상세 : 예약건수 -->
+	<select id="thisyPaytotal" parameterType="map" resultType="com.sp.trip.hostPage.yearStats.YearStats">
+	SELECT*FROM (
+		SELECT r3.roomNum, NVL(SUM(p.payCost),0) total, r3.roomName
+		FROM memberHost m 
+		JOIN room r3 ON m.mhId = r3.mhId
+		LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		LEFT JOIN reservation r ON r.resNum = r2.resNum 
+		LEFT JOIN payment p ON r.resNum = p.resNum
+		WHERE m.mhId = #{hostId} AND TO_CHAR(resReg_date,'YYYY') =  #{startDate}
+		GROUP BY  r3.roomName, r3.roomNum
+		union all
+		SELECT r.roomNum, TO_NUMBER('0') total, r.roomName
+		FROM memberHost m 
+		JOIN room r ON m.mhId = r.mhId
+		WHERE  m.mhId = #{hostId}  AND 
+		   r.roomName NOT IN (
+		    SELECT r3.roomName
+		    FROM memberHost m 
+		    JOIN room r3 ON m.mhId = r3.mhId
+		    LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		    LEFT JOIN reservation r ON r.resNum = r2.resNum 
+		    LEFT JOIN payment p ON r.resNum = p.resNum
+		    WHERE m.mhId = #{hostId}  AND TO_CHAR(p.payReg_date,'YYYY') =  #{startDate}
+		)
+	 )ORDER BY roomNum ASC
+		</select>
+	
+	
+	<!-- 전년도 객실별 예약 총건 -->	
+	<select id="lastyResCount" parameterType="map" resultType="com.sp.trip.hostPage.yearStats.YearStats">
+	SELECT*FROM (
+		SELECT r3.roomNum, COUNT(r.resNum) count, r3.roomName
+		FROM memberHost m 
+		JOIN room r3 ON m.mhId = r3.mhId
+		LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		LEFT JOIN reservation r ON r.resNum = r2.resNum 
+		LEFT JOIN payment p ON r.resNum = p.resNum
+		WHERE m.mhId = #{hostId}  AND TO_CHAR(resReg_date,'YYYY') = #{startDate}
+		GROUP BY  r3.roomName, r3.roomNum
+		union all
+		SELECT r.roomNum, TO_NUMBER('0') count, r.roomName
+		FROM memberHost m 
+		JOIN room r ON m.mhId = r.mhId
+		WHERE  m.mhId = #{hostId}  AND 
+		   r.roomName NOT IN (
+		    SELECT r3.roomName
+		    FROM memberHost m 
+		    JOIN room r3 ON m.mhId = r3.mhId
+		    LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		    LEFT JOIN reservation r ON r.resNum = r2.resNum 
+		    LEFT JOIN payment p ON r.resNum = p.resNum
+		    WHERE m.mhId = #{hostId}  AND TO_CHAR(p.payReg_date,'YYYY') = #{startDate}
+		)
+	)ORDER BY roomNum ASC
+
+	</select>	
+		
+		
+	<!-- 이번년도 객실별 예약 총건 -->	
+	<select id="thisyResCount" parameterType="map" resultType="com.sp.trip.hostPage.yearStats.YearStats">
+	SELECT*FROM (
+		SELECT r3.roomNum, COUNT(r.resNum) count, r3.roomName
+		FROM memberHost m 
+		JOIN room r3 ON m.mhId = r3.mhId
+		LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		LEFT JOIN reservation r ON r.resNum = r2.resNum 
+		LEFT JOIN payment p ON r.resNum = p.resNum
+		WHERE m.mhId = #{hostId}  AND TO_CHAR(resReg_date,'YYYY') =  #{startDate}
+		GROUP BY  r3.roomName, r3.roomNum
+		union all
+		SELECT r.roomNum, TO_NUMBER('0') count, r.roomName
+		FROM memberHost m 
+		JOIN room r ON m.mhId = r.mhId
+		WHERE  m.mhId = #{hostId}  AND 
+		   r.roomName NOT IN (
+		    SELECT r3.roomName
+		    FROM memberHost m 
+		    JOIN room r3 ON m.mhId = r3.mhId
+		    LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		    LEFT JOIN reservation r ON r.resNum = r2.resNum 
+		    LEFT JOIN payment p ON r.resNum = p.resNum
+		    WHERE m.mhId = #{hostId}  AND TO_CHAR(resReg_date,'YYYY') =  #{startDate}
+		)
+	)ORDER BY roomNum ASC
+	</select>
+	
+	<select id="totalASmonth" parameterType="map" resultType="com.sp.trip.hostPage.yearStats.YearStats">
+		SELECT SUM(p.payCost) total, TO_CHAR(resReg_date,'MM') readMonth
+		FROM memberHost m 
+		JOIN room r3 ON m.mhId = r3.mhId
+		LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		LEFT JOIN reservation r ON r.resNum = r2.resNum 
+		LEFT JOIN payment p ON r.resNum = p.resNum
+		WHERE m.mhId = #{hostId} AND TO_CHAR(resReg_date,'YYYY') =#{startDate}
+		GROUP BY  TO_CHAR(resReg_date,'MM')
+		ORDER BY TO_CHAR(resReg_date,'MM') ASC
+	</select>
+		
+		
+		
+		
 
 </mapper>

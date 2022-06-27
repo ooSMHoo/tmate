@@ -24,7 +24,7 @@ function searchList() {
 	<div class="main-container pt-3 p-md-3 p-lg-4 h6">
 	   <div class="row g-3 mb-4 align-items-center justify-content-between">
     <div class="col-auto">
-           <h1 class="app-page-title mb-0">결제내역</h1>
+           <h3 class="app-page-title mb-0">결제내역</h3>
     </div>
     <div class="col-auto">
 	     <div class="page-utilities">
@@ -34,7 +34,7 @@ function searchList() {
 					    	action="${pageContext.request.contextPath}/hostPage/paymentList/list" method="post">
 		                   	<div class="col-auto">
 		                    <select name="condition" id="searchSelect" class="form-select w-auto" onchange="searchList();">
-								<option selected value=""  ${condition==""?"selected='selected'":""}>전체</option>
+								<option selected value=""  ${condition==""?"selected='selected'":""}>::검색옵션::</option>
 								<option value="resName" ${condition=="resName"?"selected='selected'":""}>결제자명</option>
 								<option value="roomName" ${condition=="roomName"?"selected='selected'":""}>객실명</option>
 								<option value="payReg_date" ${condition=="payReg_date"?"selected='selected'":""}>결제일시</option>
@@ -48,12 +48,13 @@ function searchList() {
 		                    </div>
 		                </form>
 			    </div>
-
+			<!-- 
 		    <div class="col-auto">						    
 			    <a class="btn app-btn-secondary border btn-ch2" href="#">
 				    Download EXEL
 				</a>
 		    </div>
+		     -->
 	    </div>
     </div>
    </div>
@@ -66,7 +67,7 @@ function searchList() {
 				</td>
 				<td align="right">
 					 <select name="option" id="optionSelect" class="form-select w-auto" onchange="optionList();">
-						  <option selected value=""  ${option==""?"selected='selected'":""}>전체정렬</option>
+						  <option selected value=""  ${option==""?"selected='selected'":""}>::정렬::</option>
 						  <option value="option-week" ${option=="option-week"?"selected='selected'":""}>일주일이내</option>
 						  <option value="option-month"  ${option=="option-month"?"selected='selected'":""} >한달이내</option>
 						  <option value="option-threeM"  ${option=="option-threeM"?"selected='selected'":""}>3개월이내</option> 

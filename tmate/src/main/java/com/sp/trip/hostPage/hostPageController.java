@@ -49,7 +49,13 @@ public class hostPageController {
 		//오늘 취소된 예약건수
 		int todayCancel = service.todayCancel(map);
 		model.addAttribute("todayCancel", todayCancel);
-				
+		
+		//오늘 총 판매금액 현황
+		String todayPay = service.todayPay(map);
+		model.addAttribute("todayPay", todayPay);
+		
+		String todayrCinPay = service.todayrCinPay(map);
+		model.addAttribute("todayrCinPay", todayrCinPay);
 		
         return ".hostPage.main.home";
     }

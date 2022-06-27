@@ -1,5 +1,6 @@
 package com.sp.trip.hostPage.yearStats;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,67 @@ public class YearStatsServiceImpl implements YearStatsService{
 		}
 		return result;
 	}
-	
+
+	@Override
+	public List<YearStats> lastyPaytotal(Map<String, Object> map) {
+		List<YearStats> list = null;
+		
+		try {
+			list = dao.selectList("yearStats.lastyPaytotal", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<YearStats> thisyPaytotal(Map<String, Object> map) {
+		List<YearStats> list = null;
+		
+		try {
+			list = dao.selectList("yearStats.thisyPaytotal", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<YearStats> lastyResCount(Map<String, Object> map) {
+		List<YearStats> list = null;
+		
+		try {
+			list = dao.selectList("yearStats.lastyResCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<YearStats> thisyResCount(Map<String, Object> map) {
+		List<YearStats> list = null;
+		
+		try {
+			list = dao.selectList("yearStats.thisyResCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<YearStats> totalASmonth(Map<String, Object> map) {
+		List<YearStats> list = null;
+		
+		try {
+			list = dao.selectList("yearStats.totalASmonth", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+
 
 }

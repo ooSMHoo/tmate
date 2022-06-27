@@ -8,6 +8,11 @@ public class RoomCal {
 	private String roomName; // 객실이름
 	private int enabled; //활성 비활성
 	private String mhId; // 호스트아이디 
+	private int roomNum;
+	private int startDay;
+	private int lastDay;
+	private int endDay;
+	private int period;
 	public String getResCin_date() {
 		return resCin_date;
 	}
@@ -49,6 +54,36 @@ public class RoomCal {
 	}
 	public void setMhId(String mhId) {
 		this.mhId = mhId;
+	}
+	public int getRoomNum() {
+		return roomNum;
+	}
+	public void setRoomNum(int roomNum) {
+		this.roomNum = roomNum;
+	}
+	public int getStartDay() {
+		return startDay;
+	}
+	public void setStartDay(int startDay) {
+		this.startDay = startDay;
+	}
+	public int getLastDay() {
+		return lastDay;
+	}
+	public void setLastDay(int lastDay) {
+		this.lastDay = lastDay;
+	}
+	public int getEndDay() {
+		return endDay;
+	}
+	public void setEndDay(int endDay) {
+		this.endDay = endDay;
+	}
+	public int getPeriod() {
+		return period;
+	}
+	public void setPeriod(int period) {
+		this.period = period;
 	}
 	
 	

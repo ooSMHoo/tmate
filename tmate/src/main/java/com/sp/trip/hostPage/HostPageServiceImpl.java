@@ -72,5 +72,27 @@ public class HostPageServiceImpl implements HostPageService{
 		}
 		return result;
 	}
+
+	@Override
+	public String todayPay(Map<String, Object> map) {
+		String result = null;
+		try {
+			result = dao.selectOne("hostPage.todayPay", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public String todayrCinPay(Map<String, Object> map) {
+		String result = null;
+		try {
+			result = dao.selectOne("hostPage.todayrCinPay", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 }

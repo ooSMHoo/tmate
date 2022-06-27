@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reviewList">
+	<select id="reviewList" parameterType="map" resultType="com.sp.trip.hostPage.reviewList.ReviewList">
+	SELECT * FROM (
+	  SELECT ROWNUM rnum, tb.* FROM (
+		SELECT review.revNum, review.memberId, review.revSubject, review.revContent, review.revGrade,
+                TO_CHAR(review.revReg_date,'YYYY.MM.DD') revReg_date, review.resAnswer, r.roomName, 
+                TO_CHAR(rv.resCin_date,'YYYY.MM.DD')resCin_date, TO_CHAR(rv.resCout_date,'YYYY.MM.DD')resCout_date
+        FROM review review
+        JOIN reservation rv ON rv.resNum = review.resNum
+        JOIN reservationDetail rd ON rd.resNum = rv.resNum
+        JOIN room r ON r.roomNum = rd.roomNum
+        JOIN lodging l ON l.mhId = r.mhId
+        WHERE l.mhId=#{hostId}
+        ORDER BY revReg_date DESC
+      ) tb WHERE ROWNUM &lt;= #{end}
+	) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+        FROM review review
+        JOIN reservation rv ON rv.resNum = review.resNum
+        JOIN reservationDetail rd ON rd.resNum = rv.resNum
+        JOIN room r ON r.roomNum = rd.roomNum
+        JOIN lodging l ON l.mhId = r.mhId
+        WHERE l.mhId=#{hostId}
+	</select>
+	
+	<select id="readRevAnswer" parameterType="Integer" resultType="com.sp.trip.hostPage.reviewList.ReviewList">
+		SELECT review.revNum,  review.resAnswer 
+		FROM review review
+        JOIN reservation rv ON rv.resNum = review.resNum
+        JOIN reservationDetail rd ON rd.resNum = rv.resNum
+        JOIN room r ON r.roomNum = rd.roomNum
+        JOIN lodging l ON l.mhId = r.mhId
+        WHERE  review.revNum = #{revNum}
+	</select>
+	
+	<update id="updateAnswer" parameterType="com.sp.trip.hostPage.reviewList.ReviewList">
+		UPDATE review SET resAnswer = #{resAnswer}
+		WHERE revNum = #{revNum}
+	</update>
+	
+	<update id="deleteAnswer" parameterType="map">
+		UPDATE review SET resAnswer = ''
+		WHERE revNum = #{revNum}
+	</update>
+	
+</mapper>

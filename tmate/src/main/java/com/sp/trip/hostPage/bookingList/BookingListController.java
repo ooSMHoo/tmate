@@ -106,7 +106,6 @@ public class BookingListController {
 
 		return ".hostPage.bookingList.list";
 	}
-	
 // 회원상세 정보 : AJAX-Text 응답
 	@RequestMapping(value = "detaile", method = RequestMethod.POST)
 	public String detaileBooking(@RequestParam int resNum, 
@@ -114,9 +113,48 @@ public class BookingListController {
 			) throws Exception {
 		
 		BookingList dto = service.detaileBooking(resNum);
-
+		
 		model.addAttribute("dto", dto);	
-
+		
 		return "/hostPage/bookingList/detaile";
 	}
+	
+	@RequestMapping(value = "updateMemo", method = RequestMethod.POST)
+	public String updateMemo(
+			@RequestParam String page,
+			@RequestParam int resNum,
+			BookingList dto
+			) throws Exception{
+		
+		try {
+			service.updatehostMemo(dto, resNum);
+		} catch (Exception e) {
+		}
+		
+		
+		return "redirect:/hostPage/bookingList/list?page="+page;
+	}
+	
+	@RequestMapping(value = "updateRescode", method = RequestMethod.POST)
+	public String updateRescode(
+			@RequestParam String page,
+			@RequestParam int resNum
+			) throws Exception {
+
+		
+		try {
+			// 호스트 활성/비활성
+			Map<String, Object> map = new HashMap<>();
+			map.put("resNum", resNum);
+			service.updateRescode(map);
+			
+		} catch (Exception e) {
+		}
+
+		
+		return "redirect:/hostPage/bookingList/list?page="+page;
+	}
+	
+	
+	
 }

@@ -4,13 +4,29 @@
 <mapper namespace="roomCal">
 		
 	<select id="roomCalList" parameterType="Map" resultType="com.sp.trip.hostPage.roomCal.RoomCal">
-		SELECT TO_CHAR(resCin_date,'YYYY-MM-DD') resCin_date,  TO_CHAR(resCout_date, 'YYYY-MM-DD') resCout_date,
-        	 resCode, resName, r3.roomName, r3.enabled
+		SELECT r2.roomNum, TO_CHAR(resCin_date,'YYYY-MM-DD') resCin_date,  TO_CHAR(resCout_date, 'YYYY-MM-DD') resCout_date,
+        	 resCode, resName, r3.roomName, r3.enabled,
+        	 TO_CHAR(
+        	 	CASE 
+        	 		WHEN resCin_date &lt; TO_DATE('${startDate}') THEN TO_DATE('${startDate}')
+        	 		ELSE resCin_date
+        	 	END, 'DD') startDay,
+        	 TO_CHAR(resCout_date,'DD') endDay,
+        	 CASE 
+        	 	WHEN resCout_date &gt; TO_DATE('${endDate}') THEN TO_DATE('${endDate}')
+        	 	ELSE resCout_date
+        	 END - 
+        	 CASE 
+        	 	WHEN resCin_date &lt; TO_DATE('${startDate}') THEN TO_DATE('${startDate}')
+        	 	ELSE resCin_date
+        	 END + 1  period,
+        	 TO_CHAR(LAST_DAY(resCin_date), 'DD') lastDay
 		FROM reservation r
 		JOIN reservationDetail r2 ON r.resNum = r2.resNum
 		JOIN room r3 ON r2.roomNum = r3.roomNum
 		WHERE r3.mhId = #{hostId}
-		AND (resCin_date &lt;= TO_CHAR(SYSDATE+14,'YYYYMMDD') AND resCin_date >= SYSDATE) 
-		ORDER BY resCin_date ASC	
+		AND resCode=0
+		AND ( TO_CHAR(resCin_date, 'YYYY-MM-DD') &gt;= #{startDate} AND TO_CHAR(resCin_date, 'YYYY-MM-DD') &lt;= #{endDate} ) 
+		ORDER BY roomName, resCin_date ASC	
 	</select>
 </mapper>

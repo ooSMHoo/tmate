@@ -3,10 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/hostPage.css" type="text/css">
-
 	
-
+<form id="deteailedMemberForm" name="deteailedMemberForm" method="post">
 <table class="table td-border mx-auto my-10" style="font-size: 19px; margin-top: 30px;">
 	<tr>
 		<td class="wp-15 text-center bg-light">예약번호</td>
@@ -49,13 +47,14 @@
 			</c:choose>
 		</td>
 	</tr>
-	<!-- 
 	<tr>
 		<td class="pe-7 text-center bg-light">메 모</td>
-		<td class="ps-5">${dto.hostMemo}</td>
-	</tr>
-	 -->
-</table>
+		<td class="ps-5" colspan="3">
+			<textarea  name="hostMemo" id="hostMemo" class="form-control" style="width: 95%" >${dto.hostMemo}</textarea>
 
+		</td>
+	</tr>
+</table>
+</form>
 
 

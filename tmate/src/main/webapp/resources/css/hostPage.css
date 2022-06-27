@@ -51,7 +51,7 @@
 
 /*leftMenu.jsp========================================================*/
 
-.left-body { width: 215px; background-color: #044b85; height: 1000px; }
+.left-body { width: 215px; background-color: #044b85; height: 1500px; }
 .left-body a { color: #fff; text-decoration: none; cursor: pointer; }
 
 .header-name{
@@ -124,6 +124,7 @@
   background: #044b85 ;
   text-align: center;
   width: 227px;
+  padding-top: 25px;
 }
 
 /*home.jsp========================================================*/
@@ -136,9 +137,7 @@
 	width: 1000px;
 }
 
-.box1 {height: 200px; }
-.box2 {height: 250px;}
-.box3 {height: 500px;}
+
 
 .count-box { height: 70px;}
 
@@ -162,3 +161,132 @@
 }
 
 
+/*reviewList.jsp========================================================*/
+
+
+.review-container {
+	display : block;
+	padding-top: 10px;
+	margin: 0 35px;
+	width: 850px;
+}
+.room_content{
+	border-bottom: 1px solid #edd;
+	width: 100%;
+}
+
+.tm_hr {
+	border-bottom: 1px solid #edd;
+}
+
+.pos_rel{
+  position: relative;
+}
+
+.tm_right{
+	position: absolute; right: 0px;
+}
+
+
+.host_modal{
+	text-align: right;
+}
+
+
+.star-ratings {
+  color: #aaa9a9; 
+  font-size:30px;
+  position: relative;
+  unicode-bidi: bidi-override;
+  width: max-content;
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1.3px;
+  -webkit-text-stroke-color: #2b2a29;
+}
+ 
+.star-ratings-fill {
+  color: #fff58c;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  -webkit-text-fill-color: gold;
+}
+ 
+.star-ratings-base {
+  z-index: 0;
+  padding: 0;
+}
+
+
+.star-rating {
+  border:solid 1px #ccc;
+  display:flex;
+  flex-direction: row-reverse;
+  font-size:1.5em;
+  justify-content:space-around;
+  padding:0 .2em;
+  text-align:center;
+  width:5em;
+}
+
+.star-rating input {
+  display:none;
+}
+
+.star-rating label {
+  color:#ccc;
+  cursor:pointer;
+}
+
+.star-rating :checked ~ label {
+  color:#f90;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color:#fc0;
+}
+
+.room_review{
+	background: #bdd;
+}
+
+.tm_wid8{
+	width: 8%;
+}
+
+.tm_wid30{
+	width: 30%;
+}
+
+.tm_wid70{
+	width: 70%;
+}
+
+.tm_wid35{
+	width: 35%;
+}
+
+.tm_wid65{
+	width: 65%;
+}
+
+.tm_wid92{
+	width: 92%;
+}
+
+.tm_hr {
+	border-bottom: 1px solid #edd;
+}
+
+.tm-text-cen{
+	text-align: center;
+}
+
+.answer-set {
+	
+}

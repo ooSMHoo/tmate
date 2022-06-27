@@ -7,8 +7,6 @@
 
 <script type="text/javascript">
 
-
-
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,
@@ -53,14 +51,17 @@ function detaileBooking(resNum) {
 		  autoOpen: false,
 		  modal: true,
 		  buttons: {
+			  " 메모저장 " : function() {
+		    	  updateMemo(resNum);
+			   },
 		       " 예약삭제 " : function() {
-		    	   deleteOk(userId);
+		    	   resDelete(resNum);
 			   },
 		       " 닫기 " : function() {
 		    	   $(this).dialog("close");
 		       }
 		  },
-		  height: 500,
+		  height: 550,
 		  width: 830,
 		  title: "예약상세정보",
 		  close: function(event, ui) {
@@ -75,22 +76,23 @@ function detaileBooking(resNum) {
 		dlg.dialog("open");
 	};
 	ajaxFun(url, "post", query, "html", fn);
-	console.log(query);
 }
 
-/*
-function updateOk() {
-	const f = document.memoUpdateForm;
+
+
+function updateMemo(value) {
+	const f = document.deteailedMemberForm;
+	let resNum = value;
 	
-	if(! $.trim(f.memoinput.value)) {
-		f.memoinput.focus();
+	if(! $.trim(f.hostMemo.value)) {
+		f.hostMemo.focus();
 		return;
 	}
 	
-	//여기서부터 
-	let url = "${pageContext.request.contextPath}/admin/memberManage/updateMemberState";
-	let query=$("#memoUpdateForm").serialize();
-
+	let url = "${pageContext.request.contextPath}/hostPage/bookingList/updateMemo";
+	let query=$("#deteailedMemberForm").serialize()+"&page="+${page}+"&resNum="+value;
+	console.log(query);
+	
 	const fn = function(data){
 		$("form input[name=page]").val("${page}");
 		searchList();
@@ -99,13 +101,28 @@ function updateOk() {
 		
 	$('#booking-dialog').dialog("close");
 }
-*/
+
+function resDelete(resNum) {
+	if(! confirm("예약을 일정을 삭제하시겠습니까 ?")) {
+		return;
+	}
+	
+	let url = "${pageContext.request.contextPath}/hostPage/bookingList/updateRescode";
+	let query = "resNum="+resNum+"&page="+${page};
+	
+	const fn = function(data){
+		
+	};
+	ajaxFun(url, "post", query, "json", fn);
+	$('#booking-dialog').dialog("close");
+}
+
 </script>
 	
 	<div class="main-container pt-3 p-md-3 p-lg-4 h5">
 	   <div class="row g-3 mb-2 align-items-center justify-content-between">
 	    <div class="col-auto">
-	           <h1 class="app-page-title mb-0">예약목록 </h1>
+	           <h3 class="app-page-title mb-0">예약현황 </h3>
 	    </div>
 	    <div class="col-auto">
 		     <div class="page-utilities">
@@ -115,7 +132,7 @@ function updateOk() {
 					    	action="${pageContext.request.contextPath}/hostPage/bookingList/list" method="post">
 		                   	<div class="col-auto">
 		                    <select name="condition" id="searchSelect" class="form-select w-auto" onchange="searchList();">
-								<option selected value=""  ${condition==""?"selected='selected'":""}>전체</option>
+								<option selected value=""  ${condition==""?"selected='selected'":""}>::검색옵션::</option>
 								<option value="resName" ${condition=="resName"?"selected='selected'":""}>예약자명</option>
 								<option value="roomName" ${condition=="roomName"?"selected='selected'":""}>객실명</option>
 								<option value="resReg_date" ${condition=="resReg_date"?"selected='selected'":""}>예약일</option>
@@ -125,16 +142,18 @@ function updateOk() {
 		                        <input type="text" name="keyword" value="" class="form-control search-orders" placeholder="Search">
 		                    </div>
 		                    <div class="col-auto">
+		                    	
 		                        <button type="button" class="btn btn-ch2 app-btn-secondary border" onclick="searchList()"><i class="bi bi-hand-index-thumb-fill"></i></button>
 		                    </div>
 		                </form>
 				    </div>
-			   
+			   <!-- 
 			    <div class="col-auto">						    
 				    <a class="btn app-btn-secondary border btn-ch2" href="#">
 					    Download EXEL
 					</a>
 			    </div>
+			     -->
 		    </div>
 	    </div>
 	   </div>
@@ -142,12 +161,12 @@ function updateOk() {
 	  <form name="optionForm" action="${pageContext.request.contextPath}/hostPage/bookingList/list" method="post">
 		<table class="table align-middle">
 			<tr>
-				<td align="left" width="50%">
+				<td align="left" width="50%" class="h6">
 					${dataCount}개(${page}/${total_page} 페이지)
 				</td>
 				<td align="right">
 					 <select name="option" id="optionSelect" class="form-select w-auto" onchange="optionList();">
-						  <option selected value=""  ${option==""?"selected='selected'":""}>전체정렬</option>
+						  <option selected value=""  ${option==""?"selected='selected'":""}>::정렬::</option>
 						  <option value="option-week" ${option=="option-week"?"selected='selected'":""}>일주일이내</option>
 						  <option value="option-month"  ${option=="option-month"?"selected='selected'":""} >한달이내</option>
 						  <option value="option-threeM"  ${option=="option-threeM"?"selected='selected'":""}>3개월이내</option> 

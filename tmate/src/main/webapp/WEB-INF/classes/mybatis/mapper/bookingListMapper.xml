@@ -58,7 +58,7 @@
 		  SELECT ROWNUM rnum, tb.* FROM (
 			SELECT r2.resNum, TO_CHAR(r.resCin_date,'RR.MM.DD') resCin_date, TO_CHAR(r.resCout_date, 'RR.MM.DD') resCout_date, 
 					TO_CHAR(r.resReg_date, 'RR.MM.DD') resReg_date, r.resCode, r.resName, 
-					 r.resTotalcost, r3.roomName
+					 r.resTotalcost, r3.roomName, r2.hostMemo
 			FROM memberHost m 
 			JOIN room r3 ON m.mhId = r3.mhId
 			JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
@@ -70,7 +70,7 @@
 				<if test="option != ''">
 					AND  <include refid="option-list"></include>
 				</if>
-				AND m.mhId = #{hostId}
+				AND m.mhId = #{hostId} AND r.resCode != 1
 			</where>
 			ORDER BY r2.resNum DESC
 		 ) tb WHERE ROWNUM &lt;= #{end}
@@ -80,16 +80,24 @@
 	<select id="detaileBooking" parameterType="Integer" resultType="com.sp.trip.hostPage.bookingList.BookingList">
 		SELECT r2.resNum, TO_CHAR(r.resCin_date,'YYYY.MM.DD') resCin_date,  TO_CHAR(r.resCout_date, 'YYYY.MM.DD') resCout_date,
     		TO_CHAR(r.resReg_date, 'YYYY.MM.DD HH24:MI:SS') resReg_date, r.resCode, r.resName, 
-		      r.resPhone, r.resTotalcost, r.resPoint, r3.roomName, m1.memberEmail
+		      r.resPhone, r.resTotalcost, r.resPoint, r3.roomName, m1.memberEmail, r2.hostMemo
 		FROM memberHost m 
 		JOIN member1 m1 ON m.mhId = m1.memberId
 		JOIN room r3 ON m.mhId = r3.mhId
 		JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
 		JOIN reservation r ON r.resNum = r2.resNum 
-		WHERE r2.resNum = #{resNum}
+		WHERE r2.resNum = #{resNum} AND r.resCode != 1
 	</select>
 	
+	<update id="updatehostMemo" parameterType="com.sp.trip.hostPage.bookingList.BookingList">
+		UPDATE reservationDetail SET hostMemo=#{hostMemo} 
+		WHERE resNum = #{resNum} 
+	</update>
 	
+	<update id="updateRescode" parameterType="map">
+		UPDATE reservation SET resCode = 1
+		WHERE resNum = #{resNum}
+	</update>
 	
 	
 </mapper>

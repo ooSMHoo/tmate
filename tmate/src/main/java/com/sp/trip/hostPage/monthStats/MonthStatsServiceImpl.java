@@ -1,5 +1,6 @@
 package com.sp.trip.hostPage.monthStats;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,42 @@ public class MonthStatsServiceImpl implements MonthStatsService{
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public List<MonthStats> mselDetaile(Map<String, Object> map) {
+		List<MonthStats> list = null;
+		
+		try {
+			list = dao.selectList("monthStats.mselDetaile", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<MonthStats> mResCount(Map<String, Object> map) {
+		List<MonthStats> list = null;
+		
+		try {
+			list = dao.selectList("monthStats.mResCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<MonthStats> totalASday(Map<String, Object> map) {
+		List<MonthStats> list = null;
+		
+		try {
+			list = dao.selectList("monthStats.totalASday", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

@@ -4,11 +4,9 @@
 <mapper namespace="hostPage">
 	<!-- 해당 호스트에 총 객실 수  -->
 	<select id="countTotalRoom" parameterType="map" resultType="Integer">
-		SELECT COUNT(r3.roomName)
-		FROM reservation r
-		JOIN reservationDetail r2 ON r.resNum = r2.resNum 
-		JOIN room r3 ON r2.roomNum = r3.roomNum 
-		WHERE r3.mhId = #{hostId}
+		SELECT COUNT(*) total
+		FROM room
+		WHERE mhId = #{hostId} 
 	</select>
 	
 	<!-- 오늘 예약된 룸 개수 -->
@@ -47,6 +45,32 @@
 		JOIN reservationDetail r2 ON r.resNum = r2.resNum 
 		JOIN room r3 ON r2.roomNum = r3.roomNum 
 		WHERE r3.mhId = #{hostId}
-	    AND  ((resCode = 1 OR resCode = 2) AND  resCin_date = TO_CHAR(SYSDATE, 'YYYYMMDD'))
+	    AND  (resCode=0 AND  resCin_date = TO_CHAR(SYSDATE, 'YYYYMMDD'))
+	</select>
+	
+	<!-- 오늘 예약한 사람들의 총 결제 금액 -->
+	<select id="todayPay" parameterType="map" resultType="String">
+		SELECT NVL(TO_CHAR(SUM(p.payCost), 'L99,999,999'),0)
+		FROM memberHost m 
+		JOIN member1 m1 ON m.mhId = m1.memberId
+		JOIN room r3 ON m.mhId = r3.mhId
+		JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		JOIN reservation r ON r.resNum = r2.resNum 
+		JOIN payment p ON r.resNum = p.resNum  
+		WHERE m.mhId = #{hostId}
+		 AND  TO_CHAR(p.payReg_date,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
+	</select>
+	
+	<!-- 오늘 입실한 사람들의 총 매출 -->
+	<select id="todayrCinPay" parameterType="map" resultType="String">
+		 SELECT NVL(TO_CHAR(SUM(p.payCost), 'L99,999,999'),0)
+		FROM memberHost m 
+		JOIN member1 m1 ON m.mhId = m1.memberId
+		JOIN room r3 ON m.mhId = r3.mhId
+		JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
+		JOIN reservation r ON r.resNum = r2.resNum 
+		JOIN payment p ON r.resNum = p.resNum  
+		WHERE m.mhId = #{hostId}
+		 AND  TO_CHAR(r.resCin_date,'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMMDD')
 	</select>
 </mapper>

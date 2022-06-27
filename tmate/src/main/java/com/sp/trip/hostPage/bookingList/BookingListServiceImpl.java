@@ -40,18 +40,6 @@ public class BookingListServiceImpl implements BookingListService{
 
 
 	@Override
-	public void updateBookingList(BookingList dto, String pathname) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteBookingList(int resNum, String pathname, String memberId) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public BookingList detaileBooking(int resNum) {
 		BookingList dto = null;
 		
@@ -62,5 +50,34 @@ public class BookingListServiceImpl implements BookingListService{
 		}
 		return dto;
 	}
+	
+	
+	
+	//예약 삭제시 resCode 수정 
+	@Override
+	public void updateRescode(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("bookingList.updateRescode", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public void updatehostMemo(BookingList dto, int resNum) throws Exception {
+		try {
+			dao.updateData("bookingList.updatehostMemo", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
+	
+
+	
 	
 }

@@ -5,10 +5,19 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/hostPage.css" type="text/css">
 
+<style>
+@font-face {
+    font-family: 'MapoBackpacking';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoBackpackingA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal; 
+}
+
+</style>
 
  <div class="header-container row  align-items-center justify-content-between">
     <div class="col-auto logo-form">
-           <h1 class="mb-0 mt-3">로고</h1>
+           <a class="navbar-brand mt-5" href="${pageContext.request.contextPath}/" style="color:#ffa81e;  font-family: MapoBackpacking; font-size:17pt;">트레블&amp;메이트</a>
     </div>
     <div class="col-auto">
 	     <div class="page-utilities">
