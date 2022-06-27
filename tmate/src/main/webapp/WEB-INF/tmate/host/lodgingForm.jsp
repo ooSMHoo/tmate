@@ -474,7 +474,7 @@ $(function() {
 </div>
 
 <c:if test="${mode eq 'write'}">
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e127a9fac584024a1564da7a8555ea94&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6b5f3fcfb7cb246f1390e33c8725bd6c&libraries=services"></script>
 <script type="text/javascript">
 window.onload = function() {
 	var geocoder = new kakao.maps.services.Geocoder();

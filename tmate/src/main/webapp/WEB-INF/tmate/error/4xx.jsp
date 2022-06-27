@@ -1,7 +1,14 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/bootstrap5/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/bootstrap5/icon/bootstrap-icons.css" type="text/css">
+
+<%
+   response.setStatus(HttpServletResponse.SC_OK);
+%>
 
 <style type="text/css">
 .container{ margin-top: 150px; }
@@ -24,13 +31,13 @@
 
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="border mt-5 p-4 rounded-2">
-                       <h4 class="text-center fw-bold">경고!</h4>
+                <div class="border mt-5 p-4 rounded-2" >
+                       <h4 class="text-center fw-bold">잘못된 요청</h4>
                        
 	                <div class="d-grid pt-3">
-						<p class="alert alert-primary text-center lh-base fs-6" >
-							해당 정보를 접근 할 수 있는 권한이 없습니다.<br>
-							메인화면으로 이동하시기 바랍니다.
+						<p class="alert alert-primary text-center lh-base fs-6">
+							잘못된 요청입니다.<br>
+							잠시후 다시 시도 해보시기 바랍니다.						
 						</p>
 	                </div>
                        

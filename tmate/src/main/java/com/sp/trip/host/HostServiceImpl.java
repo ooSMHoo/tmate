@@ -50,6 +50,10 @@ public class HostServiceImpl implements HostService{
 		Host host = null;
 		try {
 			host = dao.selectOne("host.readHost", userId);
+			if(host == null) {
+				return host;
+			}
+			
 			String phone = host.getMhPhone();
 
 			host.setMhPhone1(phone.substring(0, phone.indexOf("-")));

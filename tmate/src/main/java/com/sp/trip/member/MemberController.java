@@ -136,13 +136,4 @@ public class MemberController {
 		
 		return model;
 	}
-	
-	@RequestMapping("/sendEmail")
-	@ResponseBody
-	public Map<String, Object> sendEmail() {
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("passed", "true");
-		
-		return model;
-	}
 }

@@ -41,7 +41,7 @@ public class LodgingController {
 		
 		Host host = hostService.readHost(userId);
 		if(host == null) {
-			return "redirect:/";
+			return "redirect:/member/noAuthorized";
 		}
 
 		model.addAttribute("host", host);
@@ -87,12 +87,15 @@ public class LodgingController {
 	@GetMapping("/info")
 	public String readLodging(HttpSession session, Model model) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		if(info == null) {
-			return "redirect:/";
-		}
+
 		String userId = info.getUserId();
 		
 		Lodging lodging = lodgingService.readLodging(userId);
+		
+		if (lodging == null) {
+			return "redirect:/member/noAuthorized";
+		}
+		
 		String category = lodgingService.readLodgingCategory(lodging.getLcNum());
 		List<Lodging> photoList = lodgingService.readLodgingPhotolist(lodging.getMhId());
 		lodging.setLodgContent1(lodging.getLodgContent1().replaceAll("\n", "<br>"));
@@ -111,6 +114,10 @@ public class LodgingController {
 		String userId = info.getUserId();
 		
 		Lodging lodging = lodgingService.readLodging(userId);
+		
+		if (lodging == null) {
+			return "redirect:/member/noAuthorized";
+		}
 		
 		List<Lodging> photoList = lodgingService.readLodgingPhotolist(userId);
 		

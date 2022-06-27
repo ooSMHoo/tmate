@@ -77,5 +77,4 @@
 	<definition name=".*" extends=".mainLayout">
     	  <put-attribute name="body" value="/WEB-INF/tmate/{1}.jsp" />
 	</definition>
-
 </tiles-definitions>

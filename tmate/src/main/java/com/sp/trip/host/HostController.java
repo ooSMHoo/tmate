@@ -37,13 +37,13 @@ public class HostController {
 	@GetMapping("/add")
 	public String hostForm(HttpSession session, Model model) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		if(info == null) {
-			throw new Exception();
-		}
+
 		Member member = hostService.readMember(info.getUserId());
-		if(member == null) {
-			return "redirect:/";
+		
+		if (member.getEnabled() == 0) {
+			return "redirect:/member/noAuthorized";
 		}
+		
 		model.addAttribute("member", member);
 		model.addAttribute("mode", "write");
 		
@@ -66,7 +66,7 @@ public class HostController {
 			return "redirect:/host/complete";
 		} catch (DataIntegrityViolationException e) {
 			reAttr.addFlashAttribute("title", "호스트 신청 실패");
-			reAttr.addFlashAttribute("message", "입력형식에 맞지않아 회원가입에 실패했습니다.");
+			reAttr.addFlashAttribute("message", "입력형식에 맞지않아 호스트 신청에 실패했습니다.");
 			return "redirect:/host/complete";
 		} catch (Exception e) {
 			reAttr.addFlashAttribute("title", "호스트 신청 실패");
@@ -92,11 +92,14 @@ public class HostController {
 	@GetMapping("/info")
 	public String readHostForm(HttpSession session, Model model) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		if (info == null) {
-			return "redirect:/";
-		}
+
 		String userId = info.getUserId();
 		Host host = hostService.readHost(userId);
+		
+		if (host == null) {
+			return "redirect:/member/noAuthorized";
+		}
+		
 		Member member = hostService.readMember(userId);
 		String email = member.getMemberEmail();
 		String bank = hostService.getBank(host.getBankNum());
@@ -111,11 +114,14 @@ public class HostController {
 	@GetMapping("/update")
 	public String updateHostForm(HttpSession session, Model model) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		if (info == null) {
-			return "redirect:/";
-		}
+
 		String userId = info.getUserId();
 		Host host = hostService.readHost(userId);
+		
+		if (host == null) {
+			return "redirect:/member/noAuthorized";
+		}
+		
 		Member member = hostService.readMember(userId);
 
 		model.addAttribute("member", member);
@@ -133,13 +139,10 @@ public class HostController {
 									Model model) {
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		if (info == null) {
-			return "redirect:/";
-		}
+
 		String userId = info.getUserId();
 		host.setMhId(userId);
 		Map<String, Object> map = new HashMap<String, Object>();
-		
 		
 		try {
 			if (lodgLat.equals("")) {

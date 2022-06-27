@@ -255,7 +255,7 @@ function changeBank() {
 </div>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e127a9fac584024a1564da7a8555ea94&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6b5f3fcfb7cb246f1390e33c8725bd6c&libraries=services"></script>
 <script>
 	function daumPostcode() {
 		new daum.Postcode({

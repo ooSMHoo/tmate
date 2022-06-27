@@ -85,6 +85,9 @@ public class RoomServiceImpl implements RoomService {
 		
 		try {
 			room = dao.selectOne("room.readRoom", roomNum);
+			if (room.getEnabled() == 2) {
+				return null;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

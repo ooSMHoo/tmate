@@ -44,7 +44,7 @@ public class RoomController {
 		String userId = info.getUserId();
 		Lodging lodging = lodgingService.readLodging(userId);
 		if (lodging == null) {
-			return "redirect:/";
+			return "redirect:/member/noAuthorized";
 		}
 		
 		model.addAttribute("mode", "write");
@@ -95,17 +95,15 @@ public class RoomController {
 	public String readRoom(HttpSession session, @PathVariable String roomNum, Model model,
 							@RequestParam(defaultValue = "") String page, @RequestParam(defaultValue = "") String option) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		if (info == null) {
-			return "redirect:/"; // 예외처리
-		}
+
 		try {
 			int num = Integer.parseInt(roomNum);
 			Room room = roomService.readRoom(num);
 			if (room == null) {
-				return "redirect:/"; // 방이 없는데 접근 또는 방을 삭제했는데 접근
+				return "redirect:/member/noAuthorized";
 			}
 			if (! room.getMhId().equals(info.getUserId())) {
-				return "redirect:/"; // 숙소가 없는데 접근함
+				return "redirect:/member/noAuthorized";
 			}
 			String roomCategory = roomService.readRoomCategory(room.getRcNum());
 			List<Room> photoList = roomService.readRoomPhotolist(num);
@@ -119,7 +117,6 @@ public class RoomController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "redirect:/"; //roomNum에 문자가 들어오면(정상적인 접근 아님)
 		}
 		
 		return ".host.roomInfo";
@@ -131,18 +128,15 @@ public class RoomController {
 								@RequestParam(defaultValue = "") String option,
 								Model model) {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		if (info == null) {
-			return "redirect:/"; // 예외처리
-		}
 		
 		try {
 			int num = Integer.parseInt(roomNum);
 			Room room = roomService.readRoom(num);
 			if (room == null) {
-				return "redirect:/"; // 방이 없는데 접근
+				return "redirect:/member/noAuthorized";
 			}
 			if (! room.getMhId().equals(info.getUserId())) {
-				return "redirect:/"; // 숙소가 없는데 접근함
+				return "redirect:/member/noAuthorized";
 			}
 			String roomCategory = roomService.readRoomCategory(room.getRcNum());
 			List<Room> photoList = roomService.readRoomPhotolist(num);

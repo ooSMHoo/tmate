@@ -103,9 +103,7 @@
 			<c:forEach var="vo" items="${room}" varStatus="status">
 			<div class="d-flex room_list">
 				<div class="tm_wid35" style="width: 31%">
-					<div style="border: 1px solid; background-image: url(${pageContext.request.contextPath}/tmate/room/${vo.rphotoName}); background-origin: border-box; height: 96%; width: 96%;"
-					data-bs-toggle="modal" data-bs-target="#roomInfo" >
-					</div>
+					<img src="${pageContext.request.contextPath}/tmate/room/${vo.rphotoName}" class="card-img-top" alt="..." style="height: 190px;">
 				</div>
 				<div class="tm_wid65 pos_rel">
 					<div>
