@@ -29,10 +29,7 @@
 			<div class="collapse navbar-collapse" id="navbarNavDropdown">
 				<ul class="navbar-nav ms-auto flex-nowrap">
 					<li class="nav-item me-3"><a class="nav-link" href="${pageContext.request.contextPath}/reservation/list">예약</a>
-					</li>
-					<li class="nav-item me-3"><a class="nav-link" href="${pageContext.request.contextPath}/chat/list">채팅</a>
-					</li>
-
+					
 					<li class="nav-item dropdown me-3"><a
 						class="nav-link dropdown-toggle" href="#"
 						id="navbarDropdownMenuLink" role="button"

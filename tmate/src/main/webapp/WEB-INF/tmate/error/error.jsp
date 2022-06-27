@@ -7,17 +7,27 @@
 %>
 
 <style type="text/css">
-.body-container {
-	max-width: 800px;
+.container{ margin-top: 150px; }
+.row{ max-width: 800px;margin: 30px auto; }
+.btn-select {
+	background-color: #ffa81e;
+	border: none;
+	font-size: large;
+	color: white;
+	box-shadow: 0px 5px 5px #f0e5d5;
 }
+
+.btn-select:hover{ background-color: #044b85; color: white; }
+
+.alert-primary{ background-color: #FFF8ED; border: none; color : black;}
 </style>
 
 <div class="container">
 	<div class="body-container">	
 
-        <div class="row justify-content-md-center mt-5">
+        <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="border mt-5 p-4">
+                <div class="border mt-5 p-4 rounded-2" >
                        <h4 class="text-center fw-bold">시스템 오류</h4>
                        
 	                <div class="d-grid pt-3">
@@ -28,7 +38,7 @@
 	                </div>
                        
                        <div class="d-grid">
-                           <button type="button" class="btn btn-lg btn-primary" onclick="location.href='${pageContext.request.contextPath}/';">메인화면으로 이동 <i class="bi bi-arrow-counterclockwise"></i> </button>
+                           <button type="button" class="btn btn-lg btn-primary btn-select" onclick="location.href='${pageContext.request.contextPath}/';">메인화면으로 이동 <i class="bi bi-arrow-counterclockwise"></i> </button>
                        </div>
                 </div>
             </div>

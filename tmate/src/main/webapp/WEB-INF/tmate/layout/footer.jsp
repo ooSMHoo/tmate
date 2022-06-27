@@ -11,7 +11,7 @@
 }
 </style>
 
-<div class="container-fluid">
+<div class="container-fluid main-footer">
     <ul class="nav justify-content-center p-3">
         <li class="nav-item"><a class="text-reset" href="#">SPRING 정책 및 약관</a></li>
         <li class="nav-item"><span>&nbsp;&middot;&nbsp;</span></li>

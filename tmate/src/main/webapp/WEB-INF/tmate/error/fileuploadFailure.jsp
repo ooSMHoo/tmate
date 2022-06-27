@@ -7,9 +7,19 @@
 %>
 
 <style type="text/css">
-.body-container {
-	max-width: 800px;
+.container{ margin-top: 150px; }
+.row{ max-width: 800px;margin: 30px auto; }
+.btn-select {
+	background-color: #ffa81e;
+	border: none;
+	font-size: large;
+	color: white;
+	box-shadow: 0px 5px 5px #f0e5d5;
 }
+
+.btn-select:hover{ background-color: #044b85; color: white; }
+
+.alert-primary{ background-color: #FFF8ED; border: none; color : black;}
 </style>
 
 <div class="container">
