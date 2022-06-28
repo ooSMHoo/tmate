@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pr">
+	<insert id="insertPr" parameterType="com.sp.trip.pr.Pr">
+		INSERT INTO pr(prNum, memberId, prSubject, prphotoName, prContent, prReg_date, prHit)
+		VALUES (pr_seq.NEXTVAL, #{memberId}, #{prSubject},  
+			#{prphotoName, jdbcType=VARCHAR}, #{prContent}, SYSDATE, 0)
+	</insert>
+	
+	<sql id="where-list">
+		<if test="condition=='all'">
+			( INSTR(prSubject, #{keyword}) &gt; 0
+				OR INSTR(prContent, #{keyword}) &gt; 0 )
+		</if>
+		<if test="condition=='prSubject'">
+			INSTR(prSubject, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='prContent'">
+			INSTR(prContent, #{keyword}) &gt; 0 
+		</if>
+		<if test="condition=='memberName'">
+			memberName=#{keyword}
+		</if>
+		<if test="condition=='prReg_date'">
+			( TO_CHAR(p.prReg_date, 'YYYY-MM-DD') = #{keyword}
+				OR TO_CHAR(p.prReg_date, 'YYYYMMDD') = #{keyword} )
+		</if>
+	</sql>
+		
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM pr p
+		JOIN member1 m ON p.memberId=m.memberId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>		
+	</select>
+	
+	<select id="listPr" parameterType="map" resultType="com.sp.trip.pr.Pr">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT prNum, p.memberId, memberName, prSubject,
+					TO_CHAR(prReg_date, 'yyyy-mm-dd') as prReg_date, prHit
+				FROM pr p
+				JOIN member1 m ON p.memberId=m.memberId
+				<where>
+					<if test="keyword != null and keyword != ''">
+						<include refid="where-list"/>
+					</if>
+				</where>
+				ORDER BY prNum DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	<select id="readPr" parameterType="Integer" resultType="com.sp.trip.pr.Pr">
+		SELECT p.prNum, p.memberId, memberName, prSubject,
+			prContent, prReg_date, prHit, prphotoName
+		FROM pr p
+		JOIN member1 m ON p.memberId=m.memberId
+		WHERE prNum=#{prNum}
+	</select>
+	
+	<!-- 이전글 -->
+	<select id="preReadPr" parameterType="map" resultType="com.sp.trip.pr.Pr">
+		SELECT * FROM (
+			SELECT prNum, prSubject
+			FROM pr p
+			JOIN member1 m ON p.memberId=m.memberId
+			<where>
+				<if test="keyword != null and keyword != '' ">
+					<include refid="where-list"/>
+				</if>
+				AND (prNum &gt; #{prNum})
+			</where>
+			ORDER BY prNum ASC
+		) WHERE ROWNUM = 1
+	</select>
+
+	<!-- 다음글 -->
+	<select id="nextReadPr" parameterType="map" resultType="com.sp.trip.pr.Pr">
+		SELECT * FROM (
+			SELECT prNum, prSubject
+			FROM pr p
+			JOIN member1 m ON p.memberId=m.memberId
+			<where>
+				<if test="keyword != null and keyword != '' ">
+					<include refid="where-list"/>
+				</if>
+				AND (prNum &lt; #{prNum})
+			</where>
+			ORDER BY prNum DESC
+		) WHERE ROWNUM = 1
+	</select>
+	
+	<update id="updatePr" parameterType="com.sp.trip.pr.Pr">
+		UPDATE pr SET prSubject=#{prSubject}, prphotoName=#{prphotoName, jdbcType=VARCHAR},
+			prContent=#{prContent}
+		WHERE prNum=#{prNum}
+	</update>
+	
+	<delete id="deletePr" parameterType="Integer">
+		DELETE FROM pr WHERE prNum=#{prNum}
+	</delete>
+</mapper>
