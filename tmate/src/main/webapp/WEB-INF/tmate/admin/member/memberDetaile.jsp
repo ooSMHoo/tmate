@@ -19,7 +19,7 @@
 	</tr>
 	<tr>
 		<td class="text-center bg-light">회원 유형</td>
-		<td class="ps-5">${dto.memberAuth==1?"일반 회원":""}</td>
+		<td class="ps-5">${dto.memberAuth==0?"일반 회원":""}</td>
 		<td class="text-center bg-light">이메일</td>
 		<td class="ps-5">${dto.memberEmail}</td>
 	</tr>

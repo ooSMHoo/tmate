@@ -36,7 +36,7 @@
 				AND enabled = #{enabled}
 			</if>
 			<if test="memberAuth!='' ">
-				AND memberAuth = 1
+				AND memberAuth = 0
 			</if>
 		</where> 
 	</select>
@@ -46,7 +46,7 @@
 	<select id="listMember" parameterType="map" resultType="com.sp.trip.admin.manage.Member">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT  memberId, memberName, TO_CHAR(memberReg_date, 'YYYY-MM-DD') memberReg_date, memberMod_date, memberAuth, memberEmail
+				SELECT  memberId, memberName, TO_CHAR(memberReg_date, 'YYYY-MM-DD') memberReg_date, memberMod_date, memberAuth, memberEmail, enabled
 				FROM member1
 				<where>
 					<if test="keyword!=null and keyword!='' ">
@@ -56,7 +56,7 @@
 						AND enabled = #{enabled}
 					</if>
 					<if test="memberAuth!='' ">
-						AND memberAuth = 1
+						AND memberAuth = 0
 					</if>
 				</where>
 				ORDER BY memberName DESC
@@ -68,9 +68,9 @@
 	<!-- 고객 정보 -->
 	<select id="readMember" parameterType="String" resultType="com.sp.trip.admin.manage.Member">
 		SELECT 
-			m.memberId, memberName, TO_CHAR(memberReg_date, 'YYYY-MM-DD') memberReg_date, memberMod_date, memberAuth, enabled, memberEmail, s.memberBirth, s.memberPhone
+			m.memberId, memberName, TO_CHAR(memberReg_date, 'YYYY-MM-DD') memberReg_date, memberMod_date, memberAuth, enabled, memberEmail, TO_CHAR(s.memberBirth, 'YYYY-MM-DD') memberBirth, s.memberPhone
 		FROM member1 m
-		JOIN member2 s ON m.memberId = s.memberId
+		LEFT OUTER JOIN member2 s ON m.memberId = s.memberId
 		WHERE m.memberId = #{memberId}
 	</select>
 

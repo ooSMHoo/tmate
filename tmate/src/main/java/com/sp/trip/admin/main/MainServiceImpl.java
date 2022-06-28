@@ -14,6 +14,7 @@ public class MainServiceImpl implements MainService{
 	@Autowired
 	private CommonDAO dao;
 
+
 	@Override
 	public int dataCountHost(Map<String, Object> map) {
 		int result = 0;
@@ -35,6 +36,7 @@ public class MainServiceImpl implements MainService{
 			
 		}
 		return list;
+
 	}
 
 	@Override
@@ -46,17 +48,81 @@ public class MainServiceImpl implements MainService{
 		} catch (Exception e) {
 		}
 		return dto;
+
 	}
 
 	@Override
-	public void updateHostSign(Map<String, Object> map) throws Exception {
-		try {
-			dao.updateData("adminMain.updateHostSign", map);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
+	public int dataCountAllHost(Map<String, Object> map) {
+		int result = 0;
 		
+		try {
+			result = dao.selectOne("adminMain.dataCountAllHost", map);
+		} catch (Exception e) {
+			
+		}
+		return result;
+
+	}
+
+	@Override
+	public int dataCountAllMember(Map<String, Object> map) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminMain.dataCountAllMember", map);
+		} catch (Exception e) {
+			
+		}
+		return result;
+
+	}
+
+	@Override
+	public int dataCountAllHouse(Map<String, Object> map) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminMain.dataCountAllHouse", map);
+		} catch (Exception e) {
+			
+		}
+		return result;
+
+	}
+
+	@Override
+	public int dataCountAllReport(Map<String, Object> map) {
+		int result = 0;
+		
+		try {
+			result = dao.selectOne("adminMain.dataCountReport", map);
+		} catch (Exception e) {
+			
+		}
+		return result;
+
+	}
+
+	@Override
+	public List<Integer> dailyReservation() {
+		List<Integer> list = null;
+		
+		try {
+			list = dao.selectList("adminMain.dailyReservation");
+		} catch (Exception e) {
+		}
+		return list;
+	}
+
+	@Override
+	public List<Integer> dailyResTotal() {
+		List<Integer> list = null;
+		
+		try {
+			list = dao.selectList("adminMain.dailyResTotal");
+		} catch (Exception e) {
+		}
+		return list;
 	}
 
 }

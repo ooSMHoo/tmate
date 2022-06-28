@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminReport">
+
+<!-- 관리자 : 호스트 신고 게시판 -->
+
+	<!-- 검색 기능 : 호스트 아이디 / 사업자명 / 신고자 아이디(일반고객) -->
+	<sql id="where-list">
+		<choose>
+			<when test="condition=='mhId'">
+				INSTR(h.mhId, #{keyword}) &gt;= 1
+			</when>
+			<when test="condition=='mhname'">
+				INSTR(h.mhname, #{keyword}) &gt;= 1
+			</when>
+			<when test="condition=='memberId'">
+				INSTR(m1.memberId, #{keyword}) &gt;= 1
+			</when>
+			<otherwise>
+				INSTR(${condition}, #{keyword}) &gt;= 1
+			</otherwise>
+		</choose>
+	</sql>
+	
+	
+	<!-- 호스트 전체 인원수  -->
+	<!-- 검색 기능 / 필터 : 승인여부, 처리여부 -->
+	<select id="dataCountHost" parameterType="map" resultType="Integer">
+		SELECT COUNT(*)
+		FROM memberHost h
+		JOIN member1 m1 ON h.mhId = m1.memberId
+		JOIN hostReport r ON h.mhId = r.mhId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+			<if test="hrCode!=''">
+				AND hrCode = #{hrCode}
+			</if>
+		</where> 
+		
+    </select>
+	
+	
+	<!-- 호스트 리스트(신고된+승인된 사람 한정) -->
+	<!-- 신고자 아이디, 신고당한 호스트 아이디, 사업자명, 신고제목, 신고처리여부-->
+	<!-- 검색 기능 / 승인 ox 둘 다 넣기 / 처리완료 ox 둘 다 넣기(기본 디폴트 신고대기로 띄우면 되니까) -->
+	<select id="listHost" parameterType="map" resultType="com.sp.trip.admin.report.Member">
+		SELECT * FROM (
+			SELECT ROWNUM rnum, tb.* FROM (
+				SELECT  m1.memberId, h.mhId, h.mhName, h.mhNum, h.mhPhone, m1.memberEmail,
+					r.hrSubject, r.hrContent, r.hrCode, h.mhEnabled
+				FROM memberHost h
+				JOIN member1 m1 ON h.mhId = m1.memberId
+				JOIN hostReport r ON h.mhId = r.mhId
+				<where>
+					<if test="keyword!=null and keyword!='' ">
+						<include refid="where-list"/>
+					</if>
+					<if test="hrCode!=''">
+						AND hrCode = #{hrCode}
+					</if>
+				</where>
+				ORDER BY MEMBERREG_DATE DESC
+			) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	
+	<!-- 호스트 정보 -->
+	<!-- 신고자 아이디, 신고당한 호스트 아이디, 호스트 사업자명, 호스트 사업자 번호, 전화 번호, 우편번호, 주소1, 주소2, 이메일, 신고제목, 신고 내용, 신고처리여부-->
+	<select id="readHost" parameterType="String" resultType="com.sp.trip.admin.report.Member">
+		SELECT 
+			m1.memberId, h.mhId, h.mhName, h.mhNum, h.mhPhone, h.mhZip, h.mhAddr1, h.mhAddr2, m1.memberEmail, r.hrSubject, r.hrContent, r.hrCode 
+		FROM memberHost h
+		JOIN member1 m1 ON h.mhId = m1.memberId
+		JOIN hostReport r ON h.mhId = r.mhId
+		WHERE h.mhId = #{mhId}
+	</select>
+	
+	
+	<!-- 호스트 활성화 변경 -->
+	<update id="updateHostEnabled" parameterType="map">
+		UPDATE memberHost SET mhEnabled=#{mhEnabled} WHERE mhId=#{mhId}
+    </update>
+    
+    <!-- 신고 처리 여부 변경 -->
+	<update id="updateHrCode" parameterType="map">
+		UPDATE hostReport SET hrCode=#{hrCode} WHERE mhId=#{mhId}
+    </update>
+	
+	
+	
+	
+	
+</mapper>

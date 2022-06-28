@@ -15,7 +15,7 @@
 .body-container {
 	background-color : #fff;
 	max-width: 850px;
-	box-shadow: 0 4px 4px -4px black;
+	box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
 }
 
 .body-title h2{

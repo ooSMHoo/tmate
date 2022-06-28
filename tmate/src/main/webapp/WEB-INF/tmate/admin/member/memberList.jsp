@@ -15,7 +15,7 @@
 .body-container {
 	background-color : #fff;
 	max-width: 850px;
-	box-shadow: 0 4px 4px -4px black;
+	box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
 }
 
 
@@ -98,6 +98,7 @@ function enabledUpdate(memberId, enabled) {
 	} else {
 		enabled = "0";
 	}
+	
 	let url = "${pageContext.request.contextPath}/admin/member/updateMemberEnabled";
 	let query = "memberId="+memberId+"&enabled="+enabled;
 	
@@ -128,7 +129,7 @@ function enabledUpdate(memberId, enabled) {
 								<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/member/memberList';">새로고침</button>
 								<select id="selectEnabled" class="form-select" onchange="searchList();">
 									<option value="" ${enabled=="" ? "selected='selected'":""}>::계정상태::</option>
-									<option value="1" ${enabled=="1" ? "selected='selected'":""}>활성 계정</option>
+									<option value="1" ${enabled=="1" ? "selected='selected'":""}>활동 계정</option>
 									<option value="0" ${enabled=="0" ? "selected='selected'":""}>잠금 계정</option>
 								</select>
 							</td>
@@ -138,7 +139,7 @@ function enabledUpdate(memberId, enabled) {
 					
 				<table class="table table-border table-list">
 					<thead>
-						<tr style="background-color: #F5F9FF;"> 
+						<tr style="background-color: #D4F4FA;"> 
 							<th class="wx-60">번호</th>
 							<th class="wx-70">아이디</th>
 							<th class="wx-70">이름</th>
@@ -156,7 +157,7 @@ function enabledUpdate(memberId, enabled) {
 							<td>${dto.memberName}</td>
 							<td>${dto.memberReg_date}</td>
 							<td>${dto.memberMod_date}</td>
-							<td>${dto.enabled==1?"잠금":"활동"}</td>
+							<td>${dto.enabled=="1" ? "활동":"잠금"}</td>
 						</tr>
 						</c:forEach>
 					</tbody>
