@@ -7,12 +7,14 @@
 <c:forEach var="dto" items="${list}" varStatus="status">
 
 		<div class="card like-card-rev" style="width: 18rem;" id="${resCode}">
-			<img src="${pageContext.request.contextPath}/resources/images/back.png" class="card-img-top" alt="...">
+			<img src="${dto.lphotoName}" class="card-img-top" alt="...">
 			<div class="card-body" id="${resCode}">
 				<h5 class="card-title">${dto.lodgName}</h5>
 				<p>${dto.resCin_date}월 - ${dto.resCout_date} 월</p>
 				<hr>
-				<button type="button" class="btn-rev"  onclick="location.href='${pageContext.request.contextPath}/mypage/main/reservationInfo?resNum=${dto.resNum}'">상세보기</button>	
+				<c:if test="${resCode==0}">
+				<button type="button" class="btn-rev"  onclick="location.href='${pageContext.request.contextPath}/mypage/main/reservationInfo?resNum=${dto.resNum}'">상세보기</button>
+				</c:if>	
 			</div>
 		</div>
 

@@ -21,7 +21,9 @@
 	</div>
 	</c:forEach>
 	
-<div style="clear: both;">${paging}</div>
+<div style="clear: both;">
+				${dataCount == 0 ? "작성가능한 리뷰가 없습니다." : paging}
+		</div>
 <!-- 리뷰 -->
 <div class="modal fade" id="revWrite" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -103,6 +105,8 @@
     </div>
   </div>
 </div>
+
+
 
 <script type="text/javascript">
 $(".btn-rev").click(function(){

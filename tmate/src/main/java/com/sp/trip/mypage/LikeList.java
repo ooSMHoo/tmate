@@ -2,7 +2,7 @@ package com.sp.trip.mypage;
 
 public class LikeList {
 // 사진, 숙소이름, 평점, 가격, 지역
-	private String rphotoName;
+	private String lphotoName;
 	private String lodgName;
 	private int revGrade;
 	private int roomWd_price; // 평일 요금
@@ -11,24 +11,11 @@ public class LikeList {
 	private String mhaddr;
 	private int roomNum;
 	private String roomName;
-	
-	public String getRoomName() {
-		return roomName;
+	public String getLphotoName() {
+		return lphotoName;
 	}
-	public void setRoomName(String roomName) {
-		this.roomName = roomName;
-	}
-	public int getRoomNum() {
-		return roomNum;
-	}
-	public void setRoomNum(int roomNum) {
-		this.roomNum = roomNum;
-	}
-	public String getRphotoName() {
-		return rphotoName;
-	}
-	public void setRphotoName(String rphotoName) {
-		this.rphotoName = rphotoName;
+	public void setLphotoName(String lphotoName) {
+		this.lphotoName = lphotoName;
 	}
 	public String getLodgName() {
 		return lodgName;
@@ -66,9 +53,19 @@ public class LikeList {
 	public void setMhaddr(String mhaddr) {
 		this.mhaddr = mhaddr;
 	}
+	public int getRoomNum() {
+		return roomNum;
+	}
+	public void setRoomNum(int roomNum) {
+		this.roomNum = roomNum;
+	}
+	public String getRoomName() {
+		return roomName;
+	}
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
 	
-	
-	
-	
+
 	
 }

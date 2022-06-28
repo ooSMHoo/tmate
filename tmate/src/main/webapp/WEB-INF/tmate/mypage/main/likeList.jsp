@@ -8,7 +8,7 @@
 <script type="text/javascript">
 function list_delete(value){
 	const f = document.likeList;
-	
+
 	if(confirm("리스트에서 삭제하시겠습니까?")) {	
 		f.action = "${pageContext.request.contextPath}/mypage/main/deleteList?roomNum=" + value;
 		f.submit();
@@ -26,14 +26,14 @@ function list_delete(value){
 <c:if test=""></c:if>
 	<c:forEach var="dto" items="${list}" varStatus="status">
 		<div class="card like-card">
-			  <img src="${dto.rphotoName}" class="card-img-top">
+			  <img src="${dto.lphotoName}" class="card-img-top">
 				
 			  <div class="card-body">
 			    <h5 class="card-title">${dto.lodgName} </h5>
 			    <p >${dto.mhaddr}</p>
 			    <hr style="margin: 7px;">
 				    <div class="card-info">
-					    <button type="button" class="list-btn">상세보기</button>		
+					    <button type="button" class="list-btn" onclick="location.href='${pageContext.request.contextPath}/reservation/roomlist'">상세보기</button>		
 					    <button type="button" class="list-btn" onclick="list_delete(${dto.roomNum});">삭제하기</button>
 				    </div>
 			  </div>
