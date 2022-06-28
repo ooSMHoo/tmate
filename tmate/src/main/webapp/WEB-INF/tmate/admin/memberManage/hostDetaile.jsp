@@ -29,10 +29,11 @@
 	<tr>
 		<td class="text-center bg-light">승인여부</td>
 		<td colspan="3" class="ps-5">
-			${dto.mhSign==1?"승인":"대기"}
+			${dto.memberAuth==2?"승인완료":"대기"}
 			<c:if test="${dto.mhSign==0}">
 				&nbsp;&nbsp;
 				<button type="button" class="btn" onclick="signUpdate('${dto.mhId}')">승인</button>
+				<button type="button" class="btn" onclick="deleteUpdate('${dto.mhId}')">거절</button>
 			</c:if>
 		</td>
 	</tr>

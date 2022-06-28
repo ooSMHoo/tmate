@@ -17,11 +17,18 @@ public class Member {
 	private String memberEmail;
 	private int mhSign; // 승인 여부
 			
-	// hostReport(호스트신고)
+	// 호스트 승인
 	private String memberId; // 호스트를 신고한 아이디 / member1의 기본키
-	private String hrSubject; // 신고제목
-	private String hrContent; // 신고 내용
-	private int hrCode; // 신고처리 여부. default 0. 완료 시 1.
+	private int memberAuth;
+	
+	
+	public int getMemberAuth() {
+		return memberAuth;
+	}
+	public void setMemberAuth(int memberAuth) {
+		this.memberAuth = memberAuth;
+	}
+	
 	
 	public int getListNum() {
 		return listNum;
@@ -88,24 +95,6 @@ public class Member {
 	}
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
-	}
-	public String getHrSubject() {
-		return hrSubject;
-	}
-	public void setHrSubject(String hrSubject) {
-		this.hrSubject = hrSubject;
-	}
-	public String getHrContent() {
-		return hrContent;
-	}
-	public void setHrContent(String hrContent) {
-		this.hrContent = hrContent;
-	}
-	public int getHrCode() {
-		return hrCode;
-	}
-	public void setHrCode(int hrCode) {
-		this.hrCode = hrCode;
 	}
 	public String getMemberName() {
 		return memberName;

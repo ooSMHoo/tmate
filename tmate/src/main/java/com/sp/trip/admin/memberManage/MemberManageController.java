@@ -159,7 +159,7 @@ public class MemberManageController {
 
 			String state = "true";
 			try {
-				// 호스트 활성/비활성
+				// 호스트 활성/비활성+처리여부
 				service.updateHostSign(paramMap);
 				
 			} catch (Exception e) {
@@ -170,5 +170,27 @@ public class MemberManageController {
 			model.put("state", state);
 			return model;
 		}
+		
+		
+		@RequestMapping(value = "deleteHost", method = RequestMethod.POST)
+		@ResponseBody
+		public Map<String, Object> deleteHost(@RequestParam Map<String, Object> paramMap) throws Exception {
+
+			String state = "true";
+			try {
+				// 호스트 활성/비활성+처리여부
+				service.deleteHost(paramMap);
+				
+			} catch (Exception e) {
+				state = "false";
+			}
+
+			Map<String, Object> model = new HashMap<>();
+			model.put("state", state);
+			return model;
+		}
+		
+		
+
 
 }

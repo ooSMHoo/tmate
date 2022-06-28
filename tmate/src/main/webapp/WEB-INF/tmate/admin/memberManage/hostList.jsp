@@ -97,11 +97,40 @@ function detailedMember(mhId) {
 	ajaxFun(url, "post", query, "html", fn);
 }
 
+
+
+
 function signUpdate(mhId) {
 	if(! confirm("호스트를 승인하시겠습니까 ?")) {
 		return;
 	}
 	let url = "${pageContext.request.contextPath}/admin/memberManage/updateHostSign";
+	let query = "mhId="+mhId+"&memberAuth=2";
+	
+	const fn = function(data){
+		location.href="${pageContext.request.contextPath}/admin/memberManage/hostList";
+	};
+	ajaxFun(url, "post", query, "json", fn);
+}
+
+function deleteUpdate(mhId) {
+	if(! confirm("호스트를 거절하시겠습니까 ?")) {
+		return;
+	}
+	let url = "${pageContext.request.contextPath}/admin/memberManage/deleteHost";
+	let query = "mhId="+mhId;
+	
+	const fn = function(data){
+		location.href="${pageContext.request.contextPath}/admin/memberManage/hostList";
+	};
+	ajaxFun(url, "post", query, "json", fn);
+}
+
+function updateComplete(mhId) {
+	if(! confirm("처리를 완료하시겠습니까? ?")) {
+		return;
+	}
+	let url = "${pageContext.request.contextPath}/admin/memberManage/updateComplete";
 	let query = "mhId="+mhId+"&mhSign=1";
 	
 	const fn = function(data){
@@ -109,6 +138,8 @@ function signUpdate(mhId) {
 	};
 	ajaxFun(url, "post", query, "json", fn);
 }
+
+
 
 function enabledUpdate(mhId, mhEnabled) {
 	if(! confirm("계정 상태를 변경 하시겠습니까 ?")) {

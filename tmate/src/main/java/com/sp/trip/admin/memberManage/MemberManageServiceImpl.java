@@ -54,6 +54,7 @@ public class MemberManageServiceImpl implements MemberManageService {
 	public void updateHostSign(Map<String, Object> map) throws Exception {
 		try {
 			dao.updateData("memberManage.updateHostSign", map);
+			dao.updateData("memberManage.updateComplete", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -68,6 +69,17 @@ public class MemberManageServiceImpl implements MemberManageService {
 			e.printStackTrace();
 			throw e;
 		}
+	}
+
+	@Override
+	public void deleteHost(Map<String, Object> map) throws Exception {
+		try {
+			dao.updateData("memberManage.deleteHost", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
 	}
 
 

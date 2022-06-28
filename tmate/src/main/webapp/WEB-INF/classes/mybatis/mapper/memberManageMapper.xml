@@ -43,7 +43,7 @@
 	<select id="listHost" parameterType="map" resultType="com.sp.trip.admin.memberManage.Member">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT  h.mhId, memberName, mhName, mhPhone, mhSign, h.mhEnabled
+				SELECT  h.mhId, memberName, mhName, mhPhone, mhSign, h.mhEnabled, m1.memberAuth
 				FROM memberHost h
 				JOIN member1 m1 ON h.mhId = m1.memberId
 				<where>
@@ -71,16 +71,26 @@
 		WHERE h.mhId = #{mhId}
 	</select>
 
-	<!-- 호스트 승인 변경 -->
-	<update id="updateHostSign" parameterType="map">
-		UPDATE memberHost SET mhSign=#{mhSign} WHERE mhId=#{mhId}
-    </update>
-   
 	<!-- 호스트 활성화 변경 -->
 	<update id="updateHostEnabled" parameterType="map">
 		UPDATE memberHost SET mhEnabled=#{mhEnabled} WHERE mhId=#{mhId}
     </update>
-
+    
+    
+    <!-- 호스트 승인 하기 -->
+	<update id="updateHostSign" parameterType="map">
+		UPDATE member1 SET memberAuth=2 WHERE memberId=#{mhId}
+    </update>
+    
+    <!-- 호스트 승인 취소 -->
+	<delete id="deleteHost" parameterType="map">
+		DELETE FROM memberHost WHERE mhId=#{mhId}
+    </delete>
+    
+    <!-- 승인처리 완료 -->
+    <update id="updateComplete" parameterType="map">
+		UPDATE memberHost SET mhSign=1 WHERE mhId=#{mhId}
+    </update>
 	  
 
 </mapper>
