@@ -186,7 +186,7 @@ $(function(){
 		console.log(values);
 		option = {
 				title: {
-				    text: '달별 매출현황',
+				    text: '일별 매출현황',
 				    left: 'center'
 				  },
 				  tooltip: {

@@ -80,7 +80,7 @@ $(function(){
 
 		option = {
 				title: {
-				    text: '이번년도 객실별 상세',
+				    text: '이번연도 객실별 상세',
 				    left: 'center'
 				  },
 				  tooltip: {
@@ -197,7 +197,7 @@ $(function(){
 		console.log(values);
 		option = {
 				title: {
-				    text: '달별 매출현황',
+				    text: '월별 매출현황',
 				    left: 'center'
 				  },
 				  tooltip: {
@@ -240,7 +240,7 @@ $(function(){
 			    <div class="row align-items-md-stretch">
 			      <div class="mb-4">
 			        <div class=" p-2 border bg-white rounded-3 shadow ">
-			          <h5 class="text-center text-dark mt-2">이번연도 누적현황</h5>
+			          <h6 class="text-center mt-2 text-dark" style="font-weight: bold;">이번연도 누적현황</h6>
 			          <div class="row row-cols-4 text-center mt-4 count-box count mb-3">
 			          	<div class="col text-primary"><h1 style="font-weight: bold;"><strong> ${restotal}</strong></h1></div>
 			          	<div class="col text-primary ${totalPay !='0' ? 'mt-2' : '' } &nbsp; ${totalPay !='0' ? 'h2' : 'h1' }" >
