@@ -34,7 +34,7 @@
 	                </div>
                        
                        <div class="d-grid">
-                           <button type="button" class="btn btn-lg btn-primary btn-select" onclick="location.href='${pageContext.request.contextPath}/hostPage/rooms';">객실관리로 이동<i class="bi bi-arrow-counterclockwise"></i> </button>
+                           <button type="button" class="btn btn-lg btn-primary btn-select" onclick="location.href='${pageContext.request.contextPath}/hostPage/home';">호스트 페이지로 이동 <i class="bi bi-arrow-counterclockwise"></i> </button>
                        </div>
                 </div>
             </div>

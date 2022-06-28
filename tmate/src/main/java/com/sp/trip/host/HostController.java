@@ -40,8 +40,10 @@ public class HostController {
 
 		Member member = hostService.readMember(info.getUserId());
 		
-		if (member.getEnabled() == 0) {
-			return "redirect:/member/noAuthorized";
+		if (hostService.readHost(info.getUserId()) != null) {
+			model.addAttribute("msg", "이미 호스트이거나 호스트 신청 내역이 있어서 신청이 불가능합니다.");
+			model.addAttribute("url", "mypage/main/revMain");
+			return "/host/alert";
 		}
 		
 		model.addAttribute("member", member);

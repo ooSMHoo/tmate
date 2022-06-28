@@ -17,8 +17,7 @@
 	<insert id="insertMember1" parameterType="com.sp.trip.member.Member">
 		INSERT INTO member1(memberId, memberName, memberPwd, memberReg_date, memberMod_date, memberAuth, 
 			enabled, memberEmail)
-		VALUES (#{memberId}, #{memberName}, #{memberPwd}, SYSDATE, SYSDATE, #{memberAuth},
-			1, #{memberEmail})
+		VALUES (#{memberId}, #{memberName}, #{memberPwd}, SYSDATE, SYSDATE, 0, 1, #{memberEmail})
 	</insert>
 	
 	<insert id="insertMember2" parameterType="com.sp.trip.member.Member">

@@ -75,8 +75,11 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 					session.setAttribute("preLoginURI", uri);
 					resp.sendRedirect(cp + "/member/login");
 				}
+			} else if (uri.indexOf("hostPage") != -1 && info.getMembership() != 2) {
+				result = false;
+				resp.sendRedirect(cp+"/member/noAuthorized");
 			} else {
-				if(uri.indexOf("admin")!=-1 && info.getMembership() < 51) {
+				if(uri.indexOf("admin")!=-1 && info.getMembership() != 99) {
 					result = false;
 					resp.sendRedirect(cp+"/member/noAuthorized");
 				}

@@ -42,7 +42,7 @@ public class ReservationRoomController {
 	public String roomlist(
 			@RequestParam(defaultValue = "") String startDate,
 			@RequestParam(defaultValue = "") String endDate,
-			@RequestParam(defaultValue = "tmhost1") String mhId,
+			@RequestParam(defaultValue = "host789") String mhId,
 			@RequestParam(defaultValue = "4") int people,
 			Model model) throws Exception {
 		
@@ -65,7 +65,7 @@ public class ReservationRoomController {
 		
 		List<Room> roomList = roomReservationService.readCanReservationRoomList(map);
 		double total = roomReservationService.totalReviewGrade(mhId);
-		
+
 		String attraction = tourAPItoJSON(lodging.getLodgLon().substring(0, 10), lodging.getLodgLat().substring(0, 9));
 		
 		model.addAttribute("startDate", startDate);

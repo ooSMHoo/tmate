@@ -34,7 +34,7 @@
 	                </div>
                        
                        <div class="d-grid">
-                           <button type="button" class="btn btn-lg btn-primary btn-select" onclick="location.href='${pageContext.request.contextPath}/';">메인화면으로 이동 <i class="bi bi-arrow-counterclockwise"></i> </button>
+                           <button type="button" class="btn btn-lg btn-primary btn-select" onclick="location.href='${pageContext.request.contextPath}/mypage/main/revMain';">마이페이지로 이동 <i class="bi bi-arrow-counterclockwise"></i> </button>
                        </div>
                 </div>
             </div>

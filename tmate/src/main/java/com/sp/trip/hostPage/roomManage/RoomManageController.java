@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.trip.common.MyUtil;
+import com.sp.trip.lodging.LodgingService;
 import com.sp.trip.member.SessionInfo;
 import com.sp.trip.room.Room;
 import com.sp.trip.room.RoomService;
@@ -25,11 +26,13 @@ public class RoomManageController {
 	
 	private final RoomService roomService;
 	private final MyUtil myUtil;
+	private final LodgingService lodgingService;
 	
 	@Autowired
-	public RoomManageController(RoomService roomService, MyUtil myUtil) {
+	public RoomManageController(RoomService roomService, MyUtil myUtil, LodgingService lodgingService) {
 		this.roomService = roomService;
 		this.myUtil = myUtil;
+		this.lodgingService = lodgingService;
 	}
 	
 	
@@ -42,6 +45,12 @@ public class RoomManageController {
 		
 		String cp = request.getContextPath();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		if (lodgingService.readLodging(info.getUserId()) == null) {
+			model.addAttribute("msg", "숙소 등록 후 이용 가능합니다.");
+			model.addAttribute("url", "/hostPage/home");
+			return "host/alert";
+		}
 		
 		int rows = 10;
 		int total_page = 0;

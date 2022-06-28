@@ -19,15 +19,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sp.trip.lodging.LodgingService;
+
 @Controller("member.memberController")
 @RequestMapping(value = "/member")
 public class MemberController {
 	
 	private final MemberService service;
+	private final LodgingService lodgingService;
 	
 	@Autowired
-	public MemberController(MemberService service) {
+	public MemberController(MemberService service, LodgingService lodgingService) {
 		this.service = service;
+		this.lodgingService = lodgingService;
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -55,6 +59,10 @@ public class MemberController {
 		session.setMaxInactiveInterval(30 * 60);
 
 		session.setAttribute("member", info);
+		
+		if (lodgingService.readLodging(memberId) != null) {
+			session.setAttribute("hasLodging", "true");
+		}
 
 		String uri = (String) session.getAttribute("preLoginURI");
 		session.removeAttribute("preLoginURI");
@@ -70,6 +78,7 @@ public class MemberController {
 	@RequestMapping(value = "/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("member");
+		session.removeAttribute("hasLodging");
 		session.invalidate();
 
 		return "redirect:/";

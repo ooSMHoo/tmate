@@ -15,7 +15,7 @@ public class Host {
 	private int bankNum;
 	private String mhAc_num;
 	private int enabled; //비활성화여부
-	private int mhsign; //승인여부
+	private int mhSign; //승인여부
 	
 	public String getMhId() {
 		return mhId;
@@ -101,10 +101,10 @@ public class Host {
 	public void setEnabled(int enabled) {
 		this.enabled = enabled;
 	}
-	public int getMhsign() {
-		return mhsign;
+	public int getMhSign() {
+		return mhSign;
 	}
-	public void setMhsign(int mhsign) {
-		this.mhsign = mhsign;
+	public void setMhSign(int mhSign) {
+		this.mhSign = mhSign;
 	}
 }

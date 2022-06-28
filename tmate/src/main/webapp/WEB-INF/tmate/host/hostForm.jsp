@@ -179,7 +179,7 @@ function changeBank() {
                 </div>
                 <div class="tm_form_list">
                     <div class="tm_form_lable_box">
-                        <span>사업자등록번호</span>
+                        <span>사업자등록번호<br>('-'빼고 입력해주세요)</span>
                     </div>
                     <div class="tm_form_input_box">
                         <input type="text" name="mhNum" placeholder="사업자등록번호를 입력해주세요('-'를 제외한 숫자만 입력해주세요)" maxlength="10" value="${host.mhNum}">

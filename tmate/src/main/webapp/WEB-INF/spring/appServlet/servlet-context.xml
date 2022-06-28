@@ -67,12 +67,12 @@
 			<exclude-mapping path="/resources/**"/>
 			<exclude-mapping path="/member/login"/>
 			<exclude-mapping path="/member/logout"/>
-			<exclude-mapping path="/member/member"/>
+			<exclude-mapping path="/member/join"/>
 			<exclude-mapping path="/member/userIdCheck"/>
 			<exclude-mapping path="/member/complete"/>
-			<exclude-mapping path="/member/pwdFind"/>
-			<exclude-mapping path="/guest/main"/>
-			<exclude-mapping path="/guest/list"/>
+			<exclude-mapping path="/member/complete"/>
+			<exclude-mapping path="/mail/send"/>
+			<exclude-mapping path="/mail/check"/>
 			
 			<beans:bean class="com.sp.trip.member.LoginCheckInterceptor"/>
 		</interceptor>

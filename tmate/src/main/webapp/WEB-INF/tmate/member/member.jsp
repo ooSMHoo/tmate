@@ -91,6 +91,15 @@ function memberOk() {
         f.memberBirth.focus();
         return;
     }
+    
+    let birth = parseInt(str.substr(0,4));
+	let now = new Date();
+	let year = parseInt(now.getFullYear());
+	if (year - birth < 19) {
+		alert("미성년자는 회원가입이 불가능합니다.");
+		f.memberBirth.focus();
+		return;
+	}
 	
 	str = f.memberPwd.value;
 	if (!str) {

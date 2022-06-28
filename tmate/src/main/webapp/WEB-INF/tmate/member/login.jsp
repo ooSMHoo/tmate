@@ -42,7 +42,7 @@
     <div class="row justify-content-md-center pt-2">
       	<a href="#" class="col-auto pt-1 ps-3 pe-2 text-center text-decoration-none">아이디 찾기</a>
         <a href="#" class="col-auto pt-1 ps-3 pe-2 text-center text-decoration-none">패스워드 찾기</a>
-        <a href="${pageContext.request.contextPath}/member/member" class="col-auto pt-1 ps-3 pe-2 text-center text-decoration-none">회원가입</a>
+        <a href="${pageContext.request.contextPath}/member/join" class="col-auto pt-1 ps-3 pe-2 text-center text-decoration-none">회원가입</a>
     </div>
     <br>
     <br>

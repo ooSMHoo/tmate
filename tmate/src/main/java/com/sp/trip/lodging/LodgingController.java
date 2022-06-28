@@ -40,7 +40,12 @@ public class LodgingController {
 		String userId = info.getUserId();
 		
 		Host host = hostService.readHost(userId);
-		if(host == null) {
+		
+		if (host == null) {
+			return "redirect:/member/noAuthorized";
+		}
+		
+		if (host.getMhSign() == 0) {
 			return "redirect:/member/noAuthorized";
 		}
 
@@ -77,11 +82,20 @@ public class LodgingController {
 			reAttr.addFlashAttribute("title", "숙소 등록 실패");
 			return "redirect:/host/complete";
 		}
-		
+		session.setAttribute("hasLodging", "true");
 		reAttr.addFlashAttribute("message", "정상적으로 숙소등록이 완료되었습니다.");
 		reAttr.addFlashAttribute("title", "숙소 등록");
 
-		return "redirect:/host/complete";
+		return "redirect:/host/lodging/lodgingComplete";
+	}
+	
+	@RequestMapping(value = "lodgingComplete")
+	public String complete(@ModelAttribute("message") String message) throws Exception {
+		if(message == null || message.length() == 0) {
+			return "redirect:/";
+		}
+		
+		return ".host.lodgingComplete";
 	}
 	
 	@GetMapping("/info")
