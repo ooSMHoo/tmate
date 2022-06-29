@@ -13,7 +13,7 @@
 }
 
 .nobtn1 {
-	background-color: #ffa81e;
+	background-color: #1f93fa;
 	border-radius: 20px;
 	text-align: center;
 	font-family: inherit;
@@ -21,7 +21,10 @@
 	border:none;
 	width: 100px;
 	min-height: 40px;
+	margin-bottom:20px;
 }
+
+.nobtn1:hover{background-color:#ffa81e; }
 
 </style>
 
@@ -141,7 +144,7 @@ $(function(){
 // 댓글 삭제
 $(function(){
 	$("body").on("click", ".deleteReply", function(){
-		if(! confirm("게시물을 삭제하시겠습니까 ? ")) {
+		if(! confirm("댓글을 삭제하시겠습니까 ? ")) {
 		    return false;
 		}
 		
@@ -304,15 +307,15 @@ $(function(){
 						<td colspan="2" class="text-reset" style="text-decoration : none;">
 							이전글 :
 							<c:if test="${not empty preReadDto}">
-								<a href="${pageContext.request.contextPath}/board/article?${query}&boardNum=${preReadDto.boardNum}">${preReadDto.boardSubject}</a>
+								<a href="${pageContext.request.contextPath}/board/article?${query}&boardNum=${preReadDto.boardNum}" style="text-decoration: none; color: #000;">${preReadDto.boardSubject}</a>
 							</c:if>
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2" class="text-reset" style="text-decoration : none;">
+						<td colspan="2" class="text-reset" style="text-decoration :none;">
 							다음글 :
 							<c:if test="${not empty nextReadDto}">
-								<a href="${pageContext.request.contextPath}/board/article?${query}&boardNum=${nextReadDto.boardNum}">${nextReadDto.boardSubject}</a>
+								<a href="${pageContext.request.contextPath}/board/article?${query}&boardNum=${nextReadDto.boardNum}" style="text-decoration: none; color: #000;">${nextReadDto.boardSubject}</a>
 							</c:if>
 						</td>
 					</tr>
@@ -322,6 +325,7 @@ $(function(){
 			<table class="table">
 				<tr>
 					<td width="50%">
+						<c:if test="${sessionScope.member.membership>1}">
 						<c:choose>
 							<c:when test="${sessionScope.member.userId==dto.memberId}">
 								<button type="button" class="nobtn1 btn-light" onclick="location.href='${pageContext.request.contextPath}/board/update?boardNum=${dto.boardNum}&page=${page}';">수정</button>
@@ -339,6 +343,7 @@ $(function(){
 				    			<button type="button" class="nobtn1 btn-light" disabled="disabled">삭제</button>
 				    		</c:otherwise>
 				    	</c:choose>
+				    	</c:if>
 					</td>
 					<td class="text-end">
 						<button type="button" class="nobtn1 btn-light" onclick="location.href='${pageContext.request.contextPath}/board/list?${query}';">리스트</button>
@@ -360,7 +365,7 @@ $(function(){
 						</tr>
 						<tr>
 						   <td align='right'>
-						        <button type='button' class='btn btn-light btnSendReply'>댓글 등록</button>
+						        <button type='button' class='nobtn1 btn-light btnSendReply'>댓글 등록</button>
 						    </td>
 						 </tr>
 					</table>
@@ -368,6 +373,8 @@ $(function(){
 				
 				<div id="listReply"></div>
 			</div>
+			
+			<div style=" padding-bottom: 200px;"></div>
 
 		</div>
 	</div>

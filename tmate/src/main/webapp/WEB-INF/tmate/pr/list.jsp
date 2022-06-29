@@ -15,7 +15,7 @@
 
 
 .nobtn1 {
-	background-color: #ffa81e;
+	background-color: #1f93fa;
 	border-radius: 20px;
 	text-align: center;
 	font-family: inherit;
@@ -26,7 +26,7 @@
 }
 
 .nobtn2 {
-	background-color: #ffa81e;
+	background-color: #1f93fa;
 	border-radius: 20px;
 	text-align: center;
 	font-family: inherit;
@@ -42,6 +42,7 @@
 
 }
 
+button:hover{background-color:#ffa81e; }
 </style>
 
 <script type="text/javascript">
@@ -60,7 +61,7 @@ function searchList() {
 		<div class="body-main">
 		<table class="table table-border table-list mt-5 table-hover">
 				<thead>
-					<tr class="notitle">
+					<tr class="notitle" style="background-color: #f5f9ff ;">
 						<th class="listNum text-center">번호</th>
 						<th class="prSubject text-center">제목</th>
 						<th class="memberName text-center">작성자</th>
@@ -123,10 +124,14 @@ function searchList() {
 					</form>
 				</div>
 				<div align="right" class="matewrite col">
+					<c:if test="${sessionScope.member.membership>1}">
 							<button type="button" class="nobtn1 btn-outline-*" onclick="location.href='${pageContext.request.contextPath}/pr/write';">글올리기</button>
+					</c:if>
 				</div>
 			</div>
-
+	
+			<div style=" padding-bottom: 200px;"></div>
+	
 		</div>
 	</div>
 </div>

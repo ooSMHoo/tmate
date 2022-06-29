@@ -14,7 +14,7 @@
 
 
 .nobtn1 {
-	background-color: #ffa81e;
+	background-color: #1f93fa;
 	border-radius: 20px;
 	text-align: center;
 	font-family: inherit;
@@ -22,8 +22,9 @@
 	border:none;
 	width: 100px;
 	min-height: 40px;
+	margin-bottom:20px;
 }
-
+.nobtn1:hover{background-color:#ffa81e; }
 
 </style>
 
@@ -123,28 +124,28 @@ $(function() {
 			<form name="prForm" method="post" enctype="multipart/form-data">
 				<table class="table table-border write-form mt-5 h-100">
 					<tr>
-						<td class="text-center" style="background-color: #f1f1e6;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
+						<td class="text-center" style="background-color: #f5f9ff;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 						<td>
 							<input type="text" name="prSubject" class="form-control" value="${dto.prSubject}">
 						</td>
 					</tr>
 					
 					<tr>
-						<td class="table-light col-sm-2 text-center" scope="row" style="background-color: #f1f1e6;">작성자</td>
+						<td class="table-light col-sm-2 text-center" scope="row" style="background-color: #f5f9ff;">작성자</td>
  						<td>
 							<p class="form-control-plaintext">${sessionScope.member.userName}</p>
 						</td>
 					</tr>
 
 					<tr>
-						<td class="text-center mx-auto" style="height: 300px; overflow: auto; background-color: #f1f1e6;" >내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
+						<td class="text-center mx-auto" style="height: 300px; overflow: auto; background-color: #f5f9ff;" >내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 						<td valign="top"> 
 							<textarea name="prContent" id="content" class="form-control" style="height: 100%; resize: none;">${dto.prContent}</textarea>
 						</td>
 					</tr>
 					
 					<tr>
-						<td class="text-center" style="background-color: #f1f1e6;" scope="row">이미지</td>
+						<td class="text-center" style="background-color: #f5f9ff;" scope="row">이미지</td>
 						<td>
 							<div class="img-viewer"></div>
 							<input type="file" name="selectFile" accept="image/*" class="form-control" style="display: none;">
@@ -168,7 +169,7 @@ $(function() {
 					</tr>
 				</table>
 			</form>
-		
+		<div style=" padding-bottom: 200px;"></div>
 		</div>
 	</div>
 </div>

@@ -13,7 +13,7 @@
 }
 
 .nobtn1 {
-	background-color: #ffa81e;
+	background-color: #1f93fa;
 	border-radius: 20px;
 	text-align: center;
 	font-family: inherit;
@@ -21,7 +21,10 @@
 	border:none;
 	width: 100px;
 	min-height: 40px;
+	margin-bottom:20px;
 }
+
+.nobtn1:hover{background-color:#ffa81e; }
 
 </style>
 
@@ -84,7 +87,7 @@ function deletePr() {
 						<td colspan="2" class="text-reset" style="text-decoration : none;">
 							이전글 :
 							<c:if test="${not empty preReadDto}">
-								<a href="${pageContext.request.contextPath}/pr/article?${query}&prNum=${preReadDto.prNum}">${preReadDto.prSubject}</a>
+								<a href="${pageContext.request.contextPath}/pr/article?${query}&prNum=${preReadDto.prNum}" style="text-decoration: none; color: #000;">${preReadDto.prSubject}</a>
 							</c:if>
 						</td>
 					</tr>
@@ -92,7 +95,7 @@ function deletePr() {
 						<td colspan="2" class="text-reset" style="text-decoration : none;">
 							다음글 :
 							<c:if test="${not empty nextReadDto}">
-								<a href="${pageContext.request.contextPath}/pr/article?${query}&prNum=${nextReadDto.prNum}">${nextReadDto.prSubject}</a>
+								<a href="${pageContext.request.contextPath}/pr/article?${query}&prNum=${nextReadDto.prNum}" style="text-decoration: none; color: #000;">${nextReadDto.prSubject}</a>
 							</c:if>
 						</td>
 					</tr>
@@ -102,6 +105,7 @@ function deletePr() {
 			<table class="table">
 				<tr>
 					<td width="50%">
+						<c:if test="${sessionScope.member.membership>1}">
 						<c:choose>
 							<c:when test="${sessionScope.member.userId==dto.memberId}">
 								<button type="button" class="nobtn1 btn-light" onclick="location.href='${pageContext.request.contextPath}/pr/update?prNum=${dto.prNum}&page=${page}';">수정</button>
@@ -119,13 +123,16 @@ function deletePr() {
 				    			<button type="button" class="nobtn1 btn-light" disabled="disabled">삭제</button>
 				    		</c:otherwise>
 				    	</c:choose>
+				    	</c:if>
 					</td>
 					<td class="text-end">
 						<button type="button" class="nobtn1 btn-light" onclick="location.href='${pageContext.request.contextPath}/pr/list?${query}';">리스트</button>
 					</td>
 				</tr>
 			</table>
-
+			
+					<div style=" padding-bottom: 200px;"></div>
+			
 		</div>
 	</div>
 </div>

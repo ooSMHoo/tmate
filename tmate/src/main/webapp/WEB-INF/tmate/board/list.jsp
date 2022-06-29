@@ -15,7 +15,7 @@
 
 
 .nobtn1 {
-	background-color: #ffa81e;
+	background-color: #1f93fa;
 	border-radius: 20px;
 	text-align: center;
 	font-family: inherit;
@@ -26,7 +26,7 @@
 }
 
 .nobtn2 {
-	background-color: #ffa81e;
+	background-color: #1f93fa;
 	border-radius: 20px;
 	text-align: center;
 	font-family: inherit;
@@ -41,6 +41,8 @@
 	font-weight: lighter;
 
 }
+
+button:hover{background-color:#ffa81e; }
 
 </style>
 
@@ -59,9 +61,9 @@ function searchList() {
 		
 		<div class="body-main">			
 			
-			<table class="table table-hover board-list">
-				<thead>
-					<tr class="notitle">
+			<table class="table table-border table-list mt-5 table-hover">
+				<thead >
+					<tr class="notitle" style="background-color: #f5f9ff ;">
 						<th class="listNum text-center">번호</th>
 						<th class="boardSubject text-center">제목</th>
 						<th class="memberName text-center">작성자</th>
@@ -78,7 +80,7 @@ function searchList() {
 							<td class="left col-6">
 								<a href="${articleUrl}&boardNum=${dto.boardNum}" class="text-reset text-decoration-none">${dto.boardSubject}</a>
 							</td>
-							<td>${dto.memberName}</td>
+							<td class="text-center">${dto.memberName}</td>
 							<td class="text-center">${dto.boardReg_date}</td>
 							<td class="text-center">${dto.boardHit}</td>
 							<td>
@@ -121,10 +123,14 @@ function searchList() {
 
 					</div>
 					<div align="right" class="prwrite col">
+						<c:if test="${sessionScope.member.membership>1}">
 							<button type="button" class="nobtn1 btn-outline-*" onclick="location.href='${pageContext.request.contextPath}/board/write';">글올리기</button>
+						</c:if>
 					</div>
 				</div>
-			
+				
+			<div style=" padding-bottom: 200px;"></div>
+		
 		</div>
 
 	</div>

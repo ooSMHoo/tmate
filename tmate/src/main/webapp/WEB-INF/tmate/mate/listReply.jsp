@@ -30,12 +30,7 @@
 						</c:when>
 						<c:when test="${sessionScope.member.membership > 50}">
 							<div class='deleteReply reply-menu-item' data-mateRe_num='${vo.mateRe_num}' data-pageNo='${pageNo}'>삭제</div>
-							<div class='blockReply reply-menu-item'>차단</div>
 						</c:when>
-						<c:otherwise>
-							<div class='notifyReply reply-menu-item'>신고</div>
-							<div class='blockReply reply-menu-item'>차단</div>
-						</c:otherwise>
 					</c:choose>
 				</div>
 			</td>
@@ -59,7 +54,7 @@
 		                <textarea class="form-control m-2"></textarea>
 		            </div>
 					<div class='text-end pe-2 pb-1'>
-						<button type='button' class='btn btn-light btnSendReplyAnswer' data-mateRe_num='${vo.mateRe_num}'>답글 등록</button>
+						<button type='button' class='nobtn1 btn-light btnSendReplyAnswer' data-mateRe_num='${vo.mateRe_num}'>답글 등록</button>
 		            </div>
 	            </div>
 			</td>

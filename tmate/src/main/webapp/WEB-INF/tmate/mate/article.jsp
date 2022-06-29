@@ -14,7 +14,7 @@
 }
 
 .nobtn1 {
-	background-color: #ffa81e;
+	background-color: #1f93fa;
 	border-radius: 20px;
 	text-align: center;
 	font-family: inherit;
@@ -22,7 +22,10 @@
 	border:none;
 	width: 100px;
 	min-height: 40px;
+	margin-bottom:20px;
 }
+
+.nobtn1:hover{background-color:#ffa81e; }
 
 </style>
 
@@ -310,7 +313,7 @@ $(function(){
 						<td colspan="2" class="text-reset" style="text-decoration : none;">
 							이전글 :
 							<c:if test="${not empty preReadDto}">
-								<a href="${pageContext.request.contextPath}/mate/article?${query}&mateNum=${preReadDto.mateNum}">${preReadDto.mateSubject}</a>
+								<a href="${pageContext.request.contextPath}/mate/article?${query}&mateNum=${preReadDto.mateNum}" style="text-decoration: none; color: #000;">${preReadDto.mateSubject}</a>
 							</c:if>
 						</td>
 					</tr>
@@ -318,7 +321,7 @@ $(function(){
 						<td colspan="2" class="text-reset" style="text-decoration : none;">
 							다음글 : 
 							<c:if test="${not empty nextReadDto}">
-								<a href="${pageContext.request.contextPath}/mate/article?${query}&mateNum=${nextReadDto.mateNum}">${nextReadDto.mateSubject}</a>
+								<a href="${pageContext.request.contextPath}/mate/article?${query}&mateNum=${nextReadDto.mateNum}" style="text-decoration: none; color: #000;">${nextReadDto.mateSubject}</a>
 							</c:if>
 						</td>
 					</tr>
@@ -328,6 +331,7 @@ $(function(){
 			<table class="table">
 				<tr>
 					<td width="50%">
+					<c:if test="${sessionScope.member.membership>1}">
 						<c:choose>
 							<c:when test="${sessionScope.member.userId==dto.memberId}">
 								<button type="button" class="nobtn1 btn-light" onclick="location.href='${pageContext.request.contextPath}/mate/update?mateNum=${dto.mateNum}&page=${page}';">수정</button>
@@ -345,6 +349,7 @@ $(function(){
 				    			<button type="button" class="nobtn1 btn-light" disabled="disabled">삭제</button>
 				    		</c:otherwise>
 				    	</c:choose>
+				    </c:if>
 					</td>
 					<td class="text-end">
 						<button type="button" class="nobtn1 btn-light" onclick="location.href='${pageContext.request.contextPath}/mate/list?${query}';">리스트</button>
@@ -374,6 +379,8 @@ $(function(){
 				
 				<div id="listReply"></div>
 			</div>
+			
+			<div style=" padding-bottom: 200px;"></div>
 		</div>
 	</div>
 </div>

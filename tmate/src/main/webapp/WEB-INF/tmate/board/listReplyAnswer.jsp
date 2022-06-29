@@ -25,12 +25,7 @@
 						</c:when>
 						<c:when test="${sessionScope.member.membership > 50 }">
 							<div class='deleteReplyAnswer reply-menu-item' data-boardRe_num='${vo.boardRe_num}' data-boardRe_parent='${vo.boardRe_parent}'>삭제</div>
-							<div class='blockReply reply-menu-item'>차단</div>
 						</c:when>
-						<c:otherwise>
-							<div class='notifyReplyAnswer reply-menu-item'>신고</div>
-							<div class='blockReplyAnswer reply-menu-item'>차단</div>
-						</c:otherwise>
 					</c:choose>
 				</div>
 			</div>
