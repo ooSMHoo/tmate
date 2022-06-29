@@ -11,7 +11,7 @@
 <div class="whole">
 	<div class="whole2">
 
-		<form action="" method="post" id="payForm" name="payForm">
+		<form method="post" id="payForm" name="payForm">
 			<div class="d-flex room_content w-100">
 				<div class="w-75 p-3">
 
@@ -20,19 +20,20 @@
 						<div class="mt-2">
 							<div>이름</div>
 							<div>
-								<input type="text" name="payname" placeholder="예)김티엠">
+								<input type="hidden" name="memberId" value="${memberId}">
+								<input type="text" name="resName" placeholder="예)김티엠">
 							</div>
 						</div>
 						<div class="mt-2">
 							<div>생년월일</div>
 							<div>
-								<input type="text" name="paybirth" placeholder="예)901225">
+								<input type="text" name="resBirth" placeholder="예)901225">
 							</div>
 						</div>
 						<div class="mt-2">
 							<div>휴대폰 번호</div>
 							<div>
-								<input type="text" name="payphone" placeholder="예)010xxxxxxxx">
+								<input type="text" name="resPhone" placeholder="예)010xxxxxxxx">
 							</div>
 						</div>
 					</div>
@@ -45,6 +46,7 @@
 							<div class="w-50">총액</div>
 							<div class="w-50 host_modal">
 								<span id="totalPrice">${dto.totalPrice}</span> 원
+								<input type="hidden" name="resTotalcost" value="${dto.totalPrice}">
 							</div>
 						</div>
 						<div class="d-flex mt-2">
@@ -52,7 +54,7 @@
 								현재 포인트 <span id="nowPoint">${point}</span> P
 							</div>
 							<div class="w-50 host_modal">
-								<input type="text" value="0" id="inputPoint" style="width: 70%"> P
+								<input type="text" name="resPoint" value="0" id="inputPoint" style="width: 70%"> P
 							</div>
 						</div>
 					</div>
@@ -65,6 +67,7 @@
 							<select name="sel1" id="sel1">
 							</select> <select name="sel2" id="sel2" style="display: none">
 							</select>
+							<input type="hidden" name="payCode">
 						</div>
 						<div>
 							<div class="payagrAll_box" style="visibility: hidden;">
@@ -103,20 +106,26 @@
 							<div>
 								<div class="rev_small">객실 타입 / 기간</div>
 								<div>${dto.roomName} / ${dto.night}박</div>
+								<input type="hidden" name="roomNum" value="${dto.roomNum}">
 							</div>
 							<div>
 								<div class="rev_small">체크인</div>
-								<div>${startDate}&nbsp;${dto.lodgCin_time}:00</div>
+								<div>${startDate}&nbsp;${dto.lodgCin_time}:00
+									<input type="hidden" name="resCin_date" value="${startDate}"></div>
 							</div>
 							<div>
 								<div class="rev_small">체크아웃</div>
-								<div>${endDate}&nbsp;${dto.lodgCout_time}:00</div>
+								<div>${endDate}&nbsp;${dto.lodgCout_time}:00
+								<input type="hidden" name="resCout_date" value="${endDate}"></div>
 							</div>
 						</div>
 						<div class="tm_hr w-75 my-3"></div>
 						<div class="ps-2">
 							<div>결제하실 금액</div>
-							<div><span id="payPrice"></span>원</div>
+							<div><span id="payPrice"></span>원
+							<input type="hidden" name="payCost">
+							<input type="hidden" name="roomPrice" value="${dto.roomPrice}"></div>
+							
 						</div>
 						<div class="paybox">
 							<button class="w-100 mt-2" id="paybtn" onclick="payGo()"
@@ -245,8 +254,10 @@ $( document ).ready(function(){
         var subSelName = '';
     	if(option == "CARD") {
         	subSelName = "sel2_1";
+       		$('input[name=payCode]').val('1');
         } else if(option == "EASY"){
         	subSelName = "sel2_2";
+            $('input[name=payCode]').val('2');
         } else{
         	$("#sel2").hide();
         	return;
@@ -256,7 +267,6 @@ $( document ).ready(function(){
     })
    retOption(sel1, "sel1");
 });
-
 </script>
 
 <script type="text/javascript">
@@ -264,6 +274,7 @@ $( document ).ready(function(){
 $('document').ready(function(){
 	var $total = Number($('#totalPrice').text());
 	$('#payPrice').text($total);
+	$('input[name=payCost]').val($total);
 });
 
 
@@ -286,6 +297,7 @@ $("#inputPoint").change(function(){
 	var $pay = $total - $point;
 	
 	$('#payPrice').text($pay);
+	$('input[name=payCost]').val($pay);
 });
 
 
@@ -297,37 +309,37 @@ function payGo() {
 	const f = document.payForm;
 	let str;
 	
-	str = f.payname.value;
+	str = f.resName.value;
 	if( !str ) {
 		alert("예약자 이름을 입력해주세요.");
-		f.payname.focus();
+		f.resName.focus();
 		return;
 	}
 	
-	str = f.paybirth.value;
+	str = f.resBirth.value;
 	if( !str ) {
 		alert("생년월일을 입력해주세요.");
-		f.paybirth.focus();
+		f.resBirth.focus();
 		return;
 	}
 	
 	if( !/^\d{6}$/.test(str) ) {
         alert("생년월일은 6자리 숫자만 입력해주세요. ");
-        f.paybirth.focus();
+        f.resBirth.focus();
         return;
     }
 	
-	str = f.payphone.value;
+	str = f.resPhone.value;
 	if( !str ) {
 		alert("전화번호를 입력해주세요.");
-		f.payphone.focus();
+		f.resPhone.focus();
 		return;
 	}
 	
 	
 	if( !/^\d{11}$/.test(str) ) {
         alert("전화번호는 숫자만 가능합니다. ");
-        f.payphone.focus();
+        f.resPhone.focus();
         return;
 	}
 

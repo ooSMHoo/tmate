@@ -235,13 +235,13 @@
 	</select>
 	
 	<select id="readPay" parameterType="map" resultType="com.sp.trip.reservation.Reservation">
-	SELECT lodgName, roomName, lodgCin_time, lodgCout_time, night, RoomPrice*night totalPrice FROM(
-			SELECT lodgName, roomName, lodgCin_time, lodgCout_time, 
+	SELECT lodgName, roomName, lodgCin_time, lodgCout_time, night, roomPrice*night totalPrice, roomPrice, roomNum FROM(
+			SELECT lodgName, roomName, lodgCin_time, lodgCout_time, roomNum, 
             (TO_DATE('${endDate}','YYYY-MM-DD') - TO_DATE('${startDate}','YYYY-MM-DD')) AS night,
 						CASE WHEN SUBSTR('${startDate}',6)
                         BETWEEN REPLACE(lodgStart_date,'-','') AND REPLACE(lodgEnd_date,'-','') THEN roomSeasonprice
                         WHEN TO_CHAR(TO_DATE('${startDate}','YYYY-MM-DD'), 'd') IN( '6','7') THEN roomWe_price
-                        ELSE roomWd_price END AS RoomPrice
+                        ELSE roomWd_price END AS roomPrice
 			FROM Lodging l
 			JOIN Memberhost mh ON l.mhId = mh.mhId
 			JOIN LodgingCategory lc ON l.lcNum = lc.lcNum
@@ -252,20 +252,49 @@
 	
 	<!-- 예약 입력 -->
 	<insert id="insertReservation" parameterType="com.sp.trip.reservation.Reservation">
-		INSERT INTO Reservation(resNum, memberId, resCin_date, resCout_date, resCode, resName, resPhone, resTotalcost, resPoint)
-		VALUES (reservation_seq.NEXTVAL, #{memberId}, #{resCin_date}, #{resCout_date}, SYSDATE, 0, #{resName}, #{resPhone}, #{resTotalcost}, #{resPoint} )
+		INSERT INTO Reservation(resNum, memberId, resCin_date, resCout_date, resReg_date, resCode, resName, resBirth, resPhone, resTotalcost, resPoint)
+		VALUES (reservation_seq.NEXTVAL, #{memberId}, #{resCin_date}, #{resCout_date}, SYSDATE, 0, #{resName}, TO_DATE(#{resBirth},'YYMMDD') ,#{resPhone}, #{resTotalcost}, #{resPoint} )
+	</insert>
+	
+	<insert id="insertReservationDetail" parameterType="com.sp.trip.reservation.Reservation">
+		INSERT INTO ReservationDetail(resdNum, resNum, roomPeople, roomPrice, hostMemo, roomNum)
+				VALUES(reservationdetail_seq.NEXTVAL, reservation_seq.CURRVAL, 2 , #{roomPrice}, null , #{roomNum} )
 	</insert>
 	
 	<!--  예약 취소 -->
 	<update id="cancelReservation" parameterType="com.sp.trip.reservation.Reservation">
 		UPDATE Reservation SET resCode = #{resCode}
-		WHERE resNum = #{resNum}
+		WHERE resNum = reservation_seq.CURRVAL
 	</update>
 	
 	<!-- 결제 입력 -->
 	<insert id="insertPay" parameterType="com.sp.trip.reservation.Reservation">
 	    INSERT INTO Payment(resNum, payCode, payNum, payReg_date, payCost)
-        VALUES (#{resNum}, #{payCode}, paySign_seq.NEXTVAL, SYSDATE, #{payCost})
+        VALUES (reservation_seq.CURRVAL, #{payCode}, paySign_seq.NEXTVAL, SYSDATE, #{payCost})
+	</insert>
+	
+	<!-- 포인트 사용 여부 -->
+	<select id="checkPayPoint" parameterType="Integer" resultType="Integer">
+		SELECT resPoint FROM reservation
+		WHERE resNum = #{resNum}
+	</select>
+
+	<!-- 시퀀스 값 가져오기 -->
+	<select id="readresNum" resultType="Integer">
+	SELECT reservation_seq.CURRVAL resNum FROM dual
+	</select>
+	
+	
+	<!-- 포인트 사용 -->
+	<insert id="payPoint" parameterType="com.sp.trip.reservation.Reservation">
+	INSERT INTO Point(pointNum, pointCode, pointDate, pointQuant, memberId)
+            VALUES(Point_seq.NEXTVAL, 1, SYSDATE, #{resPoint}, #{memberId})
+	</insert>
+	
+	<!-- 포인트 적립-->
+	<insert id="insertPoint" parameterType="com.sp.trip.reservation.Reservation">
+	INSERT INTO Point(pointNum, pointCode, pointDate, pointQuant, memberId)
+            VALUES(Point_seq.NEXTVAL, 0, SYSDATE, #{point}, #{memberId})
 	</insert>
 	
 	<!-- 환불 입력 -->
@@ -275,18 +304,18 @@
 	</insert>
 	
 	<!-- 예약확인창-->
-	<select id="readReservation" parameterType="INTEGER" resultType="com.sp.trip.reservation.Reservation">
-	    SELECT p.resNum, rv.resCin_date, rv.resCout_date, rv.resName, 
-            rv.resPhone, l.lodgName, r.roomName, p.payNum,
-            CASE WHEN p.payCode = 0 THEN '간편결제' ELSE '카드결제' END AS payCode, 
-            p.payReg_date
-			FROM Payment p 
+	<select id="readReservation" parameterType="Integer" resultType="com.sp.trip.reservation.Reservation">
+	    SELECT p.resNum, TO_CHAR(resCin_date,'YYYY-MM-DD') resCin_date, TO_CHAR(resCout_date,'YYYY-MM-DD') resCout_date, resName, resBirth,
+           ( SUBSTR(rv.resPhone,0,3)||'-'||SUBSTR(rv.resPhone,3,4)||'-'||SUBSTR(rv.resPhone,7,4) ) resPhone
+           , lodgName, lodgCout_time||':00' lodgCout_time, lodgCin_time||':00' lodgCin_time , roomName, payNum, payCode, 
+            TO_CHAR(payReg_date,'YYYY-MM-DD') payReg_date		
+            FROM Payment p 
 			JOIN Reservation rv ON p.resNum = rv.resNum
 			JOIN Member1 m ON rv.memberId = m.memberId 
 			JOIN ReservationDetail rvd ON rv.resNum = rvd.resNum
 			JOIN Room r ON rvd.roomNum = r.roomNum
 			JOIN Lodging l ON l.mhId = r.mhId
-			WHERE p.resNum = #{resNum};
+			WHERE p.resNum = #{resNum}
 	</select>
 	
 	

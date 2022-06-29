@@ -12,7 +12,7 @@ public interface ReservationService {
 	
 	public void insertRefund(Reservation dto) throws Exception;
 	
-	public void insertReservation(Reservation dto) throws Exception;
+	public int insertReservation(Reservation dto) throws Exception;
 	
 	public Reservation readReservation(int resNum);
 	

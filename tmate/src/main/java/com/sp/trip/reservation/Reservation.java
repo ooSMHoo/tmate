@@ -3,7 +3,7 @@ package com.sp.trip.reservation;
 public class Reservation {
 	
 	private String mhId;
-	private String memeberId;
+	private String memberId;
 	private int lcNum;
 	private String lodgName;
 	private double lodgLat;
@@ -40,19 +40,68 @@ public class Reservation {
 	private int resNum;
 	private String resCin_date;
 	private String resCout_date;
+	private String resBirth;
 	private String resName;
 	private String resPhone;
+	private int night;
+	private int totalPrice;
+	private int resTotalcost;
+	private int resPoint;
+	private String payReg_date;
 	
 	private String isLiked;
 	
 	private int payNum;
+	private int payCode;
+	private int payCost;
+	private int roomPeople;
 	
-	private int night;
-	private int totalPrice;
 	
 	
 	
 
+	public String getPayReg_date() {
+		return payReg_date;
+	}
+	public void setPayReg_date(String payReg_date) {
+		this.payReg_date = payReg_date;
+	}
+	public int getRoomPeople() {
+		return roomPeople;
+	}
+	public void setRoomPeople(int roomPeople) {
+		this.roomPeople = roomPeople;
+	}
+	public int getPayCode() {
+		return payCode;
+	}
+	public void setPayCode(int payCode) {
+		this.payCode = payCode;
+	}
+	public int getPayCost() {
+		return payCost;
+	}
+	public void setPayCost(int payCost) {
+		this.payCost = payCost;
+	}
+	public String getResBirth() {
+		return resBirth;
+	}
+	public void setResBirth(String resBirth) {
+		this.resBirth = resBirth;
+	}
+	public int getResPoint() {
+		return resPoint;
+	}
+	public void setResPoint(int resPoint) {
+		this.resPoint = resPoint;
+	}
+	public int getResTotalcost() {
+		return resTotalcost;
+	}
+	public void setResTotalcost(int resTotalcost) {
+		this.resTotalcost = resTotalcost;
+	}
 	public int getTotalPrice() {
 		return totalPrice;
 	}
@@ -65,11 +114,11 @@ public class Reservation {
 	public void setNight(int night) {
 		this.night = night;
 	}
-	public String getMemeberId() {
-		return memeberId;
+	public String getMemberId() {
+		return memberId;
 	}
-	public void setMemeberId(String memeberId) {
-		this.memeberId = memeberId;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 	public String getIsLiked() {
 		return isLiked;

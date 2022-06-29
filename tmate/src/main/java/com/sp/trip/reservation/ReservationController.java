@@ -13,10 +13,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.trip.common.MyUtil;
 import com.sp.trip.member.SessionInfo;
@@ -238,7 +240,10 @@ public class ReservationController {
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
-		int point = service.readPoint(info.getUserId());
+		String memberId = info.getUserId();
+		
+		int point = service.readPoint(memberId);
+		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("startDate",startDate);
@@ -246,54 +251,46 @@ public class ReservationController {
 		map.put("roomNum", roomNum);
 		
 		Reservation dto = service.readPay(map);
-		
-		
+				
 		model.addAttribute("dto", dto);
 		model.addAttribute("point", point);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
+		model.addAttribute("memberId", memberId);
 		
 		return ".reservation.reservation";
 	}
 	
 	// 예약 + 결제 입력
-	@RequestMapping(value = "reservation/reservation", method = RequestMethod.POST)
-	public String reservationSubmit(
+	@RequestMapping(value = "reservation", method = RequestMethod.POST)
+	public String reservationSubmit (
 			Reservation dto,
+			RedirectAttributes rttr,
 			HttpSession session) throws Exception {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		try {
-			dto.setMemeberId(info.getUserId());
-			service.insertReservation(dto);
+			dto.setMemberId(info.getUserId());
+			int resNum = service.insertReservation(dto);
+			rttr.addFlashAttribute("resNum",resNum);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
-				
-		return "redirect:/reservation/reservation_ok?";
+			
+		return "redirect:/reservation/reservation_ok";
 	}
 	
 	// 예약 완료 페이지
-	@RequestMapping(value = "reservation_ok", method = RequestMethod.GET)
+	@RequestMapping(value = "reservation_ok")
 	public String reservation_ok(
-			@RequestParam(defaultValue = "") int resNum,
+			@ModelAttribute("resNum") int resNum,
 			Model model) throws Exception {
-		
 		
 		Reservation dto = service.readReservation(resNum);
 		
-		String cinDate = dto.getResCin_date();
-		cinDate = String.format("%tF", cinDate);
-		
-		String coutDate = dto.getResCout_date();
-		coutDate = String.format("%tF", coutDate);
-		
-				
-		
-		
-		model.addAttribute("dto",dto);
 
-		model.addAttribute("cinDate",cinDate);
-		model.addAttribute("coutDate",coutDate);
+
+		model.addAttribute("dto",dto);
 		
 		return ".reservation.reservation_ok";
 	}

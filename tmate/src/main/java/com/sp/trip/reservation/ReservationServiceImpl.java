@@ -42,8 +42,12 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public void insertRefund(Reservation dto) throws Exception{
 		try {
+			// 환불 테이블 입력
 			dao.insertData("reservation.insertRefund",dto);
+			// resCode 변경
 			dao.updateData("reservation,cancelReservation",dto);
+			// 포인트 적립
+			dao.insertData("reservation.payPoint",dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -52,15 +56,29 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public void insertReservation(Reservation dto) throws Exception{
+	public int insertReservation(Reservation dto) throws Exception{
+		int resNum = 0;
+		
 		try {
+			// 예약 테이블 입력
 			dao.insertData("reservation.insertReservation",dto);
+			// 예약 상세 테이블 입력
+			dao.insertData("reservation.insertReservationDetail",dto);
+			// 결제 테이블 입력
 			dao.insertData("reservation.insertPay",dto);
+			
+			resNum = dao.selectOne("reservation.readresNum");
+			System.out.println(resNum);
+			int point = dao.selectOne("reservation.checkPayPoint",resNum);
+			if( point != 0 ) { // resNum로 포인트 사용여부를 호출해서 포인트가 0이 아니면 포인트 사용 실행 
+			dao.insertData("reservation.payPoint",dto);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 		
+		return resNum;
 	}
 
 	@Override
@@ -86,7 +104,7 @@ public class ReservationServiceImpl implements ReservationService {
 		
 		return result;
 	}
-
+	
 	@Override
 	public int maxValue(Map<String, Object> map) {
 		int result = 0;
