@@ -227,7 +227,8 @@ public class ReservationController {
 	public String reservation(
 			@RequestParam(defaultValue = "") String startDate,
 			@RequestParam(defaultValue = "") String endDate,
-			@RequestParam(defaultValue = "14") int roomNum,
+			@RequestParam(defaultValue = "") int roomNum,
+			@RequestParam(defaultValue = "") int roomPeople, 
 			HttpSession session,
 			Model model) throws Exception {
 		
@@ -256,6 +257,7 @@ public class ReservationController {
 		model.addAttribute("point", point);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
+		model.addAttribute("roomPeople",roomPeople);
 		model.addAttribute("memberId", memberId);
 		
 		return ".reservation.reservation";

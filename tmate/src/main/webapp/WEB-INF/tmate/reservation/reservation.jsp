@@ -28,6 +28,7 @@
 							<div>생년월일</div>
 							<div>
 								<input type="text" name="resBirth" placeholder="예)901225">
+								<input type="hidden" name="roomPeople" value="${roomPeople}">
 							</div>
 						</div>
 						<div class="mt-2">

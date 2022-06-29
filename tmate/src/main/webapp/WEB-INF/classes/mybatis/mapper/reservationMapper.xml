@@ -236,7 +236,7 @@
 	
 	<select id="readPay" parameterType="map" resultType="com.sp.trip.reservation.Reservation">
 	SELECT lodgName, roomName, lodgCin_time, lodgCout_time, night, roomPrice*night totalPrice, roomPrice, roomNum FROM(
-			SELECT lodgName, roomName, lodgCin_time, lodgCout_time, roomNum, 
+			SELECT lodgName, roomName, lodgCin_time, lodgCout_time, roomNum,
             (TO_DATE('${endDate}','YYYY-MM-DD') - TO_DATE('${startDate}','YYYY-MM-DD')) AS night,
 						CASE WHEN SUBSTR('${startDate}',6)
                         BETWEEN REPLACE(lodgStart_date,'-','') AND REPLACE(lodgEnd_date,'-','') THEN roomSeasonprice
@@ -258,7 +258,7 @@
 	
 	<insert id="insertReservationDetail" parameterType="com.sp.trip.reservation.Reservation">
 		INSERT INTO ReservationDetail(resdNum, resNum, roomPeople, roomPrice, hostMemo, roomNum)
-				VALUES(reservationdetail_seq.NEXTVAL, reservation_seq.CURRVAL, 2 , #{roomPrice}, null , #{roomNum} )
+				VALUES(reservationdetail_seq.NEXTVAL, reservation_seq.CURRVAL, #{roomPeople}, #{roomPrice}, null , #{roomNum} )
 	</insert>
 	
 	<!--  예약 취소 -->
