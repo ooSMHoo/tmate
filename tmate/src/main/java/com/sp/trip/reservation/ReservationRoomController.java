@@ -42,7 +42,7 @@ public class ReservationRoomController {
 	public String roomlist(
 			@RequestParam(defaultValue = "") String startDate,
 			@RequestParam(defaultValue = "") String endDate,
-			@RequestParam(defaultValue = "host789") String mhId,
+			@RequestParam(defaultValue = "tmhost1") String mhId,
 			@RequestParam(defaultValue = "4") int people,
 			Model model) throws Exception {
 		

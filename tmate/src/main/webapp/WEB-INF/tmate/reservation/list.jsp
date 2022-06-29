@@ -8,7 +8,7 @@
 	type="text/css">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
@@ -196,7 +196,7 @@
 										<div class="lodg_name mb-2 d-flex">
 											<div class="w-50"><a>${dto.lodgName}</a></div>
 											<input type="hidden" class="postRoom_id" value="${dto.mhId}">
-											<div class="w-50 host_modal"><span><i class="fa-regular fa-heart" id="liked${dto.mhId}" onclick="isLiked('${dto.mhId}')" data-state="${dto.isLiked}" style="background: red;"></i></span></div>
+											<div class="w-50 host_modal"><span><i class="${dto.isLiked=='true'?'fa-solid':'fa-regular'} fa-heart" id="${dto.mhId}" onclick="clickLike('${dto.mhId}')" data-state="${dto.isLiked}"></i></span></div>
 										</div>
 										<div class="lodg_grade mb-2">
 										
@@ -269,27 +269,28 @@ function ajaxFun(url, method, query, dataType, fn) {
 	});
 }
 
-
-function isLiked(mhId) {
-	
-	var state = $('#liked'+mhId).attr('data-state');
+function clickLike(mhId) {
+	event.stopPropagation();
+	var state = $('#'+mhId).attr('data-state');
 	var msg = state == "true" ? " 숙소를 찜 목록에서 삭제하시겠습니까? " : " 숙소를 찜 목록에 추가하시겠습니까? " ;
-	
+	var id = "#"+mhId;
 	if(! confirm( msg )) {
 		return false;
 	}
 	
 	var url = "${pageContext.request.contextPath}/reservation/insertLikeList";
-	var mhId = "${dto.mhId}";
-	var query = "mhId="+mhId;
-	
-	onst fn = function(data){
+	var query = "mhId="+mhId+"&isLiked="+state;
+
+	const fn = function(data){
 		let state = data.state;
+		let isLiked = data.isLiked;
 		if(state === "true") {
-			if( userLiked ) {
-				$i.removeClass("fa-solid").addClass("fa-regular");
-			} else {
-				$i.removeClass("fa-regular").addClass("fa-solid");
+			if( isLiked === "true" ) {
+				$(id).removeClass("fa-regular").addClass("fa-solid"); // 빈하트를 채워진 하트로
+				$(id).attr('data-state', "true");
+			} else if (isLiked === "false"){
+				$(id).removeClass("fa-solid").addClass("fa-regular"); // 채워진 하트를 빈하트로
+				$(id).attr('data-state', "false");
 			}
 			
 		} else if(state === "false") {
@@ -298,7 +299,6 @@ function isLiked(mhId) {
 	};
 	
 	ajaxFun(url, "post", query, "json", fn);
-	
 }
 
 

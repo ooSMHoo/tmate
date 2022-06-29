@@ -214,19 +214,15 @@
 	
 	
 	<insert id="insertLike" parameterType="map">
-		INSERT INTO LikeList2(memberId, mhId) VALUES (#{memberId}, #{mhId})
+		INSERT INTO LikeList(memberId, mhId) VALUES (#{memberId}, #{mhId})
 	</insert>
 	
 	<delete id="deleteLike" parameterType="map">
-		DELETE FROM LikeList2 WHERE mhId = #{mhId} AND memberId = #{memberId}
+		DELETE FROM LikeList WHERE mhId = #{mhId} AND memberId = #{memberId}
 	</delete>
 	
-	<select id="userLiked" parameterType="map" resultType="String">
-		SELECT DECODE(COUNT(*),0,'false','true') isLiked FROM LikeList2 WHERE mhId = #{mhId} AND memberId = #{memberId}
-	</select>
-	
-	<select id="readLike" parameterType="String" resultType="com.sp.trip.reservation.Reservation">
-		SELECT mhId FROM LikeList2 WHERE memberId = #{memberId}
+	<select id="readLike" parameterType="String" resultType="String">
+		SELECT mhId FROM LikeList WHERE memberId = #{memberId}
 	</select>
 	
 	<!-- 예약창 포인트 -->

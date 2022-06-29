@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -121,22 +120,23 @@ public class ReservationController {
 		
 		List<Reservation> list = service.listLodging(map);
 		
-		/*
-		for(Reservation : list) {
-			Reservation.setisLiked("false");
-		}
-		*/
 		
-		/*
+		for(Reservation r : list) {
+			r.setIsLiked("false");
+		}
+		
+		
+		
 		List<String> likeList = service.readLikeList(info.getUserId()); // 고객이 누른 호스트들 아이디
 		for(int i=0; i<likeList.size(); i++) {
 			for(int j=0; j<list.size(); j++) {
-				if (likeList[i].equals(list.get(j).getMhId())) {
+				if (likeList.get(i).equals(list.get(j).getMhId())) {
 					list.get(j).setIsLiked("true");
+					break;
 				}
 			}
 		}
-		*/
+		
 		
 		String query = "";
 		String listUrl = cp + "/reservation/list";
@@ -189,21 +189,23 @@ public class ReservationController {
 		@ResponseBody
 		public Map<String, Object> insertLikeList(
 				@RequestParam String mhId,
+				@RequestParam String isLiked,
 				HttpSession session) {
+			
 			String state = "true";
 			SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 			Map<String, Object> paramMap = new HashMap<>();
-			paramMap.put("mhId", mhId);
 			paramMap.put("memberId", info.getUserId());
+			paramMap.put("mhId", mhId);
 
-			boolean userLiked = service.userLiked(paramMap);
-			
 			try {
-				if(userLiked) {
+				if(isLiked.equals("true")) {
 					service.deleteLikeList(paramMap);
+					isLiked = "false";
 				} else {
 					service.insertLikeList(paramMap);
+					isLiked = "true";
 				}
 			} catch (Exception e) {
 				state = "false";
@@ -212,6 +214,7 @@ public class ReservationController {
 
 			Map<String, Object> model = new HashMap<>();
 			model.put("state", state);
+			model.put("isLiked", isLiked);
 
 			return model;
 		}

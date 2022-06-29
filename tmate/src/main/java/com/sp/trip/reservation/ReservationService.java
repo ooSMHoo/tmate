@@ -24,7 +24,5 @@ public interface ReservationService {
 	
 	public void deleteLikeList(Map<String, Object> map) throws Exception;
 	
-	public boolean userLiked(Map<String, Object> map);
-	
 	public List<String> readLikeList(String memberId);
 }

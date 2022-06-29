@@ -101,7 +101,7 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public void insertLikeList(Map<String, Object> map) throws Exception {
 		try {
-			dao.insertData("reservation.insertLikeList", map);
+			dao.insertData("reservation.insertLike", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -111,27 +111,11 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public void deleteLikeList(Map<String, Object> map) throws Exception {
 		try {
-			dao.deleteData("reservation.deleteLikeList", map);
+			dao.deleteData("reservation.deleteLike", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
-	}
-
-	@Override
-	public boolean userLiked(Map<String, Object> map) {
-		boolean result = false;
-		try {
-			Reservation dto = dao.selectOne("reservation.userLiked", map);
-			if(dto != null) {
-				result = true; 
-			}
-				
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
 	}
 
 	@Override
