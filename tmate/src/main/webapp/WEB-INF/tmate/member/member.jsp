@@ -171,6 +171,11 @@ function memberOk() {
         return;
     }
     
+    if (f.mailcheck.value === "false") {
+    	alert("메일 인증을 해주세요.");
+    	return;
+    }
+    
     if (!f.aggrement.checked) {
 		alert("개인정보 수집 및 이용에 동의해주세요");
 		return;
