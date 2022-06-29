@@ -134,38 +134,38 @@ function deleteAnswer(revNum) {
 		<div class="mt-3">
 			<div class="d-flex">
 				<div style="width: 10%;" class="ms-3">
-					<div>
-						<i class="fa-solid fa-user"></i>
-					</div>
-					<div>
-						${rl.memberId}
-					</div>
+					<div class="h4 text-center">
+					${rl.revGrade > 3 ? '<i class="bi bi-emoji-smile"></i>' : '<i class="bi bi-emoji-neutral"></i>'}
 				</div>
-				<div style="width: 92%;">
+				<div class="col-sm bd-highlight text-center ">
+					${rl.memberId}님
+				</div>
+				</div>
+				<div style="width: 92%;" class="ms-2">
 					<div>
-						${rl.revSubject}
+						"${rl.revSubject}"
 					</div>
 					<div class="d-flex">
 							<div class="star-ratings">
-								<div class="star-ratings-fill" style=" width: ${rl.revGrade*20}% ">
+								<div class="star-ratings-fill h5" style=" width: ${rl.revGrade*20}% ">
 									<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
 								</div>
-								<div class="star-ratings-base">
+								<div class="star-ratings-base h5">
 									<span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
 								</div>	
 							</div>
 					</div>
-					<div>
+					<div class="mt-2">
 						${rl.revContent}
 					</div>
 					<div class="me-3 mb-1" style="float: right;" >
 						${rl.revReg_date}
 					</div>
-						</div>
-					</div>
-				</div>
+				 </div>
 			</div>
-		</c:forEach>
+			</div>
+		</div>
+	</c:forEach>
 		<div class="page-box">
 			${dataCount == 0 ? "리뷰가 없습니다." : paging}
 		</div>

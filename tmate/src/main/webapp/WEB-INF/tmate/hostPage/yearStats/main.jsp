@@ -80,7 +80,7 @@ $(function(){
 
 		option = {
 				title: {
-				    text: '이번연도 객실별 상세',
+				    text: '전/현 연도 객실별 매출 및 예약 현황',
 				    left: 'center'
 				  },
 				  tooltip: {

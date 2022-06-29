@@ -77,7 +77,7 @@ $(function(){
 		
 		option = {
 					title: {
-				    text: '이번달 객실별 금액상세',
+				    text: '객실별 매출현황',
 				    left: 'center'
 				  },
 				  dataset: [
@@ -136,7 +136,7 @@ $(function(){
 		
 		option = {
 				  title: {
-				    text: '이번달 객실별 예약수',
+				    text: '객실별 예약현황',
 				    left: 'center'
 				  },
 				  tooltip: {
