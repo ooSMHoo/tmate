@@ -131,11 +131,6 @@ public class ReservationRoomController {
 		return "/reservation/roomReview";
 	}
 	
-	@GetMapping("/writeReview")
-	public String writeReview() {
-		return "/reservation/writeReview";
-	}
-	
 	public String tourAPItoJSON(String mapX, String mapY) throws Exception {
 		String result = "";
 		String spec = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList?ServiceKey=wj1JFOVOUM029AQQoTzKznocx2Xbvrhnr4hE2w8tB30OXpY3tk837HIsVLPXiEwahbcsDCFKfMuKur5EfHhKEw%3D%3D"

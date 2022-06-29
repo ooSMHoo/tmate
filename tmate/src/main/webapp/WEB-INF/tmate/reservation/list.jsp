@@ -317,11 +317,6 @@ $('.roomlistGO').click(function(){
 });
 
 $('#serachbtn').click(function(){
-	if( newOpen ){
-		newOpen.close();
-		newOpen = null;
-	}
-	
 	$('input[type=hidden][name=lodgCategory]').val('');
 	$('input[type=hidden][name=minPrice]').val('');
 	$('input[type=hidden][name=maxPrice]').val('');

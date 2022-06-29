@@ -581,13 +581,11 @@ function showSlides(n) {
 var mapContainer = document.getElementById('map');
 var mapOption = {
 	center: new kakao.maps.LatLng(${lodging.lodgLat}, ${lodging.lodgLon}),  // 지도의 중심좌표 : 위도(latitude), 경도(longitude)
-	level: 7  // 지도의 레벨(확대, 축소 정도)
+	level: 7 
 };
 
-// 지도를 생성
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
-// 주소-좌표 변환 객체를 생성
 var geocoder = new kakao.maps.services.Geocoder();
 
 var data = ${attraction};
@@ -598,26 +596,22 @@ $(function() {
 		var subject = item.title;
 		var addr = item.addr1;
 		var dist = ((item.dist)/1000).toFixed(2);
-		// 주소로 마커 찍기
+
 		geocoder.addressSearch(addr, function(result, status) {
 
-		    // 정상적으로 검색이 완료됐으면 
 		     if (status === kakao.maps.services.Status.OK) {
 
 		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-		        // 결과값으로 받은 위치를 마커로 표시
+
 		        var marker = new kakao.maps.Marker({
 		            map: map,
 		            position: coords
 		        });
 
-		        // 인포윈도우로 장소에 대한 설명을 표시
 		        var infowindow = new kakao.maps.InfoWindow({
 		        	content:"<div class='marker-info'>"+subject+"("+dist+"km)</div>"
 		        });
-		        // 지도의 중심을 결과값으로 받은 위치로 이동
-		        // map.setCenter(coords);
-		        
+
 			    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
 			    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));			        
 		    } 
@@ -625,14 +619,12 @@ $(function() {
 		
 	});
 	
-	// 인포윈도우를 표시하는 클로저를 만드는 함수
 	function makeOverListener(map, marker, infowindow) {
 	    return function() {
 	        infowindow.open(map, marker);
 	    };
 	}
 
-	// 인포윈도우를 닫는 클로저를 만드는 함수
 	function makeOutListener(infowindow) {
 	    return function() {
 	        infowindow.close();
@@ -665,54 +657,3 @@ $(function(){
 		</div>
 	</div>
 </div>
-
-<!-- 
-<div class="modal fade" id="reivewWrite" tabindex="-1" aria-labelledby="reivewWriteLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered modal-lg">
-		<div class="modal-content pos_rel">
-			<div class="d-flex">
-				<div>
-	        		<h5 class="modal-title" id="reivewWriteLabel">리뷰 작성</h5>
-      			</div>
-	      		<div>
-		      		<button type="button" class="btn-close tm_right mt-1 me-1" data-bs-dismiss="modal" aria-label="Close"></button>
-	      		</div>
-      		</div>
-      
-      		<form class="w-75" name="reviewForm">
-				<div class="mt-3">
-					<div class="d-flex">
-					
-						<div class="star-rating">
-						  <input type="radio" id="5-stars" name="rating" value="5">
-						 	 <label for="5-stars" class="star">&#9733;</label>
-						  <input type="radio" id="4-stars" name="rating" value="4">
-						  	<label for="4-stars" class="star">&#9733;</label>
-						  <input type="radio" id="3-stars" name="rating" value="3">
-						  	<label for="3-stars" class="star">&#9733;</label>
-						  <input type="radio" id="2-stars" name="rating" value="2">
-						  	<label for="2-stars" class="star">&#9733;</label>
-						  <input type="radio" id="1-star" name="rating" value="1">
-						 	 <label for="1-star" class="star">&#9733;</label>
-						</div>
-						<div>
-							<span id="rating_result"></span>점
-							<input type="hidden" name="reviewrating">
-						</div>
-					</div>
-					<select name="roomNameRivew">
-						<option value=""></option>
-					</select>
-					<div>
-					  <textarea class="w-100 mt-3" style="resize: none; height: 150px;"></textarea>
-					</div>
-					<div class="mt-2 mb-3 host_modal">
-						<button type="button" onclick=""> 작성하기 </button>
-					</div>
-				</div>
-			</form>
-      
-    	</div>
-	</div>
-</div>
- -->
