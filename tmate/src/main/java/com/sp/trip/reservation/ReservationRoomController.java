@@ -54,9 +54,7 @@ public class ReservationRoomController {
 		}
 		
 		Lodging lodging = roomReservationService.readLodging(mhId);
-		if (lodging == null) {
-			System.out.println("1");
-		}
+
 		List<Lodging> photoList = roomReservationService.readLodgingPhotoList(mhId); //lodging.getMhId();
 		
 		Map<String, Object> map = new HashMap<>();

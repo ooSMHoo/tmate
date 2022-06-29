@@ -92,8 +92,8 @@
 					</div>
 					<div><button onclick="change();" class="btn btn_set btn-outline-primary">선택</button></div>
 				</div>
-				<input type="hidden" name="startDate" value="">
-				<input type="hidden" name="endDate" value="">
+				<input type="hidden" name="startDate" value="${startDate}">
+				<input type="hidden" name="endDate" value="${endDate}">
 				<input type="hidden" name="mhId" value="${lodging.mhId}">
 			</form>
 
@@ -531,9 +531,9 @@ $("#roomDate").change(function(){
 });
 
 function goReservation(roomNum, roomPeople) {
-	let startDate = $('input[name=startDate]').val();
-	let endDate = $('input[name=endDate]').val();
-	
+	let startDate = "${startDate}";
+	let endDate = "${endDate}";
+
 	location.href = "${pageContext.request.contextPath}/reservation/reservation?startDate="+startDate+"&endDate="+endDate+"&roomNum="+roomNum+"&roomPeople="+roomPeople;
 }
 </script>
