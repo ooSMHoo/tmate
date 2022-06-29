@@ -6,11 +6,11 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage.css" type="text/css">
 
 <script type="text/javascript">
-function list_delete(){
+function list_delete(mhId){
 	const f = document.likeList;
 
 	if(confirm("리스트에서 삭제하시겠습니까?")) {	
-		f.action = "${pageContext.request.contextPath}/mypage/main/deleteList";
+		f.action = "${pageContext.request.contextPath}/mypage/main/deleteList?mhId="+mhId;
 		f.submit();
 	}
 }
@@ -35,7 +35,7 @@ function list_delete(){
 				    <div class="card-info">
 					    <button type="button" class="list-btn" onclick="location.href='${pageContext.request.contextPath}/reservation/roomlist?mhId?=${dto.mhId}'">상세보기</button>		
 					  
-					    <button type="button" class="list-btn" onclick="list_delete();">삭제하기</button>
+					    <button type="button" class="list-btn" onclick="list_delete('${dto.mhId}');">삭제하기</button>
 				    </div>
 			  </div>
 		</div>
