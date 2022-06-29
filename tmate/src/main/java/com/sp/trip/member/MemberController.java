@@ -47,15 +47,15 @@ public class MemberController {
 
 		Member dto = service.loginMember(memberId);
 		
+		if (dto == null || !memberPwd.equals(dto.getMemberPwd())) {
+			model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
+			return ".member.login";
+		}
+		
 		if (dto.getEnabled() != 1) {
 			model.addAttribute("msg", "정지된 아이디입니다.");
 			model.addAttribute("url", "");
 			return "member/alert";
-		}
-		
-		if (dto == null || !memberPwd.equals(dto.getMemberPwd())) {
-			model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
-			return ".member.login";
 		}
 
 		SessionInfo info = new SessionInfo();

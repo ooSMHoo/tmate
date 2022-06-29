@@ -25,7 +25,7 @@
     </select>
     
 	<select id="revInfoList" parameterType="map" resultType="com.sp.trip.reservationList.ReservationInfo">
-		SELECT TO_CHAR(rescin_date, 'MM.DD')resCin_date, TO_CHAR(rescout_date, 'MM.DD')resCout_date, m1.memberName, rd.resNum, rs.memberId, resTotalCost, resPoint
+		SELECT TO_CHAR(rescin_date, 'MM.DD')resCin_date, TO_CHAR(rescout_date, 'MM.DD')resCout_date, m1.memberName, rd.resNum, rs.memberId, resTotalCost, resPoint, resName
 		FROM reservation rs
 		JOIN ReservationDetail rd ON rs.resNum = rd.resNum
         JOIN member1 m1 ON rs.memberId = m1.memberId

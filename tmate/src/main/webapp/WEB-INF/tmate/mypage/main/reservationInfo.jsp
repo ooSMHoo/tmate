@@ -23,7 +23,7 @@
 	 	</div>
 	 	<div class="container-info-rev">
 	 		<p class="info-menu">예약자이름</p>
-	 		<p>${dto.memberName}</p>
+	 		<p>${dto.resName}</p>
 	 	</div>
 
 	</div>

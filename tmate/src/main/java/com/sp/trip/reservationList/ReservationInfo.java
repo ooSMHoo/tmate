@@ -9,6 +9,7 @@ public class ReservationInfo {
 	private int resTotalCost;
 	private int resCode;
 	private String memberName;
+	private String resName;
 	
 	public String getMemberName() {
 		return memberName;
@@ -51,6 +52,12 @@ public class ReservationInfo {
 	}
 	public void setResTotalCost(int resTotalCost) {
 		this.resTotalCost = resTotalCost;
+	}
+	public String getResName() {
+		return resName;
+	}
+	public void setResName(String resName) {
+		this.resName = resName;
 	}
  
 }

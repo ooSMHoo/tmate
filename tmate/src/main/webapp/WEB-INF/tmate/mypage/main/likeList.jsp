@@ -33,7 +33,7 @@ function list_delete(mhId){
 			    <p >${dto.mhaddr}</p>
 			    <hr style="margin: 7px;">
 				    <div class="card-info">
-					    <button type="button" class="list-btn" onclick="location.href='${pageContext.request.contextPath}/reservation/roomlist?mhId?=${dto.mhId}'">상세보기</button>		
+					    <button type="button" class="list-btn" onclick="location.href='${pageContext.request.contextPath}/reservation/roomlist?mhId=${dto.mhId}'">상세보기</button>		
 					  
 					    <button type="button" class="list-btn" onclick="list_delete('${dto.mhId}');">삭제하기</button>
 				    </div>
