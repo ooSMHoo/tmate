@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -42,8 +41,8 @@ public class ReservationRoomController {
 	public String roomlist(
 			@RequestParam(defaultValue = "") String startDate,
 			@RequestParam(defaultValue = "") String endDate,
-			@RequestParam(defaultValue = "tmhost1") String mhId,
-			@RequestParam(defaultValue = "4") int people,
+			@RequestParam String mhId,
+			@RequestParam(defaultValue = "2") int people,
 			Model model) throws Exception {
 		
 		if( startDate.equals("") || endDate.equals("")) {

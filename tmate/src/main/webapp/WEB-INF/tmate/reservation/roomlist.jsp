@@ -128,7 +128,7 @@
 				<div class="h4 text-black text-end me-4">${vo.price}원</div>
 				<div>
 					<ul class="my-3">
-					  <li class="li_set  h5 text-end me-4" onclick="goReservation()">예약하기</li>
+					  <li class="li_set  h5 text-end me-4" onclick="goReservation('${vo.roomNum}','${vo.roomPeople}')">예약하기</li>
 					</ul>
 				</div>
 			</div>
@@ -432,14 +432,6 @@ function writeReview(value) {
 	ajaxFun(url, "get", query, "html", fn);
 }
 
-/*
-ratingToPercent() {
-    const score = +this.restaurant.averageScore * 20;
-    return score + 1.5;
-}
-*/
-
-
 $("input[name=rating]").click(function() {
     	var rating = $(this).val();
 	alert(rating);
@@ -448,7 +440,6 @@ $("input[name=rating]").click(function() {
     $('input[name=reviewrating]').val(rating);
     
   });	
-
 
 
 // 날짜 구하기
@@ -464,12 +455,6 @@ var today = function() {
   document.write(today);
 };
 
-
-
-// 숙박인원
-function goReservation() {
-
-}
 
 $("select[name=sel_people]").on("change", function(){
     var $addr = $(this).closest(".peopleform").find("input[name=people]");
@@ -544,6 +529,13 @@ $("#roomDate").change(function(){
 	$('input[name=startDate]').val(ciDate);
 	$('input[name=endDate]').val(coDate);
 });
+
+function goReservation(roomNum, roomPeople) {
+	let startDate = $('input[name=startDate]').val();
+	let endDate = $('input[name=endDate]').val();
+	
+	location.href = "${pageContext.request.contextPath}/reservation/reservation?startDate="+startDate+"&endDate="+endDate+"&roomNum="+roomNum+"&roomPeople="+roomPeople;
+}
 </script>
 
 <script>
