@@ -62,7 +62,6 @@
 			
 			<mapping path="/**"/>
 			
-			
 			<exclude-mapping path="/"/>
 			<exclude-mapping path="/resources/**"/>
 			<exclude-mapping path="/member/login"/>
@@ -72,6 +71,8 @@
 			<exclude-mapping path="/member/complete"/>
 			<exclude-mapping path="/mail/send"/>
 			<exclude-mapping path="/mail/check"/>
+			<exclude-mapping path="/tmate/lodging/**"/>
+			<exclude-mapping path="/tmate/room/**"/>
 			
 			<beans:bean class="com.sp.trip.member.LoginCheckInterceptor"/>
 		</interceptor>
