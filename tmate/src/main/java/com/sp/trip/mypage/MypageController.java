@@ -71,7 +71,7 @@ public class MypageController {
 	}
 	
 	@RequestMapping(value="deleteList", method=RequestMethod.POST)
-	public String deleteList(@RequestParam String roomNum, HttpSession session) throws Exception {
+	public String deleteList(@RequestParam String mhId ,HttpSession session) throws Exception {
 
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
@@ -79,7 +79,7 @@ public class MypageController {
 		
 		try {
 			map.put("memberId", info.getUserId());
-			map.put("roomNum",  Integer.parseInt(roomNum));
+			map.put("mhId", mhId);
 			service.deleteList(map);
 		} catch (Exception e) {
 			e.printStackTrace();

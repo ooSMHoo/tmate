@@ -6,11 +6,11 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/mypage.css" type="text/css">
 
 <script type="text/javascript">
-function list_delete(value){
+function list_delete(){
 	const f = document.likeList;
 
 	if(confirm("리스트에서 삭제하시겠습니까?")) {	
-		f.action = "${pageContext.request.contextPath}/mypage/main/deleteList?roomNum=" + value;
+		f.action = "${pageContext.request.contextPath}/mypage/main/deleteList";
 		f.submit();
 	}
 }
@@ -33,8 +33,9 @@ function list_delete(value){
 			    <p >${dto.mhaddr}</p>
 			    <hr style="margin: 7px;">
 				    <div class="card-info">
-					    <button type="button" class="list-btn" onclick="location.href='${pageContext.request.contextPath}/reservation/roomlist'">상세보기</button>		
-					    <button type="button" class="list-btn" onclick="list_delete(${dto.roomNum});">삭제하기</button>
+					    <button type="button" class="list-btn" onclick="location.href='${pageContext.request.contextPath}/reservation/roomlist?mhId?=${dto.mhId}'">상세보기</button>		
+					  
+					    <button type="button" class="list-btn" onclick="list_delete();">삭제하기</button>
 				    </div>
 			  </div>
 		</div>
@@ -44,7 +45,7 @@ function list_delete(value){
 </form>
 	
 
-</div>
 		<div class="page-box" style="clear:both">
 				${dataCount == 0 ? "찜한 목록이 없습니다." : paging}
 		</div>
+</div>

@@ -11,6 +11,14 @@ public class LikeList {
 	private String mhaddr;
 	private int roomNum;
 	private String roomName;
+	private String mhId;
+	
+	public String getMhId() {
+		return mhId;
+	}
+	public void setMhId(String mhId) {
+		this.mhId = mhId;
+	}
 	public String getLphotoName() {
 		return lphotoName;
 	}
