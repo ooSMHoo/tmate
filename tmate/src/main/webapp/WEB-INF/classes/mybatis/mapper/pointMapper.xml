@@ -20,6 +20,14 @@
  		INSERT INTO point(pointNum, pointCode, pointDate, pointQuant, memberId) 
  		VALUES(point_seq.NEXTVAL, #{pointCode}, SYSDATE, #{pointQuant}, #{memberId})
  	</insert>
+ 	
+ 	<select id="plusPoint" parameterType="String" resultType="Integer">
+ 		SELECT SUM(pointQuant) FROM point WHERE pointCode=0 AND memberId=#{memberId} 
+ 	</select>
+ 	
+ 	<select id="minusPoint" resultType="Integer">
+ 		SELECT SUM(pointQuant) FROM point WHERE pointCode=1 AND memberId=#{memberId} 
+ 	</select>
 
  	
  	<select id="dataCount" parameterType="map" resultType="Integer">

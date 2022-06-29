@@ -58,18 +58,16 @@ public class PointController {
 			
 		List<Point> list = service.listPoint(map);
 		
-		int totalPoint = 0;
-		for(Point p: list) {
-			totalPoint += p.getPointQuant();
-		}
-		map.put("total", totalPoint);
+		int plusPoint = service.plusPoint(info.getUserId());
+		int minusPoint = service.minusPoint(info.getUserId());
+		int total_point = plusPoint - minusPoint;
 				
 		String listUrl = cp + "/mypage/main/point";
 		
 		String paging = myUtil.paging(current_page, total_page, listUrl);
 		
-		model.addAttribute("list", list);	
-		model.addAttribute("total", totalPoint);		
+		model.addAttribute("list", list);			
+		model.addAttribute("total_point", total_point);
 		model.addAttribute("page", current_page);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("total_page", total_page);

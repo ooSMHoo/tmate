@@ -52,4 +52,26 @@ public class PointServiceImpl implements PointService {
 		return list;
 	}
 
+	@Override
+	public int plusPoint(String memberId) {
+		int plusPoint = 0;
+		try {
+			plusPoint = dao.selectOne("point.plusPoint", memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return plusPoint;
+	}
+
+	@Override
+	public int minusPoint(String memberId) {
+		int minusPoint = 0;
+		try {
+			minusPoint = dao.selectOne("point.minusPoint", memberId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return minusPoint;
+	}
+
 }

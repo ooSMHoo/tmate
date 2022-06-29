@@ -13,7 +13,7 @@
 <div class="point-content">
 	<h3 style="font-size:22px; font-weight: bold; color: #044b85;">포인트</h3>
 	<div class="title">
-	사용가능 포인트 : <i class="point-balance"> ${total} P</i>
+	사용가능 포인트 : <i class="point-balance"> ${total_point} P</i>
 	</div>
 	
 	<hr>
