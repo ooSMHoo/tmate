@@ -178,7 +178,7 @@ input[name='option'] {
 }
 
 .room_list{
-	min-height: 220px;
+	min-height: 190px;
 }
 
 .room_review{
@@ -302,6 +302,9 @@ input[name='option'] {
 	padding-right: 7px; 	
 }
 
+#optionmodal {
+	padding : 100px;
+}
 
 
 
@@ -365,14 +368,6 @@ input[name='option'] {
 
 
 
-
-
-
-
-
-  /* appearance를 해야 위의 스타일들을 볼 수 있음 */
-  -webkit-appearance: none;
-}
 
 #cus_indibox{
 	height: 100px;

@@ -11,7 +11,7 @@
 <div class="whole">
 	<div class="whole2">
 
-		<form action="" method="post" id="payForm">
+		<form action="" method="post" id="payForm" name="payForm">
 			<div class="d-flex room_content w-100">
 				<div class="w-75 p-3">
 
@@ -20,19 +20,19 @@
 						<div class="mt-2">
 							<div>이름</div>
 							<div>
-								<input type="text" placeholder="예)김티엠">
+								<input type="text" name="payname" placeholder="예)김티엠">
 							</div>
 						</div>
 						<div class="mt-2">
 							<div>생년월일</div>
 							<div>
-								<input type="text" placeholder="예)901225">
+								<input type="text" name="paybirth" placeholder="예)901225">
 							</div>
 						</div>
 						<div class="mt-2">
 							<div>휴대폰 번호</div>
 							<div>
-								<input type="text" placeholder="예)010xxxxxxxx">
+								<input type="text" name="payphone" placeholder="예)010xxxxxxxx">
 							</div>
 						</div>
 					</div>
@@ -44,15 +44,15 @@
 						<div class="d-flex mt-2">
 							<div class="w-50">총액</div>
 							<div class="w-50 host_modal">
-								<span>OOO,OOO</span> 원
+								<span id="totalPrice">${dto.totalPrice}</span> 원
 							</div>
 						</div>
 						<div class="d-flex mt-2">
 							<div class="w-50">
-								현재 포인트 <span>OO</span> P
+								현재 포인트 <span id="nowPoint">${point}</span> P
 							</div>
 							<div class="w-50 host_modal">
-								<input type="text" value="0" style="width: 70%"> P
+								<input type="text" value="0" id="inputPoint" style="width: 70%"> P
 							</div>
 						</div>
 					</div>
@@ -98,28 +98,28 @@
 						<div class="ps-2">
 							<div>
 								<div class="rev_small">숙소 이름</div>
-								<div>OOOOO 호텔</div>
+								<div>${dto.lodgName}</div>
 							</div>
 							<div>
 								<div class="rev_small">객실 타입 / 기간</div>
-								<div>OOOOOOO방 / 1박</div>
+								<div>${dto.roomName} / ${dto.night}박</div>
 							</div>
 							<div>
 								<div class="rev_small">체크인</div>
-								<div>${startDate}XXXX-XX-XX (월) 15:00</div>
+								<div>${startDate}&nbsp;${dto.lodgCin_time}:00</div>
 							</div>
 							<div>
 								<div class="rev_small">체크아웃</div>
-								<div>${endDate}XXXX-XX-XX (수) 12:00</div>
+								<div>${endDate}&nbsp;${dto.lodgCout_time}:00</div>
 							</div>
 						</div>
 						<div class="tm_hr w-75 my-3"></div>
 						<div class="ps-2">
 							<div>결제하실 금액</div>
-							<div>OOO,OOO원</div>
+							<div><span id="payPrice"></span>원</div>
 						</div>
 						<div class="paybox">
-							<button class="w-100 mt-2" type="submit" id="paybtn"
+							<button class="w-100 mt-2" id="paybtn" onclick="payGo()"
 								disabled="disabled">결제하기</button>
 						</div>
 					</div>
@@ -209,10 +209,13 @@ $( document ).ready(function(){
     
     var sel2_1 = {
     	" ":"결제카드 선택",
-    	"CARD1": "신한카드",
-        "CARD2": "농협카드",
+    	"CARD1": "하나카드",
+        "CARD2": "SC제일카드",
         "CARD3": "국민카드",
-        "CARD4": "우리카드"
+        "CARD4": "신한카드",
+        "CARD5": "외환카드",
+        "CARD6": "우리카드",
+        "CARD7": "한국시티카드"
     };
     
     var sel2_2 = {
@@ -256,4 +259,83 @@ $( document ).ready(function(){
 
 </script>
 
+<script type="text/javascript">
 
+$('document').ready(function(){
+	var $total = Number($('#totalPrice').text());
+	$('#payPrice').text($total);
+});
+
+
+$("#inputPoint").change(function(){   
+	var $point = Number($('#inputPoint').val());
+	var $total = Number($('#totalPrice').text());
+	
+	if( $point > ${point} ) {
+		alert("입력하신 포인트가 잔액보다 많습니다");
+		$('#inputPoint').val("0");
+		$('#payPrice').text($total);
+		$('#inputPoint').focus();
+		return; 
+	}
+	
+	if( $("#inputPoint").val().length == 0 ){
+		$('#inputPoint').val("0");
+	}
+	
+	var $pay = $total - $point;
+	
+	$('#payPrice').text($pay);
+});
+
+
+</script>
+
+
+<script type="text/javascript">
+function payGo() {
+	const f = document.payForm;
+	let str;
+	
+	str = f.payname.value;
+	if( !str ) {
+		alert("예약자 이름을 입력해주세요.");
+		f.payname.focus();
+		return;
+	}
+	
+	str = f.paybirth.value;
+	if( !str ) {
+		alert("생년월일을 입력해주세요.");
+		f.paybirth.focus();
+		return;
+	}
+	
+	if( !/^\d{6}$/.test(str) ) {
+        alert("생년월일은 6자리 숫자만 입력해주세요. ");
+        f.paybirth.focus();
+        return;
+    }
+	
+	str = f.payphone.value;
+	if( !str ) {
+		alert("전화번호를 입력해주세요.");
+		f.payphone.focus();
+		return;
+	}
+	
+	
+	if( !/^\d{11}$/.test(str) ) {
+        alert("전화번호는 숫자만 가능합니다. ");
+        f.payphone.focus();
+        return;
+	}
+
+    f.action = "${pageContext.request.contextPath}/reservation/reservation";
+   
+    f.submit();
+}
+	
+	
+
+</script>

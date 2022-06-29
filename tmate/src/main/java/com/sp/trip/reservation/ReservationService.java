@@ -5,10 +5,26 @@ import java.util.Map;
 
 public interface ReservationService {
 	public int dataCount(Map<String, Object> map);
+	
 	public List<Reservation> listLodging(Map<String, Object> map);
+			
+	public int readPoint(String memberId);
 	
-	public Reservation readAlbum(int num);
+	public void insertRefund(Reservation dto) throws Exception;
 	
-	public List<Reservation> listFile(int num);
-	public Reservation readFile(int fileNum);
+	public void insertReservation(Reservation dto) throws Exception;
+	
+	public Reservation readReservation(int resNum);
+	
+	public Reservation readPay(Map<String, Object> map);
+	
+	public int maxValue(Map<String, Object> map);
+	
+	public void insertLikeList(Map<String, Object> map) throws Exception;
+	
+	public void deleteLikeList(Map<String, Object> map) throws Exception;
+	
+	public boolean userLiked(Map<String, Object> map);
+	
+	public List<String> readLikeList(String memberId);
 }

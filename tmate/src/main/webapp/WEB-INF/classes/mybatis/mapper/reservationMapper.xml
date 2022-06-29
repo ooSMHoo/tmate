@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reservation">
+
+
+	<sql id="room-option">
+		<foreach collection="roomOption" item="rOption" separator=" ">
+			AND (INSTR(roomOption, #{rOption}) > 0)
+		</foreach>
+	</sql>
+	
+	<sql id="lodging-option">
+		<foreach collection="lodgOption" item="lOption" separator=" ">
+			AND (INSTR(lodgOption, #{lOption}) > 0)
+		</foreach>
+	</sql>
+	
+	
+	<!-- 글개수 -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(lodgName) cnt FROM
+		(SELECT lodgName, mhAddr1, l.mhId,
+							MIN(
+						  CASE WHEN SUBSTR('${startDate}',5)
+                          BETWEEN REPLACE(lodgStart_date,'-','') AND REPLACE(lodgEnd_date,'-','') THEN roomSeasonprice
+                          WHEN TO_CHAR(TO_DATE('${startDate}','YYYY-MM-DD'), 'd') IN( '6','7') THEN roomWe_price
+                          ELSE roomWd_price END)
+                          AS roomPrice, NVL(reviewCount, 0) reviewCount, AVG(revGrade) reviewGrade, (AVG(revGrade)* 20) percent
+						FROM Lodging l
+						JOIN Memberhost mh ON l.mhId = mh.mhId
+						JOIN LodgingCategory lc ON l.lcNum = lc.lcNum
+						JOIN Room r ON l.mhId = r.mhId
+						LEFT OUTER JOIN ReservationDetail rvd ON r.roomNum = rvd.roomNum
+						LEFT OUTER JOIN Reservation rv ON rvd.resNum = rv.resNum
+						LEFT OUTER JOIN (
+                           SELECT l.mhId, COUNT(*) reviewCount, AVG(revGrade) revGrade FROM review rw
+                           JOIN Reservation rv ON rw.resNum = rv.resNum
+                           JOIN ReservationDetail rvd ON rv.resNum = rvd.resNum
+                           JOIN Room r ON rvd.roomNum = r.roomNum
+                           JOIN Lodging l ON r.mhId = l.mhId
+                           GROUP BY l.mhId                                         
+          				) c ON l.mhId = c.mhId
+						WHERE mh.mhSign = 1 AND mh.mhEnabled = 0 AND l.enabled = 0 AND r.enabled = 0
+						AND r.roomMax_people &gt;= #{roomMax_people}
+						AND r.roomPeople &lt;= #{roomMax_people}
+                        AND roomBed >= #{roomBed}
+						<if test="lodgCategory != null and lodgCategory != ''">
+							AND l.lcNum = #{lodgCategory}
+						</if>
+						<if test="keyword != null and keyword != ''">
+							AND ( INSTR(mhAddr1, #{keyword}) &gt; 0
+			         		 OR INSTR(lodgName, #{keyword}) &gt; 0 )
+						</if>
+						<if test="roomOption != null and roomOption != ''">
+							<include refid="room-option"/>
+						</if>
+						<if test="lodgOption != null and lodgOption != ''">
+							<include refid="lodging-option"/>
+						</if>
+						AND r.roomNum NOT IN 
+							(
+						    SELECT r.roomNum
+						    FROM Room r
+						    JOIN ReservationDetail rvd ON r.roomNum = rvd.roomNum
+						    JOIN Reservation rv ON rvd.resNum = rv.resNum
+						    WHERE ( TO_CHAR(resCin_date, 'YYYYMMDD') &lt;= #{startDate} AND TO_CHAR(resCout_date, 'YYYYMMDD') &gt;= #{endDate} AND rv.resCode=0 AND r.enabled=0)
+						        OR ( TO_CHAR(resCout_date, 'YYYYMMDD') &gt; #{startDate} AND TO_CHAR(resCout_date, 'YYYYMMDD') &lt; #{endDate} AND rv.resCode=0 AND r.enabled=0) 
+						        OR ( TO_CHAR(resCin_date, 'YYYYMMDD') &gt;= #{startDate} AND TO_CHAR(resCin_date, 'YYYYMMDD') &lt; #{endDate} AND rv.resCode=0 AND r.enabled=0)
+						)
+						GROUP BY lodgName, mhAddr1, l.mhId, reviewCount
+						HAVING 
+                              TO_NUMBER(
+                         MIN
+                        (
+                             CASE WHEN SUBSTR('${startDate}',5)
+                             BETWEEN REPLACE(lodgStart_date,'-','') AND REPLACE(lodgEnd_date,'-','') THEN roomSeasonprice
+                             WHEN TO_CHAR(TO_DATE('${startDate}','YYYY-MM-DD'), 'd') IN( '6','7') THEN roomWe_price
+                             ELSE roomWd_price END)
+                           ) BETWEEN #{minPrice} AND #{maxPrice}
+							ORDER BY reviewCount DESC
+							)
+	</select>
+	
+	<!-- 숙소리스트 -->
+	<select id="listLodging" parameterType="map" resultType="com.sp.trip.reservation.Reservation">
+			SELECT * FROM (
+				SELECT ROWNUM rnum, tb.* FROM (
+					SELECT lodgName, mhAddr1, l.mhId,
+										MIN(
+						  CASE WHEN SUBSTR('${startDate}',5)
+                          BETWEEN REPLACE(lodgStart_date,'-','') AND REPLACE(lodgEnd_date,'-','') THEN roomSeasonprice
+                          WHEN TO_CHAR(TO_DATE('${startDate}','YYYY-MM-DD'), 'd') IN( '6','7') THEN roomWe_price
+                          ELSE roomWd_price END)
+                          AS roomPrice, lphotoName, ROW_NUMBER() OVER(PARTITION BY lp.mhId ORDER BY lphotoName DESC) AS ln,
+                          NVL(reviewCount, 0) reviewCount, NVL(AVG(revGrade),0) reviewGrade, NVL((AVG(revGrade)* 20),0) percent
+								
+                          
+						FROM Lodging l
+            			JOIN LodgingPhoto lp ON l.mhId = lp.mhId
+						JOIN Memberhost mh ON l.mhId = mh.mhId
+						JOIN LodgingCategory lc ON l.lcNum = lc.lcNum
+						JOIN Room r ON l.mhId = r.mhId
+						LEFT OUTER JOIN ReservationDetail rvd ON r.roomNum = rvd.roomNum
+						LEFT OUTER JOIN Reservation rv ON rvd.resNum = rv.resNum
+						LEFT OUTER JOIN (
+                           SELECT l.mhId, COUNT(*) reviewCount, NVL(ROUND(AVG(revGrade),1),0) revGrade FROM review rw
+                           JOIN Reservation rv ON rw.resNum = rv.resNum
+                           JOIN ReservationDetail rvd ON rv.resNum = rvd.resNum
+                           JOIN Room r ON rvd.roomNum = r.roomNum
+                           JOIN Lodging l ON r.mhId = l.mhId
+                           GROUP BY l.mhId                                         
+          				) c ON l.mhId = c.mhId
+          				
+						WHERE mh.mhSign = 1 AND mh.mhEnabled = 0 AND l.enabled = 0 AND r.enabled = 0
+						AND r.roomMax_people &gt;= #{roomMax_people}
+						AND r.roomPeople &lt;= #{roomMax_people}
+                        AND roomBed >= #{roomBed}
+						<if test="lodgCategory != null and lodgCategory != ''">
+							AND l.lcNum = #{lodgCategory}
+						</if>
+						<if test="keyword != null and keyword != ''">
+							AND ( INSTR(mhAddr1, #{keyword}) &gt; 0
+			         		 OR INSTR(lodgName, #{keyword}) &gt; 0 )
+						</if>
+						<if test="roomOption != null and roomOption != ''">
+							<include refid="room-option"/>
+						</if>
+						<if test="lodgOption != null and lodgOption != ''">
+							<include refid="lodging-option"/>
+						</if>
+						AND r.roomNum NOT IN 
+							(
+						    SELECT r.roomNum
+						    FROM Room r
+						    JOIN ReservationDetail rvd ON r.roomNum = rvd.roomNum
+						    JOIN Reservation rv ON rvd.resNum = rv.resNum
+						    WHERE ( TO_CHAR(resCin_date, 'YYYYMMDD') &lt;= #{startDate} AND TO_CHAR(resCout_date, 'YYYYMMDD') &gt;= #{endDate} AND rv.resCode=0 AND r.enabled=0)
+						        OR ( TO_CHAR(resCout_date, 'YYYYMMDD') &gt; #{startDate} AND TO_CHAR(resCout_date, 'YYYYMMDD') &lt; #{endDate} AND rv.resCode=0 AND r.enabled=0) 
+						        OR ( TO_CHAR(resCin_date, 'YYYYMMDD') &gt;= #{startDate} AND TO_CHAR(resCin_date, 'YYYYMMDD') &lt; #{endDate} AND rv.resCode=0 AND r.enabled=0)
+						)
+						GROUP BY lodgName, mhAddr1, l.mhId, reviewCount, lphotoName, lp.mhId
+						HAVING 
+                              TO_NUMBER(
+                         MIN
+                        (
+                             CASE WHEN SUBSTR('${startDate}',5)
+                             BETWEEN REPLACE(lodgStart_date,'-','') AND REPLACE(lodgEnd_date,'-','') THEN roomSeasonprice
+                             WHEN TO_CHAR(TO_DATE('${startDate}','YYYY-MM-DD'), 'd') IN( '6','7') THEN roomWe_price
+                             ELSE roomWd_price END)
+                           ) BETWEEN #{minPrice} AND #{maxPrice}
+						<choose>
+							<when test="sort == 'reviewSort' ">
+								ORDER BY reviewCount DESC
+							</when>
+							<when test="sort == 'gradeSort' ">
+								ORDER BY reviewGrade DESC
+							</when>
+							<when test="sort == 'priceDSort' ">
+								ORDER BY roomPrice DESC
+							</when>
+							<when test="sort == 'priceASort' ">
+								ORDER BY roomPrice ASC
+							</when>
+						</choose>
+			) tb WHERE ROWNUM &lt;= #{end} AND ln = 1
+		) WHERE rnum &gt;= #{start}
+	</select>
+	
+	
+	<!-- 검색 날 가격 최대값 -->
+	<select id="maxValue" parameterType="map" resultType="Integer">
+		SELECT * FROM ( 
+					SELECT TO_NUMBER(
+	                          CASE WHEN SUBSTR('${startDate}',5)
+	                          BETWEEN REPLACE(lodgStart_date,'-','') AND REPLACE(lodgEnd_date,'-','') THEN roomSeasonprice
+	                          WHEN TO_CHAR(TO_DATE('${startDate}','YYYY-MM-DD'), 'd') IN( '6','7') THEN roomWe_price
+	                          ELSE roomWd_price END)
+							AS maxValue
+						FROM Lodging l
+						JOIN Memberhost mh ON l.mhId = mh.mhId
+						JOIN LodgingCategory lc ON l.lcNum = lc.lcNum
+						JOIN Room r ON l.mhId = r.mhId
+						WHERE mh.mhSign = 1 AND mh.mhEnabled = 0 AND l.enabled = 0 AND r.enabled = 0
+						AND r.roomMax_people >= #{roomMax_people}
+                        AND roomBed >= #{roomBed}
+						<if test="lodgCategory != null and lodgCategory != ''">
+							AND l.lcNum = #{lodgCategory}
+						</if>
+						<if test="keyword != null and keyword != ''">
+							AND ( INSTR(mhAddr1, #{keyword}) &gt; 0
+			         		 OR INSTR(lodgName, #{keyword}) &gt; 0 )
+						</if>
+						<if test="roomOption != null and roomOption != ''">
+							<include refid="room-option"/>
+						</if>
+						<if test="lodgOption != null and lodgOption != ''">
+							<include refid="lodging-option"/>
+						</if>
+						AND r.roomNum NOT IN 
+							(
+							    SELECT r.roomNum
+							    FROM Room r
+							    JOIN ReservationDetail rvd ON r.roomNum = rvd.roomNum
+							    JOIN Reservation rv ON rvd.resNum = rv.resNum
+							    WHERE ( TO_CHAR(resCin_date, 'YYYYMMDD') &lt;= #{startDate} AND TO_CHAR(resCout_date, 'YYYYMMDD') &gt;= #{endDate} AND rv.resCode=0 AND r.enabled=0)
+							        OR ( TO_CHAR(resCout_date, 'YYYYMMDD') &gt; #{startDate} AND TO_CHAR(resCout_date, 'YYYYMMDD') &lt; #{endDate} AND rv.resCode=0 AND r.enabled=0) 
+							        OR ( TO_CHAR(resCin_date, 'YYYYMMDD') &gt;= #{startDate} AND TO_CHAR(resCin_date, 'YYYYMMDD') &lt; #{endDate} AND rv.resCode=0 AND r.enabled=0)
+							)
+                        ORDER BY maxValue DESC
+   ) WHERE ROWNUM = 1
+	</select>
+	
+	
+	
+	<insert id="insertLike" parameterType="map">
+		INSERT INTO LikeList2(memberId, mhId) VALUES (#{memberId}, #{mhId})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="map">
+		DELETE FROM LikeList2 WHERE mhId = #{mhId} AND memberId = #{memberId}
+	</delete>
+	
+	<select id="userLiked" parameterType="map" resultType="String">
+		SELECT DECODE(COUNT(*),0,'false','true') isLiked FROM LikeList2 WHERE mhId = #{mhId} AND memberId = #{memberId}
+	</select>
+	
+	<select id="readLike" parameterType="String" resultType="com.sp.trip.reservation.Reservation">
+		SELECT mhId FROM LikeList2 WHERE memberId = #{memberId}
+	</select>
+	
+	<!-- 예약창 포인트 -->
+	<select id="readPoint" parameterType="String" resultType="Integer">
+	SELECT DISTINCT((
+            SELECT SUM(pointQuant) FROM point WHERE pointCode = 0) - 
+            (SELECT SUM(pointQuant) FROM point WHERE pointCode = 1)) pointQuant
+			FROM point
+			WHERE memberId = #{memberId}
+	</select>
+	
+	<select id="readPay" parameterType="map" resultType="com.sp.trip.reservation.Reservation">
+	SELECT lodgName, roomName, lodgCin_time, lodgCout_time, night, RoomPrice*night totalPrice FROM(
+			SELECT lodgName, roomName, lodgCin_time, lodgCout_time, 
+            (TO_DATE('${endDate}','YYYY-MM-DD') - TO_DATE('${startDate}','YYYY-MM-DD')) AS night,
+						CASE WHEN SUBSTR('${startDate}',6)
+                        BETWEEN REPLACE(lodgStart_date,'-','') AND REPLACE(lodgEnd_date,'-','') THEN roomSeasonprice
+                        WHEN TO_CHAR(TO_DATE('${startDate}','YYYY-MM-DD'), 'd') IN( '6','7') THEN roomWe_price
+                        ELSE roomWd_price END AS RoomPrice
+			FROM Lodging l
+			JOIN Memberhost mh ON l.mhId = mh.mhId
+			JOIN LodgingCategory lc ON l.lcNum = lc.lcNum
+			JOIN Room r ON l.mhId = r.mhId
+            WHERE roomNum = #{roomNum})
+	</select>
+	
+	
+	<!-- 예약 입력 -->
+	<insert id="insertReservation" parameterType="com.sp.trip.reservation.Reservation">
+		INSERT INTO Reservation(resNum, memberId, resCin_date, resCout_date, resCode, resName, resPhone, resTotalcost, resPoint)
+		VALUES (reservation_seq.NEXTVAL, #{memberId}, #{resCin_date}, #{resCout_date}, SYSDATE, 0, #{resName}, #{resPhone}, #{resTotalcost}, #{resPoint} )
+	</insert>
+	
+	<!--  예약 취소 -->
+	<update id="cancelReservation" parameterType="com.sp.trip.reservation.Reservation">
+		UPDATE Reservation SET resCode = #{resCode}
+		WHERE resNum = #{resNum}
+	</update>
+	
+	<!-- 결제 입력 -->
+	<insert id="insertPay" parameterType="com.sp.trip.reservation.Reservation">
+	    INSERT INTO Payment(resNum, payCode, payNum, payReg_date, payCost)
+        VALUES (#{resNum}, #{payCode}, paySign_seq.NEXTVAL, SYSDATE, #{payCost})
+	</insert>
+	
+	<!-- 환불 입력 -->
+	<insert id="insertRefund" parameterType="com.sp.trip.reservation.Reservation">
+	    INSERT INTO Refund(resNum, refSubject, refContent, refFee, refCost, refPoint, refReg_date)
+        VALUES (#{resNum}, #{refSubject}, #{refContent}, #{refFee}, #{refCost}, #{refPoint}, SYSDATE )
+	</insert>
+	
+	<!-- 예약확인창-->
+	<select id="readReservation" parameterType="INTEGER" resultType="com.sp.trip.reservation.Reservation">
+	    SELECT p.resNum, rv.resCin_date, rv.resCout_date, rv.resName, 
+            rv.resPhone, l.lodgName, r.roomName, p.payNum,
+            CASE WHEN p.payCode = 0 THEN '간편결제' ELSE '카드결제' END AS payCode, 
+            p.payReg_date
+			FROM Payment p 
+			JOIN Reservation rv ON p.resNum = rv.resNum
+			JOIN Member1 m ON rv.memberId = m.memberId 
+			JOIN ReservationDetail rvd ON rv.resNum = rvd.resNum
+			JOIN Room r ON rvd.roomNum = r.roomNum
+			JOIN Lodging l ON l.mhId = r.mhId
+			WHERE p.resNum = #{resNum};
+	</select>
+	
+	
+	
+	
+	
+</mapper>
