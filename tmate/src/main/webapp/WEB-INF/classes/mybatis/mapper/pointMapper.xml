@@ -22,11 +22,11 @@
  	</insert>
  	
  	<select id="plusPoint" parameterType="String" resultType="Integer">
- 		SELECT SUM(pointQuant) FROM point WHERE pointCode=0 AND memberId=#{memberId} 
+ 		SELECT NVL(SUM(pointQuant),0) FROM point WHERE pointCode=0 AND memberId=#{memberId} 
  	</select>
  	
  	<select id="minusPoint" resultType="Integer">
- 		SELECT SUM(pointQuant) FROM point WHERE pointCode=1 AND memberId=#{memberId} 
+ 		SELECT NVL(SUM(pointQuant),0) FROM point WHERE pointCode=1 AND memberId=#{memberId} 
  	</select>
 
  	
