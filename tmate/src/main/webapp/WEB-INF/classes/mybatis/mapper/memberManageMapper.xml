@@ -65,7 +65,7 @@
 	<!-- 호스트 정보 -->
 	<select id="readHost" parameterType="String" resultType="com.sp.trip.admin.memberManage.Member">
 		SELECT 
-			h.mhId, memberName, mhName, mhNum, mhPhone, memberEmail, mhAddr1, mhAddr2, mhZip, mhSign, h.mhEnabled
+			h.mhId, memberName, mhName, mhNum, mhPhone, memberEmail, mhAddr1, mhAddr2, mhZip, mhSign, h.mhEnabled, m1.memberAuth
 		FROM memberHost h
 		JOIN member1 m1 ON h.mhId = m1.memberId
 		WHERE h.mhId = #{mhId}
