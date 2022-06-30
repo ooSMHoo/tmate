@@ -59,7 +59,7 @@
 		LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
 		LEFT JOIN reservation r ON r.resNum = r2.resNum 
 		LEFT JOIN payment p ON r.resNum = p.resNum
-		WHERE m.mhId = #{hostId} AND TO_CHAR(resReg_date,'YYYY') = #{startDate}
+		WHERE m.mhId = #{hostId} AND TO_CHAR(resReg_date,'YYYY') = #{startDate}-1
 		GROUP BY  r3.roomName, r3.roomNum
 		union all
 		SELECT r.roomNum, TO_NUMBER('0') total, r.roomName
@@ -73,7 +73,7 @@
 		    LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
 		    LEFT JOIN reservation r ON r.resNum = r2.resNum 
 		    LEFT JOIN payment p ON r.resNum = p.resNum
-		    WHERE m.mhId = #{hostId}  AND TO_CHAR(p.payReg_date,'YYYY') = #{startDate}
+		    WHERE m.mhId = #{hostId}  AND TO_CHAR(p.payReg_date,'YYYY') = #{startDate}-1
 		)
 		)ORDER BY roomNum ASC
 		</select>
@@ -116,7 +116,7 @@
 		LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
 		LEFT JOIN reservation r ON r.resNum = r2.resNum 
 		LEFT JOIN payment p ON r.resNum = p.resNum
-		WHERE m.mhId = #{hostId}  AND TO_CHAR(resReg_date,'YYYY') = #{startDate}
+		WHERE m.mhId = #{hostId}  AND TO_CHAR(resReg_date,'YYYY') = #{startDate}-1
 		GROUP BY  r3.roomName, r3.roomNum
 		union all
 		SELECT r.roomNum, TO_NUMBER('0') count, r.roomName
@@ -130,7 +130,7 @@
 		    LEFT JOIN reservationDetail r2 ON r3.roomNum = r2.roomNum
 		    LEFT JOIN reservation r ON r.resNum = r2.resNum 
 		    LEFT JOIN payment p ON r.resNum = p.resNum
-		    WHERE m.mhId = #{hostId}  AND TO_CHAR(p.payReg_date,'YYYY') = #{startDate}
+		    WHERE m.mhId = #{hostId}  AND TO_CHAR(p.payReg_date,'YYYY') = #{startDate}-1
 		)
 	)ORDER BY roomNum ASC
 
