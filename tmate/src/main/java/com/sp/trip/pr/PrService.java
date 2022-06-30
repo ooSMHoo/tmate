@@ -12,4 +12,5 @@ public interface PrService {
 	public Pr nextReadPr(Map<String, Object> map);
 	public void updatePr(Pr dto, String pathname) throws Exception;
 	public void deletePr(int num, String pathname) throws Exception;
+	public void updateHitCount(int num) throws Exception;
 }

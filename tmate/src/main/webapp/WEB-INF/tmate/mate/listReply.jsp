@@ -21,18 +21,7 @@
 				</div>
 			</td>
 			<td width='50%' align='right' class='align-middle'>
-				<span class='reply-dropdown'><i class='bi bi-three-dots-vertical'></i></span>
-				<div class="reply-menu">
-					<c:choose>
-						<c:when test="${sessionScope.member.userId==vo.memberId}">
-							<div class='deleteReply reply-menu-item' data-mateRe_num='${vo.mateRe_num}' data-pageNo='${pageNo}'>삭제</div>
-							<div class='hideReply reply-menu-item'>숨김</div>
-						</c:when>
-						<c:when test="${sessionScope.member.membership > 50}">
-							<div class='deleteReply reply-menu-item' data-mateRe_num='${vo.mateRe_num}' data-pageNo='${pageNo}'>삭제</div>
-						</c:when>
-					</c:choose>
-				</div>
+				<div class='deleteReply reply-menu-item' data-mateRe_num='${vo.mateRe_num}' data-pageNo='${pageNo}'>삭제</div>
 			</td>
 		</tr>
 		<tr>

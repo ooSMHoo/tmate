@@ -331,7 +331,6 @@ $(function(){
 			<table class="table">
 				<tr>
 					<td width="50%">
-					<c:if test="${sessionScope.member.membership>1}">
 						<c:choose>
 							<c:when test="${sessionScope.member.userId==dto.memberId}">
 								<button type="button" class="nobtn1 btn-light" onclick="location.href='${pageContext.request.contextPath}/mate/update?mateNum=${dto.mateNum}&page=${page}';">수정</button>
@@ -349,7 +348,6 @@ $(function(){
 				    			<button type="button" class="nobtn1 btn-light" disabled="disabled">삭제</button>
 				    		</c:otherwise>
 				    	</c:choose>
-				    </c:if>
 					</td>
 					<td class="text-end">
 						<button type="button" class="nobtn1 btn-light" onclick="location.href='${pageContext.request.contextPath}/mate/list?${query}';">리스트</button>

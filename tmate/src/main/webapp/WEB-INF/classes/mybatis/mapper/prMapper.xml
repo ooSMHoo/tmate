@@ -64,6 +64,11 @@
 		WHERE prNum=#{prNum}
 	</select>
 	
+	<!-- 조회수 증가 -->
+	<update id="updateHitCount" parameterType="Integer">
+		UPDATE pr SET prHit=prHit+1 WHERE prNum = #{prNum}
+	</update>
+	
 	<!-- 이전글 -->
 	<select id="preReadPr" parameterType="map" resultType="com.sp.trip.pr.Pr">
 		SELECT * FROM (

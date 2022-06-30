@@ -69,6 +69,18 @@ public class PrServiceImpl implements PrService {
 
 		return dto;
 	}
+	
+	@Override
+	public void updateHitCount(int num) throws Exception {
+		// 조회수 증가
+		try {
+			dao.updateData("pr.updateHitCount", num);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
 
 	@Override
 	public Pr preReadPr(Map<String, Object> map) {

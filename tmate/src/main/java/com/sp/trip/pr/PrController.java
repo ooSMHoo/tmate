@@ -137,12 +137,14 @@ public class PrController {
 		if (keyword.length() != 0) {
 			query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
 		}
+		
+		service.updateHitCount(prNum);
 
 		Pr dto = service.readPr(prNum);
 		if (dto == null) {
 			return "redirect:/pr/list?" + query;
 		}
-
+		
 		dto.setPrContent(dto.getPrContent().replaceAll("\n", "<br>"));
 
 		// 이전 글, 다음 글

@@ -16,12 +16,10 @@
 				</div>
 			</div>
 			<div class='col align-self-center text-end'>
-				<span class='reply-dropdown'><i class='bi bi-three-dots-vertical'></i></span>
-				<div class='reply-menu'>
+					<div class='reply-menu'>
 					<c:choose>
 						<c:when test="${sessionScope.member.userId==vo.memberId}">
 							<div class='deleteReplyAnswer reply-menu-item' data-boardRe_num='${vo.boardRe_num}' data-boardRe_parent='${vo.boardRe_parent}'>삭제</div>
-							<div class='hideReplyAnswer reply-menu-item'>숨김</div>
 						</c:when>
 						<c:when test="${sessionScope.member.membership > 50 }">
 							<div class='deleteReplyAnswer reply-menu-item' data-boardRe_num='${vo.boardRe_num}' data-boardRe_parent='${vo.boardRe_parent}'>삭제</div>
