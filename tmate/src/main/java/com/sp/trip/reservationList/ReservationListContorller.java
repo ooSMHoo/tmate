@@ -74,7 +74,7 @@ public class ReservationListContorller {
 		List<ReservationList> list = service.listRev(map);
 	
 		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
-				
+		
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);
 		model.addAttribute("dataCount", dataCount);

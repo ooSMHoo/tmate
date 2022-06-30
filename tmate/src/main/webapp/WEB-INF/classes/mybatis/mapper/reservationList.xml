@@ -44,6 +44,9 @@
 		JOIN Room rm ON revd.roomNum = rm.roomNum
 		JOIN lodging lg ON rm.mhId = lg.mhId
 		WHERE m1.memberId = #{memberId} AND resCode = #{resCode}
+		<if test="resCode == 0">
+			AND resCout_date > SYSDATE
+		</if>
 	</select>
 
 </mapper>
