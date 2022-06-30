@@ -109,7 +109,7 @@
 	<div class="container-fluid recommend">
 		<h5>트래블 메이트가 고객님께 추천하는 숙소</h5>
 		<c:forEach var="vo" items="${list}">
-		<div class="card main-card" style="width: 280px;">
+		<div class="card main-card" onclick="famousLodging('${vo.mhId}');" style="width: 280px;">
 		  <img class="main-img" src="${pageContext.request.contextPath}/tmate/lodging/${vo.lphotoName}" class="card-img-top">
 			  <div class="card-body">
 			    <p class="card-name" style="font-size: 18px; font-weight: bold;">${vo.lodgName}</p>
@@ -285,6 +285,8 @@
 		f.submit();
 	});
 	
-	
+	function famousLodging(mhId) {
+		location.href="${pageContext.request.contextPath}/reservation/roomlist?mhId="+mhId;
+	}
 </script>
 

@@ -150,5 +150,7 @@ h5 {
 	font-weight: bold;
 }
 
-
+.main-card:hover {
+	cursor: pointer;
+}
 
