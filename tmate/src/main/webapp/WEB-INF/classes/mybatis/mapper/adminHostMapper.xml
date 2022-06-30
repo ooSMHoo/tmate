@@ -79,194 +79,194 @@
     <!-- 1. 예약 건수(선) : 날짜별 /선 -->
     <select id="dailyReservation" resultType="Integer">
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 1, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 2, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 3, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		  	UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 4, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 5, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 6, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 7, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 8, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 9, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 10, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 11, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 12, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 13, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 14, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 15, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 16, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 17, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 18, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 19, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 20, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 21, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 22, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 23, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 24, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 25, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 26, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 27, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 28, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
         SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 29, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 30, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT COUNT(DECODE( TO_CHAR(resReg_date, 'dd'), 31, 1)) cnt
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
     </select>
     
 
     <!-- 2. 예약 금액(막대) : 날짜별  /막대 -->
     <select id="dailyResTotal" resultType="Integer">
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 1, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 2, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 3, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 4, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 5, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 6, resTotalcost, 0)) tot
-        FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+        FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 7, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 8, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 9, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 10, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 11, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
 		    UNION ALL
 		SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 12, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 13, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 14, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 15, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 16, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 17, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 18, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 19, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 20, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 21, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 22, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 23, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 24, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 25, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 26, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 27, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 28, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 29, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 30, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
             UNION ALL
         SELECT  SUM(DECODE( TO_CHAR(resReg_date, 'dd'), 31, resTotalcost, 0)) tot
-		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 1
+		FROM reservation WHERE TO_CHAR(resReg_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM') AND resCode = 0
     </select>
     
     
