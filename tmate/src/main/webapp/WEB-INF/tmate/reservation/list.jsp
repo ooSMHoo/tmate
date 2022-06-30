@@ -59,7 +59,7 @@
 				<div class="w-25">
 					<div >
 						<ul >
-						<li class="border btn li_set py-2 h6 text-center" style="height: 45px; border-radius: 8px;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+						<li class="border btn li_set py-2 h6 text-center" style="height: 45px; width:223px; border-radius: 8px;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
 							<i class="bi bi-sliders"></i> 상세옵션 설정하기</li>
 						</ul>
 					</div>

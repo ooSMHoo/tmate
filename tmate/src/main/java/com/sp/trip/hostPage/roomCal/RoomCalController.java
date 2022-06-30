@@ -87,7 +87,7 @@ public class RoomCalController {
 					flag = true;
 					for(; i< days.length; i++) {
 						if(days[i] == dto.getStartDay()) {
-							out += "<td colspan='"+dto.getPeriod()+"' class='table-danger table-bordered'>"+dto.getResName() +"</td>";
+							out += "<td colspan='"+dto.getPeriod()+"' class='table-bordered' style='background: #f5f9ff;'>"+dto.getResName() +"</td>";
 							if(dto.getPeriod() > 1) {
 								i=i+dto.getPeriod();
 								continue jump;
