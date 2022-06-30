@@ -124,7 +124,7 @@ function searchList() {
 					</div>
 					
 					<div align="right" class="matewrite col">
-						<c:if test="${sessionScope.member.membership>1}">
+						<c:if test="${sessionScope.member.membership>=0}">
 							<button type="button" class="nobtn1 btn-outline-*" onclick="location.href='${pageContext.request.contextPath}/mate/write';">글올리기</button>
 						</c:if>
 					</div>
