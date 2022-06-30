@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/lodging.css"
+	href="${pageContext.request.contextPath}/resources/css/lodging2.css"
 	type="text/css">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
@@ -22,8 +22,8 @@
 			<div class="h-100 d-flex align-items-center justify-content-center searchbox" id="searchdiv2">
 				
 				<div class="h-75 color-wh pos_rel">
-					<label class="w-100 h-100">
-							<i class="fa-solid fa-magnifying-glass tm_leftcenter ps-1"></i><input class="w-100 h-100 ps-4" name="keyword" type="text" placeholder="지역 및 업소명 검색" value="${keyword}">
+					<label class="w-100 h-100 ">
+							<i class="fa-solid fa-magnifying-glass tm_leftcenter ps-1"></i><input class="w-100 h-100 ps-4 searchbox" name="keyword" type="text" placeholder="지역 및 업소명 검색" value="${keyword}">
 					</label>
 				</div>
 				<div class="h-75 ms-2 color-wh">
@@ -45,7 +45,7 @@
 					<input class="w-100 h-100 ps-3" id="roomBed" name="bed" type="number" placeholder="침대" min="1" max="5" style="border-radius: 4px;" value="${bed}">
 				</div>
 				<div class="h-75 ms-2">
-					<button class="sch-bt w-100 h-100" id="serachbtn" type="button">검색하기</button>
+					<button class="sch-bt w-100 h-100 btn_set2" id="serachbtn" type="button">검색하기</button>
 				</div>
 			</div>
 		</div>
@@ -57,34 +57,39 @@
 			</div>
 			<div class="d-flex">
 				<div class="w-25">
+					<div >
+						<ul >
+						<li class="border btn li_set py-2 h6 text-center" style="height: 45px; border-radius: 8px;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">
+							<i class="bi bi-sliders"></i> 상세옵션 설정하기</li>
+						</ul>
+					</div>
 				<div class="border">
-					<div class="tm-map" id="tm-map"></div>
-					<form>
+					<form class="p-2 my-3 radio_set h6">
 						<div>
-							<label><input type="radio" name="lodgCategory" value="" ${lodgCategory==""?"checked='checked'":""}>전체</label> 
+							<label class=""><input type="radio" name="lodgCategory" value="" ${lodgCategory==""?"checked='checked'":""}> 전체</label> 
 						</div>
 						<div>
-							<label ><input type="radio" name="lodgCategory" value="1" ${lodgCategory=="1"?"checked='checked'":""}>호텔</label> 
+							<label ><input type="radio" name="lodgCategory" value="1" ${lodgCategory=="1"?"checked='checked'":""}> 호텔</label> 
 						</div>
 						<div>
-							<label><input type="radio" name="lodgCategory" value="2" ${lodgCategory=="2"?"checked='checked'":""}>모텔</label> 
+							<label><input type="radio" name="lodgCategory" value="2" ${lodgCategory=="2"?"checked='checked'":""}> 모텔</label> 
 						</div>
 						<div>
-							<label><input type="radio" name="lodgCategory" value="3" ${lodgCategory=="3"?"checked='checked'":""}>펜션</label> 
+							<label><input type="radio" name="lodgCategory" value="3" ${lodgCategory=="3"?"checked='checked'":""}> 펜션</label> 
 						</div>
 						<div>
-							<label><input type="radio" name="lodgCategory" value="4" ${lodgCategory=="4"?"checked='checked'":""}>게스트하우스</label> 
+							<label><input type="radio" name="lodgCategory" value="4" ${lodgCategory=="4"?"checked='checked'":""}> 게스트하우스</label> 
 						</div>
 						<div>
-							<label><input type="radio" name="lodgCategory" value="5" ${lodgCategory=="5"?"checked='checked'":""}>캠핑/글램핑</label>
+							<label><input type="radio" name="lodgCategory" value="5" ${lodgCategory=="5"?"checked='checked'":""}> 캠핑/글램핑</label>
 						</div>
 					</form>
-					<button class="btn btn-primary" type="button"data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">상세옵션</button>
 				</div>
+					
 			<div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop"
-				aria-labelledby="offcanvasTopLabel" style="min-height: 250px;">
-				<div class="offcanvas-header">
-					<h5 id="offcanvasTopLabel">상세옵션 설정</h5>
+				aria-labelledby="offcanvasTopLabel">
+				<div class="offcanvas-header mt-3">
+					<h4 id="offcanvasTopLabel"><strong>[상세옵션 설정]</strong> </h4>
 				</div>
 				<div class="offcanvas-body w-100 mt-3 pos_rel">
 
@@ -93,10 +98,10 @@
 							<div class="w-50">
 								<div class="w-75 bor-sol-150 tm-text-cen">
 
-									<div class="mb-2">
+									<div class="my-2">
 										<span>옵션 선택</span>
 									</div>
-									<div>
+									<div class="">
 										<label class="me-2"><input type="checkbox" name="lodgOption" value="와이파이">와이파이</label> 
 										<label class="me-2"><input type="checkbox" name="lodgOption" value="에어컨">에어컨</label> 
 										<label class="me-2"><input type="checkbox" name="lodgOption" value="조식">조식</label> 
@@ -155,22 +160,22 @@
 							</div>
 						</div>
 
-						<div class="option_btn">
-							<button type="reset" id="optionReset">설정초기화</button>
-							<button type="button" id="optionSelect" class="text-reset" onclick="optionGo()" data-bs-dismiss="offcanvas">설정하기</button>
+						<div class="option_btn mb-2 mt-3">
+							<button class="btn btn_set2 btn-outline-primary" type="reset" id="optionReset">설정초기화</button>
+							<button class="btn btn_set2 btn-outline-primary"  type="button" id="optionSelect" class="text-reset" onclick="optionGo()" data-bs-dismiss="offcanvas">설정하기</button>
 						</div>
 					</form>
 				</div>
 			</div>
 				</div>
 				<div class="w-75">
-					<div class="bor-sol" style="height: 45px;">
-						<ul class="d-flex list-no h-100" id="lodg_list_category">
-							<li class="py-1" >정렬기준</li>
-							<li class="py-1" onclick="sortGo1()" style="cursor: pointer;">리뷰수 순</li>
-							<li class="py-1" onclick="sortGo2()" style="cursor: pointer;">평점 순</li>
-							<li class="py-1" onclick="sortGo3()" style="cursor: pointer;">가격 높은 순</li>
-							<li class="py-1" onclick="sortGo4()" style="cursor: pointer;">가격 낮은 순</li>
+					<div class="bor-sol h_li" style="height: 45px;">
+						<ul class="d-flex list-no h-100  p-2" id="lodg_list_category">
+							<li class="" >정렬기준</li>
+							<li class="" onclick="sortGo1()" style="cursor: pointer;">리뷰수 순</li>
+							<li class="" onclick="sortGo2()" style="cursor: pointer;">평점 순</li>
+							<li class="" onclick="sortGo3()" style="cursor: pointer;">가격 높은 순</li>
+							<li class="" onclick="sortGo4()" style="cursor: pointer;">가격 낮은 순</li>
 						</ul>
 					</div>
 <!-- 
@@ -188,19 +193,19 @@
 					</ul>
 -->
 				<c:forEach var="dto" items="${list}">
-					<ul class="bor-sol-200 list-no pos_rel">
+					<ul class="bor-sol-200 list-no list-set pos_rel my-1">
 							<li>
 								<div class="d-flex p-2" style="height: 200px;">
-									<div class="w-25"><img class="w-100 h-100" src="${pageContext.request.contextPath}/tmate/lodging/${dto.lPhotoName}"></div>
+									<div class="w-25 "><img class="w-100 h-100 br_set" src="${pageContext.request.contextPath}/tmate/lodging/${dto.lPhotoName}"></div>
 									<div class="w-75 ps-2 roomlistGO" style="cursor: pointer;">
-										<div class="lodg_name mb-2 d-flex">
-											<div class="w-50"><a>${dto.lodgName}</a></div>
+										<div class="lodg_name my-2 ms-2 d-flex">
+											<div class="w-50 h4"><a><strong> ${dto.lodgName}</strong></a></div>
 											<input type="hidden" class="postRoom_id" value="${dto.mhId}">
 											<div class="w-50 host_modal"><span><i class="${dto.isLiked=='true'?'fa-solid':'fa-regular'} fa-heart" id="${dto.mhId}" onclick="clickLike('${dto.mhId}')" data-state="${dto.isLiked}"></i></span></div>
 										</div>
 										<div class="lodg_grade mb-2">
 										
-											<div class="pos_rel" style="height: 30px;">
+											<div class="pos_rel ms-2" style="height: 30px;">
 											<div class="tm_left">
 												<div class="star-ratings" style="font-size: 20px;">
 													<div class="star-ratings-fill" style="width: ${dto.percent}%;">
@@ -217,10 +222,10 @@
 											</div>
 											
 										</div>
-										<div class="lodg_content">${dto.mhAddr1}</div> 
-										<div class="lodg_price">
-											${dto.roomPrice}
-											<span class="price_won">원 </span>
+										<div class="lodg_content ms-2">${dto.mhAddr1}</div> 
+										<div class="lodg_price me-3 mb-3">
+											<span class="text-secondary " style="font-size: 14px;">1박</span> <strong> ${dto.roomPrice}원</strong> 
+
 										</div>
 									</div>
 								</div>
@@ -317,6 +322,11 @@ $('.roomlistGO').click(function(){
 });
 
 $('#serachbtn').click(function(){
+	if( newOpen ){
+		newOpen.close();
+		newOpen = null;
+	}
+	
 	$('input[type=hidden][name=lodgCategory]').val('');
 	$('input[type=hidden][name=minPrice]').val('');
 	$('input[type=hidden][name=maxPrice]').val('');

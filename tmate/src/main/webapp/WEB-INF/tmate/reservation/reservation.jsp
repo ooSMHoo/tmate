@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/lodging.css?after"
+	href="${pageContext.request.contextPath}/resources/css/lodging2.css?after"
 	type="text/css">
 
 
@@ -12,29 +12,29 @@
 	<div class="whole2">
 
 		<form method="post" id="payForm" name="payForm">
-			<div class="d-flex room_content w-100">
+			<div class="d-flex mt-5 w-100">
 				<div class="w-75 p-3">
 
 					<div class="pe-4">
-						<div class="room_name">예약자 정보</div>
-						<div class="mt-2">
-							<div>이름</div>
+						<div class="h5"><strong>예약자 정보</strong> </div>
+						<div class="mt-3">
+							<div class="mb-1">예약자 이름</div>
 							<div>
 								<input type="hidden" name="memberId" value="${memberId}">
-								<input type="text" name="resName" placeholder="예)김티엠">
+								<input class="resinput mb-2" type="text" name="resName" placeholder=" 예)홍길동">
 							</div>
 						</div>
 						<div class="mt-2">
-							<div>생년월일</div>
+							<div class="mb-1">생년월일</div>
 							<div>
-								<input type="text" name="resBirth" placeholder="예)901225">
+								<input class="resinput mb-2" type="text" name="resBirth" placeholder=" 예)901225">
 								<input type="hidden" name="roomPeople" value="${roomPeople}">
 							</div>
 						</div>
 						<div class="mt-2">
-							<div>휴대폰 번호</div>
+							<div class="mb-1">휴대폰 번호</div>
 							<div>
-								<input type="text" name="resPhone" placeholder="예)010xxxxxxxx">
+								<input class="resinput mb-2" type="text" name="resPhone" placeholder=" 예)010xxxxxxxx">
 							</div>
 						</div>
 					</div>
@@ -42,33 +42,32 @@
 					<div class="tm_hr my-3"></div>
 
 					<div class="pe-4">
-						<div class="room_name">할인 수단(포인트)</div>
-						<div class="d-flex mt-2">
-							<div class="w-50">총액</div>
-							<div class="w-50 host_modal">
-								<span id="totalPrice">${dto.totalPrice}</span> 원
+						<div class="h5"><strong>할인수단</strong> </div>
+						<div class="d-flex mt-3">
+							<div class="w-50">구매총액</div>
+							<div class="w-50 host_modal h5 me-2 mb-1">
+								<strong><span id="totalPrice">${dto.totalPrice}</span>원</strong> 
 								<input type="hidden" name="resTotalcost" value="${dto.totalPrice}">
 							</div>
 						</div>
 						<div class="d-flex mt-2">
-							<div class="w-50">
-								현재 포인트 <span id="nowPoint">${point}</span> P
+							<div class="w-50 py-2">
+								현재 포인트 <span id="nowPoint"> ${point}</span> P
 							</div>
 							<div class="w-50 host_modal">
-								<input type="text" name="resPoint" value="0" id="inputPoint" style="width: 70%"> P
+								<input type="text" name="resPoint" value=" 0" id="inputPoint" class="resinput2"> P
 							</div>
 						</div>
 					</div>
 
 					<div class="tm_hr my-3"></div>
 
-					<div class="pe-4">
-						<div class="room_name">결제 수단</div>
-						<div class="mt-2">
-							<select name="sel1" id="sel1">
-							</select> <select name="sel2" id="sel2" style="display: none">
-							</select>
-							<input type="hidden" name="payCode">
+					<div class="pe-4 mt-2">
+						<div class="h5"><strong>결제수단</strong> </div>
+						<div class="mt-3">
+							<select class="resinput2" name="sel1" id="sel1"> </select> 
+							<select class="resinput2" name="sel2" id="sel2" style="display: none"></select>
+							<input class="resinput2" type="hidden" name="payCode">
 						</div>
 						<div>
 							<div class="payagrAll_box" style="visibility: hidden;">
@@ -76,7 +75,7 @@
 									id="checkAll"> 전체 동의</label>
 							</div>
 							<div class="payagr_box">
-								<label><input type="checkbox" name="agreement"
+								<label><input class="" type="checkbox" name="agreement"
 									id="payagr1" value="payagr1"> <a href="#">숙소이용규칙 및
 										취소/환불 규정 동의</a><span>(필수)</span></label>
 							</div>
@@ -98,39 +97,40 @@
 
 				</div>
 				<div class="w-25">
-					<div style="background: #FAFAFA">
+					<div class="revForm" style="background: #f5f9ff">
 						<div class="ps-2">
 							<div>
-								<div class="rev_small">숙소 이름</div>
-								<div>${dto.lodgName}</div>
+								<div class="rev_small pt-2">숙소 이름</div>
+								<div class="rev_con">${dto.lodgName}</div>
 							</div>
 							<div>
 								<div class="rev_small">객실 타입 / 기간</div>
-								<div>${dto.roomName} / ${dto.night}박</div>
+								<div class="rev_con">${dto.roomName} / ${dto.night}박</div>
 								<input type="hidden" name="roomNum" value="${dto.roomNum}">
 							</div>
 							<div>
 								<div class="rev_small">체크인</div>
-								<div>${startDate}&nbsp;${dto.lodgCin_time}:00
+								<div class="rev_con">${startDate}&nbsp;${dto.lodgCin_time}:00
 									<input type="hidden" name="resCin_date" value="${startDate}"></div>
 							</div>
 							<div>
 								<div class="rev_small">체크아웃</div>
-								<div>${endDate}&nbsp;${dto.lodgCout_time}:00
+								<div class="rev_con">${endDate}&nbsp;${dto.lodgCout_time}:00
 								<input type="hidden" name="resCout_date" value="${endDate}"></div>
 							</div>
 						</div>
-						<div class="tm_hr w-75 my-3"></div>
+						<div class="tm_hr w-80 my-3"></div>
 						<div class="ps-2">
-							<div>결제하실 금액</div>
-							<div><span id="payPrice"></span>원
+							<div class="rev_con"><strong>총 결제 금액</strong> </div>
+							<div class="rev_con my-2"> <span class="h4" id="payPrice"></span>원 
 							<input type="hidden" name="payCost">
-							<input type="hidden" name="roomPrice" value="${dto.roomPrice}"></div>
+							<input type="hidden" name="roomPrice"  value="${dto.roomPrice}">
+							</div>
 							
 						</div>
 						<div class="paybox">
-							<button class="w-100 mt-2" id="paybtn" onclick="payGo()"
-								disabled="disabled">결제하기</button>
+							<button class="btn w-100 mt-2 pay_btn" id="paybtn" onclick="payGo()"
+								disabled="disabled"><strong>결제하기 </strong> </button>
 						</div>
 					</div>
 				</div>
@@ -212,28 +212,28 @@ checkAll.addEventListener('click', (e) => {
 $( document ).ready(function(){
 	   
 	var sel1 = {
-    	" ":"결제수단 선택",
-    	"CARD":"카드결제",
-        "EASY":"간편결제"
+    	" ":" 결제수단 선택",
+    	"CARD":" 카드결제",
+        "EASY":" 간편결제"
     };
     
     var sel2_1 = {
     	" ":"결제카드 선택",
-    	"CARD1": "하나카드",
-        "CARD2": "SC제일카드",
-        "CARD3": "국민카드",
-        "CARD4": "신한카드",
-        "CARD5": "외환카드",
-        "CARD6": "우리카드",
-        "CARD7": "한국시티카드"
+    	"CARD1": " 하나카드",
+        "CARD2": " SC제일카드",
+        "CARD3": " 국민카드",
+        "CARD4": " 신한카드",
+        "CARD5": " 외환카드",
+        "CARD6": " 우리카드",
+        "CARD7": " 한국시티카드"
     };
     
     var sel2_2 = {
     	" ":"간편결제 선택",
-    	"EASY1": "카카오페이",
-        "EASY2": "네이버페이",
-        "EASY3": "PAYCO",
-        "EASY4": "MATE페이"
+    	"EASY1": " 카카오페이",
+        "EASY2": " 네이버페이",
+        "EASY3": " PAYCO",
+        "EASY4": " MATE페이"
     };
     
    //sel1에 서버에서 받아온 값을 넣기위해..

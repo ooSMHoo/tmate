@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/lodging.css?after" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/lodging2.css?after" type="text/css">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
@@ -78,10 +78,10 @@
 			</div>
 			<div class="d-flex mt-5">
 				<div>
-					<button onclick="location.href='${pageContext.request.contextPath}'">메인페이지</button>
+					<button class="btn btn_set2 btn-primary" onclick="location.href='${pageContext.request.contextPath}'">메인페이지</button>
 				</div>
 				<div>
-					<button onclick="location.href='${pageContext.request.contextPath}/mypage/main/revMain'">예약 내역</button>
+					<button class="btn btn_set2 btn-primary" onclick="location.href='${pageContext.request.contextPath}/mypage/main/revMain'">예약 내역</button>
 				</div>
 			</div>
 			
