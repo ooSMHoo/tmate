@@ -14,7 +14,7 @@
         JOIN room r ON r.roomNum = rd.roomNum
         JOIN lodging l ON l.mhId = r.mhId
         WHERE l.mhId=#{hostId}
-        ORDER BY revReg_date DESC
+        ORDER BY resCin_date DESC
       ) tb WHERE ROWNUM &lt;= #{end}
 	) WHERE rnum &gt;= #{start}
 	</select>

@@ -2,7 +2,9 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+</style>
 <style type="text/css">
 .box {
 	border: 1px solid #ccc;
@@ -21,12 +23,24 @@
 	color:#333;
 	
 }
+
+@font-face {
+    font-family: 'MapoBackpacking';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoBackpackingA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal; 
+}
+.navbar-font{
+	font-size: 25px; 
+	font-weight:600;
+	font-family: 'Noto Sans KR', sans-serif; 
+}
 </style>
  <form name="loginForm" action="" method="post" >
-<div class="container" style="width:400px;">
-	<div class="body-container  pb-100">
-    <h3 class="text-center m-5"> 로고 </h3>
-	<h6 class="text-center m-5"><small> TM에 오신 것을 환영합니다. </small></h6>
+<div class="container " style="width:400px;">
+	<div class="body-container ">
+    <h6 class="text-center mt-5" style="color:#ffa81e; font-family: MapoBackpacking; font-size:17pt;"><small> 트레블&amp;메이트 </small></h6>
+	<h6 class="text-center m-3"><small> 행복한 여행되기를 기원합니다. </small></h6>
     <div class="container justify-content-md-center">
         <div class="m-1">
             <h5><small>아이디</small></h5>

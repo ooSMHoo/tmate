@@ -111,7 +111,7 @@
 		</div>
 		
 	</div>
-	<div class="pos_rel text-secondary" style="height: 15%;">
+	<div class="pos_rel text-secondary mt-4" style="height: 15%;">
 		<div class="lodg_price">1박(평일) / ${room.roomWd_price}원<br>1박(주말) / ${room.roomWe_price}원<br>1박(성수기) / ${room.roomSeasonPrice}원</div>
 		</div>
 	

@@ -118,8 +118,8 @@ function deleteAnswer(revNum) {
 		<c:forEach var="rl" items="${rl}">
 		  <div class="room_content shadow-sm mb-3 ">		
 		  	<div class="border-bottom bg-light">
-			  	<p class="mb-1 mx-3 h5"> ${rl.roomName} </p> 
-			  	<p class="mb-1 mx-3">${rl.resCin_date} ~ ${rl.resCout_date}  </p>
+			  	<p class="mb-1 ms-4 me-2 h5"> ${rl.roomName} </p> 
+			  	<p class="mb-1 ms-4 me-2 ">${rl.resCin_date} ~ ${rl.resCout_date}  </p>
 		  	</div>
 			<div class="pos_rel me-3">
 				<button type="button" class="mt-2 tm_right btn-outline-primary btn " >
@@ -138,7 +138,7 @@ function deleteAnswer(revNum) {
 					${rl.revGrade > 3 ? '<i class="bi bi-emoji-smile"></i>' : '<i class="bi bi-emoji-neutral"></i>'}
 				</div>
 				<div class="col-sm bd-highlight text-center ">
-					${rl.memberId}님
+					${rl.memberId}
 				</div>
 				</div>
 				<div style="width: 92%;" class="ms-2">

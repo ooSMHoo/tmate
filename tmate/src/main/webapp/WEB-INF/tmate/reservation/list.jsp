@@ -198,10 +198,10 @@
 								<div class="d-flex p-2" style="height: 200px;">
 									<div class="w-25 "><img class="w-100 h-100 br_set" src="${pageContext.request.contextPath}/tmate/lodging/${dto.lPhotoName}"></div>
 									<div class="w-75 ps-2 roomlistGO" style="cursor: pointer;">
-										<div class="lodg_name my-2 ms-2 d-flex">
-											<div class="w-50 h4"><a><strong> ${dto.lodgName}</strong></a></div>
+										<div class=" lodg_name my-2 ms-2 d-flex">
+											<div class="col-9  h4 pe-10"  ><a ><strong> ${dto.lodgName}</strong></a></div>
 											<input type="hidden" class="postRoom_id" value="${dto.mhId}">
-											<div class="w-50 host_modal"><span><i class="${dto.isLiked=='true'?'fa-solid':'fa-regular'} fa-heart" id="${dto.mhId}" onclick="clickLike('${dto.mhId}')" data-state="${dto.isLiked}"></i></span></div>
+											<div class="col-3 w-40 host_modal"><span><i class="${dto.isLiked=='true'?'fa-solid':'fa-regular'} fa-heart" id="${dto.mhId}" onclick="clickLike('${dto.mhId}')" data-state="${dto.isLiked}"></i></span></div>
 										</div>
 										<div class="lodg_grade mb-2">
 										
