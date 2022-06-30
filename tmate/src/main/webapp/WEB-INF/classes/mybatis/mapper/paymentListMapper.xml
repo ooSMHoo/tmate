@@ -69,7 +69,7 @@
 				</if>
 				AND mhId = #{hostId}
 			</where>
-			ORDER BY p.payReg_date ASC
+			ORDER BY p.payReg_date DESC
 		 ) tb WHERE ROWNUM &lt;= #{end}
 	  ) WHERE rnum &gt;= #{start}
 	</select>
