@@ -19,6 +19,9 @@
 				JOIN lodging lg ON rm.mhId = lg.mhId
 				JOIN lodgingPhoto lp ON rm.mhId = lp.mhId
 				WHERE m1.memberId = #{memberId} AND resCode = #{resCode}
+				<if test="resCode == 0">
+					AND resCout_date > SYSDATE
+				</if>
 				GROUP BY rescin_date, rescout_date, resCode, lodgName, rev.resNum
         ) tb WHERE ROWNUM &lt;= #{end}
     ) WHERE rnum &gt;= #{start}
@@ -40,7 +43,6 @@
 		JOIN reservationdetail revd ON rev.resNum = revd.resNum
 		JOIN Room rm ON revd.roomNum = rm.roomNum
 		JOIN lodging lg ON rm.mhId = lg.mhId
-		JOIN lodgingPhoto lp ON rm.mhId = lp.mhId
 		WHERE m1.memberId = #{memberId} AND resCode = #{resCode}
 	</select>
 
