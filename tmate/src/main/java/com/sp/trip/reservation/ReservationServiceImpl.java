@@ -60,6 +60,9 @@ public class ReservationServiceImpl implements ReservationService {
 		int resNum = 0;
 		
 		try {
+			String birth = dto.getResBirth().substring(0, 4) + "-" + dto.getResBirth().substring(4, 6) + "-" 
+						+ dto.getResBirth().substring(7);
+			dto.setResBirth(birth);
 			// 예약 테이블 입력
 			dao.insertData("reservation.insertReservation",dto);
 			// 예약 상세 테이블 입력

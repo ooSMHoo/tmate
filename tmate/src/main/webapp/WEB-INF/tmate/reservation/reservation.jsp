@@ -27,7 +27,7 @@
 						<div class="mt-2">
 							<div class="mb-1">생년월일</div>
 							<div>
-								<input class="resinput mb-2" type="text" name="resBirth" placeholder=" 예)901225">
+								<input class="resinput mb-2" type="text" name="resBirth" placeholder=" 예)19901225">
 								<input type="hidden" name="roomPeople" value="${roomPeople}">
 							</div>
 						</div>
@@ -55,7 +55,7 @@
 								현재 포인트 <span id="nowPoint"> ${point}</span> P
 							</div>
 							<div class="w-50 host_modal">
-								<input type="text" name="resPoint" value=" 0" id="inputPoint" class="resinput2"> P
+								<input type="text" name="resPoint" value="0" id="inputPoint" class="resinput2"> P
 							</div>
 						</div>
 					</div>
@@ -324,8 +324,8 @@ function payGo() {
 		return;
 	}
 	
-	if( !/^\d{6}$/.test(str) ) {
-        alert("생년월일은 6자리 숫자만 입력해주세요. ");
+	if( !/^\d{8}$/.test(str) ) {
+        alert("생년월일은 8자리 숫자만 입력해주세요. ");
         f.resBirth.focus();
         return;
     }

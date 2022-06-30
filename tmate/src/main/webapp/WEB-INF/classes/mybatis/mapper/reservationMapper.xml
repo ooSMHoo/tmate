@@ -227,9 +227,9 @@
 	
 	<!-- 예약창 포인트 -->
 	<select id="readPoint" parameterType="String" resultType="Integer">
-	SELECT DISTINCT((
-            SELECT SUM(pointQuant) FROM point WHERE pointCode = 0 AND memberId = #{memberId}) - 
-            (SELECT SUM(pointQuant) FROM point WHERE pointCode = 1 AND memberId = #{memberId})) pointQuant
+	SELECT DISTINCT(
+            (SELECT NVL(SUM(pointQuant),0) FROM point WHERE pointCode = 0 AND memberId = #{memberId}) - 
+            (SELECT NVL(SUM(pointQuant),0) FROM point WHERE pointCode = 1 AND memberId = #{memberId})) pointQuant
 			FROM point
 	</select>
 	
@@ -251,7 +251,7 @@
 	
 	<!-- 예약 입력 -->
 	<insert id="insertReservation" parameterType="com.sp.trip.reservation.Reservation">
-		INSERT INTO Reservation(resNum, memberId, resCin_date, resCout_date, resReg_date, resCode, resName, SUBSTR(resBirth,0,10) resBirth , resPhone, resTotalcost, resPoint)
+		INSERT INTO Reservation(resNum, memberId, resCin_date, resCout_date, resReg_date, resCode, resName, resBirth , resPhone, resTotalcost, resPoint)
 		VALUES (reservation_seq.NEXTVAL, #{memberId}, #{resCin_date}, #{resCout_date}, SYSDATE, 0, #{resName}, #{resBirth}, #{resPhone}, #{resTotalcost}, #{resPoint} )
 	</insert>
 	

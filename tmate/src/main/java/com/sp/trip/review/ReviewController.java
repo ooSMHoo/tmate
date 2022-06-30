@@ -64,6 +64,7 @@ public class ReviewController {
 
 		
 		dataCount = service.dataCount(map);
+
 		if(dataCount != 0) {
 			total_page = myUtil.pageCount(rows, dataCount);
 		}
@@ -77,6 +78,7 @@ public class ReviewController {
 		map.put("end", end);
 		
 		List<Review> list = service.listReview(map);
+
 		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);

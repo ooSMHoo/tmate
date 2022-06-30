@@ -19,7 +19,7 @@
 		SELECT * FROM (
 		      	 SELECT ROWNUM rnum, tb.* FROM (
 		            SELECT r.roomNum, r.roomName, lodgName, TO_CHAR(resCout_date, 'YYYY.MM.DD')resCout_date ,revNum, rd.resNum, 
-		            		l.mhId, lPhotoName, ROW_NUMBER() OVER(PARTITION BY r.roomNum ORDER BY lp.lPhotoName ASC) AS rn 
+		            		l.mhId, lPhotoName, ROW_NUMBER() OVER(PARTITION BY rv.resNum ORDER BY lp.lPhotoName ASC) AS rn 
 		            FROM member1 m
 					JOIN reservation rv ON rv.memberId = m.memberId
 					JOIN reservationDetail rd ON rv.resNum = rd.resNum
@@ -36,7 +36,7 @@
 						AND revNum IS NOT NULL
 					</otherwise>
 				</choose>
-				ORDER BY rv.resCout_date DESC				 
+				ORDER BY rv.resCout_date ASC				 
 	        ) tb WHERE ROWNUM &lt;= #{end} AND rn=1
 	    ) WHERE rnum &gt;= #{start}
 	</select>	
