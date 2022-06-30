@@ -146,7 +146,7 @@ $(function(){
 // 댓글 삭제
 $(function(){
 	$("body").on("click", ".deleteReply", function(){
-		if(! confirm("게시물을 삭제하시겠습니까 ? ")) {
+		if(! confirm("댓글을 삭제하시겠습니까 ? ")) {
 		    return false;
 		}
 		
@@ -250,7 +250,7 @@ $(function(){
 // 댓글별 답글 삭제
 $(function(){
 	$("body").on("click", ".deleteReplyAnswer", function(){
-		if(! confirm("게시물을 삭제하시겠습니까 ? ")) {
+		if(! confirm("댓글을 삭제하시겠습니까 ? ")) {
 		    return false;
 		}
 		
@@ -371,7 +371,7 @@ $(function(){
 						</tr>
 						<tr>
 						   <td align='right'>
-						        <button type='button' class='btn btn-light btnSendReply'>댓글 등록</button>
+						        <button type='button' class='nobtn1 btn-light btnSendReply'>댓글 등록</button>
 						    </td>
 						 </tr>
 					</table>

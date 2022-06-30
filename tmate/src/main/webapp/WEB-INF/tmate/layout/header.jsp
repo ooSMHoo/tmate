@@ -5,6 +5,10 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+</style>
+<style>
+
 @font-face {
     font-family: 'MapoBackpacking';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoBackpackingA.woff') format('woff');
@@ -13,7 +17,8 @@
 }
 .navbar-font{
 	font-size: 25px; 
-	font-family:MapoBackpacking;  
+	font-weight:600;
+	font-family: 'Noto Sans KR', sans-serif; 
 }
 </style>
 	<nav class="navbar navbar-expand-lg navbar-light navbar-font" style=" font-size:14pt;" >
@@ -40,40 +45,31 @@
 							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/mate/list">여행파트너</a></li>
 						</ul></li>
 
-					<li class="nav-item dropdown me-3"><a
-						class="nav-link dropdown-toggle" href="#"
-						id="navbarDropdownMenuLink" role="button"
-						data-bs-toggle="dropdown" aria-expanded="false"> 공지사항 </a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
-							<li><a class="dropdown-item" href="${pageContext.request.contextPath}/faq/list">FAQ</a></li>
-						</ul></li>
-
-
-					
+					<li class="nav-item me-3"><a class="nav-link" href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
+				
 				<c:choose>
 					<c:when test="${empty sessionScope.member}">
 						<a href="${pageContext.request.contextPath}/member/login"
-							title="로그인" style="padding-top:10px; padding-right: 30px; text-decoration: none;  color: gray;" >로그인</a>
+							title="로그인" style="padding-top:18px; padding-right: 30px; padding-left: 25px; text-decoration: none;  color: gray;" >로그인</a>
 						<a href="${pageContext.request.contextPath}/member/join"
-							title="회원가입" style="padding-top:10px; text-decoration: none;  color: gray; padding-right: 40px;">회원가입</a>
+							title="회원가입" style="padding-top:18px; text-decoration: none;  color: gray; padding-right: 40px;padding-left: 25px;">회원가입</a>
 					</c:when>
 					<c:otherwise>
 						<a href="${pageContext.request.contextPath}/member/logout"
-							title="로그아웃" style="padding-top:10px; padding-right: 30px; text-decoration: none;  color: gray;">로그아웃</a>
+							title="로그아웃" style="padding-top:18px; padding-right: 30px; text-decoration: none;  color: gray;padding-left: 25px;">로그아웃</a>
 							
 							<c:choose>
 							<c:when test="${sessionScope.member.membership>50}">
-							<a href="${pageContext.request.contextPath}/admin/main" title="관리자"  style="padding-top:10px; 
+							<a href="${pageContext.request.contextPath}/admin/main" title="관리자"  style="padding-top:18px; margin-left:9px;
 							text-decoration: none; color: gray; padding-right: 40px;">관리자페이지</a>
 							</c:when>
 							<c:when test="${sessionScope.member.membership==2}">
-							<a href="${pageContext.request.contextPath}/hostPage/home" title="호스트"  style="padding-top:10px; 
+							<a href="${pageContext.request.contextPath}/hostPage/home" title="호스트"  style="padding-top:18px;  margin-left:9px;
 							text-decoration: none; color: gray; padding-right: 40px;">호스트페이지</a>
 							</c:when>
 							</c:choose>
 
-						<a href="${pageContext.request.contextPath}/mypage/main/revMain" title="마이페이지" style="padding-top:10px;  
+						<a href="${pageContext.request.contextPath}/mypage/main/revMain" title="마이페이지" style="padding-top:18px;  
 							text-decoration: none; color: gray; padding-right: 40px;">마이페이지</a> 				
 								
 					</c:otherwise>
