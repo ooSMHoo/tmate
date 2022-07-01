@@ -33,7 +33,7 @@
 				    JOIN lodging lo ON li.mhId = lo.mhId
 				    JOIN review rv ON li.memberId = rv.memberId
 				    JOIN memberHost mh ON li.mhId = mh.mhId
-				    JOIN LodgingPhoto lp ON li.mhId = lo.mhId 
+				    JOIN LodgingPhoto lp ON li.mhId = lp.mhId 
 				    WHERE li.memberId = #{memberId}
 				    GROUP BY lodgName, mhAddr1, li.memberId, lo.mhId
 			) tb WHERE ROWNUM &lt;= #{end}
