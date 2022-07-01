@@ -26,7 +26,7 @@ function list_delete(mhId){
 <c:if test=""></c:if>
 	<c:forEach var="dto" items="${list}" varStatus="status">
 		<div class="card like-card">
-			  <img src="${dto.lphotoName}" class="card-img-top">
+			  <img src="${pageContext.request.contextPath}/tmate/lodging/${dto.lphotoName}" class="card-img-top">
 				
 			  <div class="card-body">
 			    <h5 class="card-title">${dto.lodgName} </h5>

@@ -28,7 +28,7 @@
     <select id="listLike" parameterType="map" resultType="com.sp.trip.mypage.LikeList">
 		SELECT * FROM (
 			SELECT ROWNUM rnum, tb.* FROM (
-				SELECT lodgName, mhAddr1, li.memberId, lo.mhId, MIN(lphotoName)
+				SELECT lodgName, mhAddr1, li.memberId, lo.mhId, MIN(lphotoName) as lphotoName
 				FROM likeList li
 				    JOIN lodging lo ON li.mhId = lo.mhId
 				    JOIN review rv ON li.memberId = rv.memberId

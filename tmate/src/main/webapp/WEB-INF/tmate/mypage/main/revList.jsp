@@ -7,7 +7,7 @@
 <c:forEach var="dto" items="${list}" varStatus="status">
 
 		<div class="card like-card-rev" style="width: 18rem;" id="${resCode}">
-			<img src="${dto.lphotoName}" class="card-img-top" alt="...">
+			<img src="${pageContext.request.contextPath}/tmate/lodging/${dto.lphotoName}" class="card-img-top" alt="...">
 			<div class="card-body" id="${resCode}">
 				<h5 class="card-title">${dto.lodgName}</h5>
 				<p>${dto.resCin_date}월 - ${dto.resCout_date} 월</p>
