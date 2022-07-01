@@ -6,7 +6,7 @@
 
 <tiles-definitions>
 	<definition name=".mainLayout" template="/WEB-INF/tmate/layout/layout3.jsp">
-	    <put-attribute name="title" value="spring" />
+	    <put-attribute name="title" value="Travel &amp; Mate" />
 	  	<put-attribute name="header" value="/WEB-INF/tmate/layout/header.jsp" />
 		<put-attribute name="body" value="/WEB-INF/tmate/main/main.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/tmate/layout/footer.jsp" />
@@ -14,7 +14,7 @@
 	
    <!-- 2단 관리자 -->
 	<definition name=".adminLayout" template="/WEB-INF/tmate/admin/layout/layout2.jsp">
-	    <put-attribute name="title" value="spring" />
+	    <put-attribute name="title" value="Travel &amp; Mate" />
 	  	<put-attribute name="left" value="/WEB-INF/tmate/admin/layout/left.jsp" />
 		<put-attribute name="body" value="/WEB-INF/tmate/admin/main/main.jsp" />
 	</definition>
@@ -30,7 +30,7 @@
 	
 	<!-- member-마이페이지 -->
 	<definition name=".mypageLayout" template="/WEB-INF/tmate/mypage/layout/layoutMypage.jsp">
-		<put-attribute name="title" value="spring" />
+		<put-attribute name="title" value="Travel &amp; Mate" />
 		<put-attribute name="header" value="/WEB-INF/tmate/layout/header.jsp" />
 	  	<put-attribute name="sidebar" value="/WEB-INF/tmate/mypage/layout/sidebar.jsp" />
 	  	<put-attribute name="body" value="/" />
@@ -49,7 +49,7 @@
 	
 	<!-- hostPage  -->
 	<definition name=".hostPageLayout" template="/WEB-INF/tmate/hostPage/layout/hostPageLayout.jsp">
-		<put-attribute name="title" value="spring" />
+		<put-attribute name="title" value="Travel &amp; Mate" />
 		<put-attribute name="header" value="/WEB-INF/tmate/hostPage/layout/header.jsp" />
 	  	<put-attribute name="leftMenu" value="/WEB-INF/tmate/hostPage/layout/leftMenu.jsp" />
 	  	<put-attribute name="body" value="/WEB-INF/tmate/hostPage/main/home.jsp" />
